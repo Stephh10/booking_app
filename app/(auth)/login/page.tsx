@@ -4,7 +4,7 @@ import Link from "next/link";
 
 export default function page() {
   return (
-    <div className="w-full h-[100vh] flex items-center justify-center">
+    <div className="min-h-[calc(100vh-60px)] w-full  flex items-center justify-center">
       <div className="w-[400px] border border-amber-50 text-center p-2 rounded">
         <h2 className="text-lg font-bold mb-2">Login</h2>
         <form className="authForm flex flex-col" action="">
