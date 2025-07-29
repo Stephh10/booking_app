@@ -1,6 +1,8 @@
 import React from "react";
 import Link from "next/link";
 import { auth } from "@/auth";
+import { signOut } from "@/auth";
+import { redirect } from "next/navigation";
 
 export default async function Navigation() {
   const activeUser = await auth();
@@ -11,7 +13,19 @@ export default async function Navigation() {
         BookingSite
       </Link>
       <div>
-        <Link href={"/login"}>Login</Link>
+        {activeUser?.user ? (
+          <form
+            action={async () => {
+              "use server";
+              await signOut();
+              redirect("/");
+            }}
+          >
+            <button className="cursor-pointer">Logout</button>
+          </form>
+        ) : (
+          <Link href={"/login"}>Login</Link>
+        )}
       </div>
     </div>
   );
