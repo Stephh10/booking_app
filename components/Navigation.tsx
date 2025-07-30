@@ -18,7 +18,7 @@ export default async function Navigation() {
             action={async () => {
               "use server";
               await signOut();
-              redirect("/");
+              redirect("/login");
             }}
           >
             <button className="cursor-pointer">Logout</button>

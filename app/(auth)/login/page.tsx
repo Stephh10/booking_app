@@ -1,6 +1,7 @@
 import React from "react";
 import Link from "next/link";
 import { signIn } from "@/auth";
+import { redirect } from "next/navigation";
 
 export default function page() {
   return (
@@ -12,10 +13,10 @@ export default function page() {
             "use server";
             const email = formData.get("email");
             const password = formData.get("password");
+
             const res = await signIn("credentials", {
               email: email,
               password: password,
-              redirect: false,
             });
           }}
           className="authForm flex flex-col"
