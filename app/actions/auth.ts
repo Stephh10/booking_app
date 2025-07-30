@@ -1,5 +1,5 @@
 "use server";
-import { signIn } from "@/auth";
+import { signIn, signOut } from "@/auth";
 import bcrypt from "bcryptjs";
 import { prisma as Prisma } from "@/lib/prisma";
 import { redirect } from "next/navigation";
@@ -41,7 +41,7 @@ export async function loginAction(
 
   await signIn("credentials", { email, password, redirect: false });
 
-  redirect("/");
+  redirect("/dashboard");
 
   return { success: true };
 }
@@ -71,7 +71,7 @@ export async function registerAction(
     return { error: "User already exists" };
   }
 
-  const newUser = await Prisma.user.create({
+  await Prisma.user.create({
     data: {
       username: username as string,
       email,
@@ -85,3 +85,8 @@ export async function registerAction(
 
   return { success: true };
 }
+
+// export async function logoutAction() {
+//   await signOut({ callbackUrl: "/login" });
+//   return { success: true };
+// }

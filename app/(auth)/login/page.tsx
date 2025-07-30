@@ -6,7 +6,6 @@ import { loginAction } from "@/app/actions/auth";
 import { useActionState } from "react";
 import { useState } from "react";
 import AuthError from "../_components/AuthError";
-import Email from "next-auth/providers/email";
 
 export default function page() {
   const [inputValues, setInputValues] = useState({
