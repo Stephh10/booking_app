@@ -13,29 +13,21 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       },
 
       //@ts-ignore
-      async authorize(credentials: { email: string; password: string }) {
-        if (!credentials?.email || !credentials?.password) {
-          return null;
-        }
-
-        const dbUser = await Prisma.user.findUnique({
-          where: { email: credentials.email },
+      async authorize(credentials: any) {
+        const user = await Prisma.user.findUnique({
+          where: { email: credentials?.email },
         });
 
-        if (!dbUser || !dbUser.password) {
-          return null;
-        }
+        if (!user || !user.password) return null;
 
         const isValidPassword = await bcrypt.compare(
           credentials.password,
-          dbUser.password
+          user.password
         );
 
-        if (!isValidPassword) {
-          throw new Error("Invalid credentials");
-        }
+        if (!isValidPassword) return null;
 
-        return dbUser;
+        return user;
       },
     }),
   ],
