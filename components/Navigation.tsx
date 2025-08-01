@@ -1,7 +1,6 @@
 import React from "react";
 import Link from "next/link";
 import { auth } from "@/auth";
-
 import LogoutBtn from "./LogoutBtn";
 
 export default async function Navigation() {

@@ -85,8 +85,3 @@ export async function registerAction(
 
   return { success: true };
 }
-
-// export async function logoutAction() {
-//   await signOut({ callbackUrl: "/login" });
-//   return { success: true };
-// }

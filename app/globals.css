@@ -5,7 +5,9 @@
   --background: #ffffff;
   --foreground: #171717;
   --bg: #f9fbfb;
+  --text: #ededed;
   --secondary: #1f2937;
+  --secondary-hover: #2e3d51;
   --btn-primary: #3b82f6;
   --btn-hover: #2563eb;
 }
