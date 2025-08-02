@@ -12,6 +12,11 @@ export default async function Navigation() {
         BookingSite
       </Link>
       <div>
+        {activeUser?.user && (
+          <Link className="mr-2" href={"/dashboard"}>
+            Dashboard
+          </Link>
+        )}
         {activeUser?.user ? <LogoutBtn /> : <Link href={"/login"}>Login</Link>}
       </div>
     </div>

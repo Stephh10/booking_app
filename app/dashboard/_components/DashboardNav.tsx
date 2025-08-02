@@ -4,7 +4,7 @@ import Avatar from "@/components/Avatar";
 
 export default function DashboardNav() {
   return (
-    <nav className="flex items-center justify-between">
+    <nav className="flex items-center justify-between bg-[var(--secondary)] p-2 rounded-xl">
       <h2 className="text-lg">Dashboard</h2>
       <div className="flex items-center gap-2">
         <Bell className="cursor-pointer" size={20} />

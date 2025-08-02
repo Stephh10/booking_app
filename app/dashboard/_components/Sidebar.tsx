@@ -28,7 +28,7 @@ export default function Sidebar() {
               className={`flex items-center gap-3 px-3 py-2 rounded-lg transition-colors
                 ${
                   isActive
-                    ? "bg-[var(--secondary-hover)] text-[var(--text)] font-medium"
+                    ? "bg-[var(--secondary-hover)] text-[var(--text)] font-medium activeLink"
                     : "text-gray-600 hover:bg-[var(--text)]"
                 }
               `}
