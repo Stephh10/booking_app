@@ -17,7 +17,13 @@ export default function Sidebar() {
   const pathname = usePathname();
   return (
     <div className="bg-[var(--secondary)] h-[500px] w-60 rounded-lg p-2 text-[var(--text)]">
-      <nav className="flex flex-col gap-2">
+      <Link
+        className="text-2xl text-[var(--text-dark)] cursor-pointer"
+        href={"/"}
+      >
+        BookingSite
+      </Link>
+      <nav className="flex flex-col gap-2 mt-2">
         {links.map((link) => {
           const isActive = pathname === link.href;
 
@@ -28,7 +34,7 @@ export default function Sidebar() {
               className={`flex items-center gap-3 px-3 py-2 rounded-lg transition-colors
                 ${
                   isActive
-                    ? "bg-[var(--secondary-hover)] text-[var(--text)] font-medium activeLink"
+                    ? "text-[var(--btn-primary)] font-medium border-l-10 border-[var(--btn-primary)]"
                     : "text-gray-600 hover:bg-[var(--text)]"
                 }
               `}
