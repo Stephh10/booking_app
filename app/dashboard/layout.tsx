@@ -8,7 +8,7 @@ export default function RootLayout({
   return (
     <div className="flex min-h-[calc(100vh-60px)] mt-[20px] gap-5">
       <Sidebar />
-      <main>{children}</main>
+      <main className="w-full rounded-xl">{children}</main>
     </div>
   );
 }
