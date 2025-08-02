@@ -6,7 +6,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <div className="flex min-h-[calc(100vh-60px)] mt-[20px]">
+    <div className="flex min-h-[calc(100vh-60px)] mt-[20px] gap-5">
       <Sidebar />
       <main>{children}</main>
     </div>
