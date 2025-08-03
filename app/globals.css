@@ -7,7 +7,8 @@
   --bg: #f9fbfb;
   --text: #ededed;
   --text-dark: #171717;
-  --secondary: #f3f6f4;
+  --text-soft: #99a1af;
+  --secondary: #f5f5f5;
   --secondary-hover: #3e7eb6;
   --btn-primary: #3e7eb6;
   --btn-hover: #2563eb;
@@ -29,19 +30,26 @@ body {
 
 @layer components {
   .form-input {
-    @apply border border-gray-300 rounded px-4 py-2 w-full mb-2;
+    @apply border border-gray-300 rounded px-4 py-2 w-full mb-2 rounded-lg;
   }
 
   .formBtn {
-    @apply bg-blue-950 h-[35px] cursor-pointer;
+    @apply bg-[var(--btn-primary)] text-[var(--text)] h-[40px] rounded-lg cursor-pointer;
   }
 
   .dashboardStats {
-    @apply flex-1 p-2 rounded-lg border border-[var(--border)] text-lg;
+    @apply flex-1 p-2 rounded-lg text-lg shadow-lg bg-[var(--bg)];
   }
 
   .activeLink {
     @apply border-l;
     border-color: var(--btn-primary);
+  }
+
+  .appointBtn {
+    @apply bg-[var(--btn-primary)] max-w-max p-2 rounded-xl text-[var(--text)] cursor-pointer;
+  }
+  .bg-btn {
+    @apply bg-[var(--bg)] max-w-max p-2 rounded-xl text-[var(--text-dark)] border border-[var-(--text-dark)] cursor-pointer;
   }
 }

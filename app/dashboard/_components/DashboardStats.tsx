@@ -3,7 +3,7 @@ import React from "react";
 export default function DashboardStats() {
   return (
     <div className="flex gap-2 my-4">
-      <div className="dashboardStats border-[var(--border)]">
+      <div className="dashboardStats bg-[var(--btn-primary)] text-[var(--text)] border-[var(--border)]">
         <h2>Today's Appointments</h2>
         <p className="font-bold text-2xl">5</p>
       </div>
@@ -15,6 +15,10 @@ export default function DashboardStats() {
       <div className="dashboardStats border-[var(--border)]">
         <h2>Total Patients</h2>
         <p className="font-bold text-2xl">150</p>
+      </div>
+      <div className="dashboardStats border-[var(--border)]">
+        <h2>Completed Today</h2>
+        <p className="font-bold text-2xl">5</p>
       </div>
     </div>
   );
