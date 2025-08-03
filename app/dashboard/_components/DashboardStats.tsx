@@ -1,25 +1,30 @@
 import React from "react";
+import DashboardCard from "./DashboardCard";
 
 export default function DashboardStats() {
   return (
     <div className="flex gap-2 my-4">
-      <div className="dashboardStats bg-[var(--btn-primary)] text-[var(--text)] border-[var(--border)]">
-        <h2>Today's Appointments</h2>
-        <p className="font-bold text-2xl">5</p>
-      </div>
-      <div className="dashboardStats">
-        <h2>Next Appointment</h2>
-        <h2 className="font-bold text-xl">September 5, 2025 - 10AM</h2>
-        <p>Kevin Punter</p>
-      </div>
-      <div className="dashboardStats border-[var(--border)]">
-        <h2>Total Patients</h2>
-        <p className="font-bold text-2xl">150</p>
-      </div>
-      <div className="dashboardStats border-[var(--border)]">
-        <h2>Completed Today</h2>
-        <p className="font-bold text-2xl">5</p>
-      </div>
+      <DashboardCard
+        title="Today's Appointments"
+        value={5}
+        className="dashboardStats bg-[var(--btn-primary)] text-[var(--text)]"
+      />
+      <DashboardCard
+        title="Next Appointment"
+        value={"September 5 10AM"}
+        className="dashboardStats"
+        desc="Kevin Punter"
+      />
+      <DashboardCard
+        title="Total Patients"
+        value={"150"}
+        className="dashboardStats"
+      />
+      <DashboardCard
+        title="Completed Today"
+        value={"5"}
+        className="dashboardStats"
+      />
     </div>
   );
 }

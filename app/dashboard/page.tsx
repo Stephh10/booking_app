@@ -2,6 +2,7 @@ import React from "react";
 import DashboardNav from "./_components/DashboardNav";
 import DashboardStats from "./_components/DashboardStats";
 import Link from "next/link";
+import DashboardCalendar from "./_components/DashboardCalendar";
 
 export default function page() {
   return (
@@ -17,14 +18,15 @@ export default function page() {
           </div>
           <div className="flex gap-2 items-center">
             <Link className="appointBtn" href="/">
-              New Appointment
+              Create new appointment
             </Link>
             <Link className="bg-btn" href="/">
-              Add Patient
+              Share appointment link
             </Link>
           </div>
         </div>
         <DashboardStats />
+        <DashboardCalendar />
       </main>
     </div>
   );
