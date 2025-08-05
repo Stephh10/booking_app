@@ -20,6 +20,18 @@ model User {
   appointments Appointment[]
 }
 
+model Patient {
+  id        String   @id @default(cuid())
+  firstName String
+  lastName  String
+  email     String?
+  phone     String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  appointments Appointment[]
+}
+
 model Appointment {
   id        String   @id @default(cuid())
   date      DateTime
@@ -27,8 +39,10 @@ model Appointment {
   reason    String?
   status    String   @default("scheduled")
   doctorId  String
+  patientId String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  doctor User @relation(fields: [doctorId], references: [id])
+  doctor  User     @relation(fields: [doctorId], references: [id])
+  patient Patient? @relation(fields: [patientId], references: [id])
 }

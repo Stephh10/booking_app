@@ -27,16 +27,29 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
         if (!isValidPassword) return null;
 
-        return user;
+        return {
+          id: user.id,
+          email: user.email,
+          firstName: user.firstName,
+          lastName: user.lastName,
+        };
       },
     }),
   ],
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
-        console.log("testtttt");
+        token.id = user.id;
+        token.firstName = user.firstName;
+        token.lastName = user.lastName;
       }
       return token;
+    },
+    async session({ session, token }) {
+      session.user.id = token.id as string;
+      session.user.firstName = token.firstName as string;
+      session.user.lastName = token.lastName as string;
+      return session;
     },
   },
   session: { strategy: "jwt" },
