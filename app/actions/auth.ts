@@ -52,7 +52,8 @@ export async function registerAction(
 ): Promise<LoginState> {
   const email = formData.get("email");
   const password = formData.get("password");
-  const username = formData.get("username");
+  const firstName = formData.get("firstName");
+  const lastName = formData.get("lastName");
 
   if (
     typeof email !== "string" ||
@@ -73,7 +74,8 @@ export async function registerAction(
 
   await Prisma.user.create({
     data: {
-      username: username as string,
+      firstName: firstName as string,
+      lastName: lastName as string,
       email,
       password: await bcrypt.hash(password, 10),
     },

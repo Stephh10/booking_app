@@ -12,8 +12,6 @@ export default function page() {
     success: false,
   });
 
-  console.log(state);
-
   return (
     <div className="min-h-[calc(100vh-60px)] w-full flex items-center justify-center">
       <div className="w-[450px] border border-amber-50 text-center rounded bg-[var(--bg)] p-7 shadow-lg">
@@ -26,9 +24,15 @@ export default function page() {
         <form className="authForm flex flex-col" action={formAction}>
           <input
             className="form-input"
-            name="username"
+            name="firstName"
             type="text"
-            placeholder="Username"
+            placeholder="First Name"
+          />
+          <input
+            className="form-input"
+            name="lastName"
+            type="text"
+            placeholder="Last Name"
           />
           <input
             className="form-input"
