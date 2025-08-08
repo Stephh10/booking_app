@@ -3,10 +3,10 @@
 import * as React from "react";
 import { format } from "date-fns";
 import { Calendar as CalendarIcon } from "lucide-react";
-
-import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
+import { useState } from "react";
+import moment from "moment";
 import {
   Popover,
   PopoverContent,
@@ -24,8 +24,10 @@ export function DatePicker({
   onChange,
   placeholder = "Izaberi datum",
 }: DatePickerProps) {
+  const [open, setOpen] = useState(false);
+
   return (
-    <Popover>
+    <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
         <Button
           variant="outline"
@@ -41,9 +43,13 @@ export function DatePicker({
         <Calendar
           mode="single"
           selected={value}
-          onSelect={onChange}
+          onSelect={(date) => {
+            onChange(date);
+            setOpen(false);
+          }}
           className="text-sm"
           captionLayout="dropdown"
+          disabled={(date: Date) => date < moment().startOf("day").toDate()}
         />
       </PopoverContent>
     </Popover>

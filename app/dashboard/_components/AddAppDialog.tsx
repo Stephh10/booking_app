@@ -29,6 +29,10 @@ export default function AddAppDialog() {
     const formData = Object.fromEntries(fd.entries());
 
     console.log(formData);
+    const appointmentData = {
+      ...formData,
+      date: selectedDate ? selectedDate.toISOString() : undefined,
+    };
 
     console.log("Submitting");
     startTransition(() => {
@@ -51,11 +55,11 @@ export default function AddAppDialog() {
         </DialogHeader>
         <form onSubmit={handleAppSubmit}>
           <div className="grid gap-4">
+            <DatePicker value={selectedDate} onChange={setSelectedDate} />
             <div className="grid gap-3">
               <Label htmlFor="reason">Reason</Label>
               <Input id="reason" name="reason" />
             </div>
-            <DatePicker value={selectedDate} onChange={setSelectedDate} />
             <div className="grid gap-3 mb-4">
               <Label htmlFor="username-1">Duration</Label>
               <Input id="duration" name="duration" />
