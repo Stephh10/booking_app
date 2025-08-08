@@ -105,7 +105,7 @@
   }
 
   .appointBtn {
-    @apply bg-[var(--btn-primary)] max-w-max p-2 rounded-xl text-[var(--text)] cursor-pointer;
+    @apply bg-[var(--btn-primary)] flex items-center justify-center gap-2 max-w-max p-2 rounded-xl text-[var(--text)] cursor-pointer;
   }
   .bg-btn {
     @apply bg-[var(--bg)] max-w-max p-2 rounded-xl text-[var(--text-dark)] border border-[var-(--text-dark)] cursor-pointer;

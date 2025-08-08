@@ -17,30 +17,31 @@ import { Label } from "@/components/ui/label";
 import { DatePicker } from "@/components/DatePicker";
 import { useTransition } from "react";
 import { createAppointment } from "@/app/actions/appointments";
-import { CloudHail } from "lucide-react";
+import { Textarea } from "@/components/ui/textarea";
+import { useSession } from "next-auth/react";
 
 export default function AddAppDialog() {
   const [isPending, startTransition] = useTransition();
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined);
+  const activeUser = useSession().data?.user;
 
   function handleAppSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const fd = new FormData(e.target as HTMLFormElement);
     const formData = Object.fromEntries(fd.entries());
 
-    console.log(formData);
     const appointmentData = {
       ...formData,
+      doctorId: activeUser?.id,
       date: selectedDate ? selectedDate.toISOString() : undefined,
     };
 
-    console.log("Submitting");
+    console.log(appointmentData);
     startTransition(() => {
       createAppointment();
     });
   }
 
-  console.log(selectedDate);
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -55,10 +56,10 @@ export default function AddAppDialog() {
         </DialogHeader>
         <form onSubmit={handleAppSubmit}>
           <div className="grid gap-4">
-            <DatePicker value={selectedDate} onChange={setSelectedDate} />
+            <DatePicker date={selectedDate} setDate={setSelectedDate} />
             <div className="grid gap-3">
               <Label htmlFor="reason">Reason</Label>
-              <Input id="reason" name="reason" />
+              <Textarea id="reason" name="reason" />
             </div>
             <div className="grid gap-3 mb-4">
               <Label htmlFor="username-1">Duration</Label>
@@ -69,7 +70,7 @@ export default function AddAppDialog() {
             <DialogClose asChild>
               <Button variant="outline">Cancel</Button>
             </DialogClose>
-            <Button type="submit">Save changes</Button>
+            <button className="appointBtn">Create</button>
           </DialogFooter>
         </form>
       </DialogContent>
