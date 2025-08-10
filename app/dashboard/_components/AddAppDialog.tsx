@@ -60,7 +60,7 @@ export default function AddAppDialog() {
       <DialogTrigger asChild>
         <button className="appointBtn">+ Create Appointment</button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="sm:max-w-[425px] max-h-[90vh] overflow-y-auto rounded-scrollbar">
         <DialogHeader>
           <DialogTitle>Create Appointment</DialogTitle>
           <DialogDescription>
@@ -77,6 +77,22 @@ export default function AddAppDialog() {
             <div className="grid gap-3 mb-4">
               <Label htmlFor="username-1">Duration</Label>
               <Input id="duration" type="number" name="duration" />
+            </div>
+            <div className="grid gap-3 mb-4">
+              <Label htmlFor="firstname">First Name</Label>
+              <Input id="firstname" type="text" name="firstname" />
+            </div>
+            <div className="grid gap-3 mb-4">
+              <Label htmlFor="lastname">Last Name</Label>
+              <Input id="lastname" type="lastname" name="lastname" />
+            </div>
+            <div className="grid gap-3 mb-4">
+              <Label htmlFor="email">Email</Label>
+              <Input id="email" type="email" name="email" />
+            </div>
+            <div className="grid gap-3 mb-4">
+              <Label htmlFor="phone">Phone</Label>
+              <Input id="phone" type="phone" name="phone" />
             </div>
           </div>
           <DialogFooter>

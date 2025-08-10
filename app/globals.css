@@ -154,3 +154,29 @@
     @apply bg-background text-foreground;
   }
 }
+
+@layer utilities {
+  .rounded-scrollbar {
+    scrollbar-width: thin; /* Firefox */
+    scrollbar-color: #9ca3af transparent; /* Firefox */
+  }
+
+  /* Chrome, Edge, Safari */
+  .rounded-scrollbar::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  .rounded-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .rounded-scrollbar::-webkit-scrollbar-thumb {
+    background-color: #9ca3af; /* gray-400 */
+    border-radius: 9999px; /* full round */
+  }
+
+  .rounded-scrollbar::-webkit-scrollbar-thumb:hover {
+    background-color: #6b7280; /* gray-500 */
+  }
+}
