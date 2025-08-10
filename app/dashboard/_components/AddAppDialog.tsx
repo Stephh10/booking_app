@@ -75,7 +75,7 @@ export default function AddAppDialog() {
               <Textarea id="reason" name="reason" />
             </div>
             <div className="grid gap-3 mb-4">
-              <Label htmlFor="username-1">Duration</Label>
+              <Label htmlFor="username-1">Duration (Minutes)</Label>
               <Input id="duration" type="number" name="duration" />
             </div>
             <div className="grid gap-3 mb-4">
@@ -87,8 +87,12 @@ export default function AddAppDialog() {
               <Input id="lastname" type="lastname" name="lastname" />
             </div>
             <div className="grid gap-3 mb-4">
-              <Label htmlFor="email">Email</Label>
-              <Input id="email" type="email" name="email" />
+              <Label htmlFor="patientEmail">Patient Email</Label>
+              <Input
+                id="patientEmail"
+                type="patientEmail"
+                name="patientEmail"
+              />
             </div>
             <div className="grid gap-3 mb-4">
               <Label htmlFor="phone">Phone</Label>
