@@ -23,6 +23,7 @@ import { useSession } from "next-auth/react";
 export default function AddAppDialog() {
   const [isPending, startTransition] = useTransition();
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined);
+  const [openDialog, setOpenDialog] = useState(false);
   const activeUser = useSession().data?.user;
 
   function handleAppSubmit(e: React.FormEvent<HTMLFormElement>) {
@@ -34,16 +35,28 @@ export default function AddAppDialog() {
       ...formData,
       doctorId: activeUser?.id,
       date: selectedDate ? selectedDate.toISOString() : undefined,
+      duration: formData.duration
+        ? parseInt(formData.duration as string, 10)
+        : undefined,
     };
 
-    console.log(appointmentData);
+    if (
+      !appointmentData ||
+      !appointmentData.doctorId ||
+      !appointmentData.date
+    ) {
+      console.error("Appointment data is incomplete");
+      return;
+    }
+
     startTransition(() => {
-      createAppointment();
+      createAppointment(appointmentData);
     });
+    setOpenDialog(false);
   }
 
   return (
-    <Dialog>
+    <Dialog open={openDialog} onOpenChange={setOpenDialog}>
       <DialogTrigger asChild>
         <button className="appointBtn">+ Create Appointment</button>
       </DialogTrigger>
@@ -63,14 +76,16 @@ export default function AddAppDialog() {
             </div>
             <div className="grid gap-3 mb-4">
               <Label htmlFor="username-1">Duration</Label>
-              <Input id="duration" name="duration" />
+              <Input id="duration" type="number" name="duration" />
             </div>
           </div>
           <DialogFooter>
             <DialogClose asChild>
               <Button variant="outline">Cancel</Button>
             </DialogClose>
-            <button className="appointBtn">Create</button>
+            <button className="appointBtn">
+              {isPending ? "Creating..." : "Create Appointment"}
+            </button>
           </DialogFooter>
         </form>
       </DialogContent>
