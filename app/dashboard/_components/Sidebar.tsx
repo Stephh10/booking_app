@@ -31,10 +31,10 @@ export default function Sidebar() {
             <Link
               key={link.name}
               href={link.href}
-              className={`flex items-center gap-3 px-3 py-2 rounded-lg transition-colors
+              className={`flex items-center gap-3 px-3 py-2 transition-colors
                 ${
                   isActive
-                    ? "text-[var(--btn-primary)] font-medium border-l-10 border-[var(--btn-primary)]"
+                    ? "text-[var(--btn-primary)] font-medium border-l-10 border-[var(--btn-primary)] bg-[var(--background)] rounded-tl-[16px] rounded-bl-[16px] overflow-hidden shadow-sm"
                     : "text-gray-600 hover:bg-[var(--text)]"
                 }
               `}
