@@ -10,7 +10,7 @@ export default async function DashboardNav() {
 
   return (
     <nav className="flex items-center justify-between bg-[var(--secondary)] p-4 rounded-xl">
-      <div className="flex items-center gap-2 h-[40px] bg-[var(--bg)] rounded-lg px-2">
+      <div className="flex items-center gap-2 h-[40px] bg-[var(--bg)] rounded-lg px-2 shadow-lg">
         <Search size={20} />
         <input
           className="h-full outline-none"
