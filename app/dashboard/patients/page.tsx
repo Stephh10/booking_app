@@ -1,10 +1,11 @@
 import React from "react";
 import DashboardNav from "../_components/DashboardNav";
 import PageHeader from "@/components/PageHeader";
+import { PatientsTable } from "./_components/PatientsTable";
 
 export default function page() {
   return (
-    <div className="">
+    <div>
       <DashboardNav />
       <div className="patientsMain bg-[var(--secondary)] mt-4 rounded-xl p-4">
         <PageHeader
@@ -13,6 +14,7 @@ export default function page() {
         >
           <button className="outlineBtn">Create Patient</button>
         </PageHeader>
+        <PatientsTable />
       </div>
     </div>
   );
