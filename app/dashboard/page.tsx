@@ -16,7 +16,7 @@ export default function page() {
           description="Plan, prioritize and accomplisch yor appointments with ease."
         >
           <AddAppDialog />
-          <Link className="bg-btn" href="/">
+          <Link className="outlineBtn" href="/">
             Share appointment link
           </Link>
         </PageHeader>
