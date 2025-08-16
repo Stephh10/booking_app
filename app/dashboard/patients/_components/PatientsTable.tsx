@@ -1,5 +1,7 @@
 "use client";
 
+import { Patient } from "@prisma/client";
+
 import * as React from "react";
 import {
   ColumnDef,
@@ -14,6 +16,7 @@ import {
   VisibilityState,
 } from "@tanstack/react-table";
 import { ArrowUpDown, ChevronDown, MoreHorizontal } from "lucide-react";
+import { patientColumns } from "./patientsColumns";
 
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -35,39 +38,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-
-const data: Payment[] = [
-  {
-    id: "m5gr84i9",
-    amount: 316,
-    status: "success",
-    email: "ken99@example.com",
-  },
-  {
-    id: "3u1reuv4",
-    amount: 242,
-    status: "success",
-    email: "Abe45@example.com",
-  },
-  {
-    id: "derv1ws0",
-    amount: 837,
-    status: "processing",
-    email: "Monserrat44@example.com",
-  },
-  {
-    id: "5kma53ae",
-    amount: 874,
-    status: "success",
-    email: "Silas22@example.com",
-  },
-  {
-    id: "bhqecj4p",
-    amount: 721,
-    status: "failed",
-    email: "carmella@example.com",
-  },
-];
 
 export type Payment = {
   id: string;
@@ -167,7 +137,7 @@ export const columns: ColumnDef<Payment>[] = [
   },
 ];
 
-export function PatientsTable() {
+export function PatientsTable({ data }: { data: Patient[] }) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
@@ -178,7 +148,7 @@ export function PatientsTable() {
 
   const table = useReactTable({
     data,
-    columns,
+    columns: patientColumns,
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
     getCoreRowModel: getCoreRowModel(),
@@ -295,7 +265,6 @@ export function PatientsTable() {
             size="sm"
             onClick={() => {
               const selectedRows = table.getFilteredSelectedRowModel().rows;
-              // TODO: ovdje odraditi brisanje npr. setData(data.filter(...))
               console.log(
                 "Za brisanje:",
                 selectedRows.map((r) => r.original.id)

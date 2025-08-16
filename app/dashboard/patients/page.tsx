@@ -2,8 +2,12 @@ import React from "react";
 import DashboardNav from "../_components/DashboardNav";
 import PageHeader from "@/components/PageHeader";
 import { PatientsTable } from "./_components/PatientsTable";
+import { getAllPatients } from "@/app/actions/patients";
 
-export default function page() {
+export default async function page() {
+  const patientsData = await getAllPatients();
+  console.log(patientsData);
+
   return (
     <div>
       <DashboardNav />
@@ -14,7 +18,7 @@ export default function page() {
         >
           <button className="outlineBtn">Create Patient</button>
         </PageHeader>
-        <PatientsTable />
+        <PatientsTable data={patientsData} />
       </div>
     </div>
   );
