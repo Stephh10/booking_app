@@ -24,7 +24,7 @@ model Patient {
   id           String        @id @default(cuid())
   firstName    String
   lastName     String
-  email        String?       @unique
+  email        String?
   phone        String?
   doctorId     String
   createdAt    DateTime      @default(now())
