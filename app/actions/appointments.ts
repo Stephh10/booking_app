@@ -3,6 +3,27 @@ import { prisma as Prisma } from "@/lib/prisma";
 import { redirect } from "next/navigation";
 import { auth } from "@/auth";
 
+export const getAllAppointments = async () => {
+  const authResult = await auth();
+  const activeUser = authResult?.user;
+
+  if (!activeUser) {
+    return { error: "You are not authentificated" };
+  }
+
+  const appointments = await Prisma.appointment.findMany({
+    where: {
+      doctorId: activeUser.id,
+    },
+  });
+
+  if (!appointments) {
+    return { error: "There is no appointments recorded" };
+  }
+
+  return appointments;
+};
+
 export async function createAppointment(data: any) {
   const authResult = await auth();
   const activeUser = authResult?.user;
