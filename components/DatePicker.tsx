@@ -2,14 +2,12 @@
 
 import * as React from "react";
 import { format } from "date-fns";
-import { Calendar as CalendarIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import { useState } from "react";
 import { Input } from "./ui/input";
 import { Label } from "@radix-ui/react-label";
 import { ChevronDownIcon } from "lucide-react";
-import moment from "moment";
 import {
   Popover,
   PopoverContent,
@@ -25,11 +23,41 @@ type DatePickerProps = {
 export function DatePicker({
   date,
   setDate,
-  placeholder = "Izaberi datum",
+  placeholder = "Select Date",
 }: DatePickerProps) {
   const [open, setOpen] = useState(false);
+  const [timeValue, setTimeValue] = useState("10:30:00");
   const startOfToday = new Date();
   startOfToday.setHours(0, 0, 0, 0);
+
+  function combineDates(selectedDate: Date | undefined) {
+    if (!selectedDate) return;
+
+    const [hours, minutes, seconds] = timeValue.split(":").map(Number);
+
+    const combinedDate = new Date(selectedDate);
+    combinedDate.setHours(hours, minutes, seconds);
+
+    return combinedDate;
+  }
+
+  const handleTimeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setTimeValue(e.target.value);
+    if (date) {
+      const newDate = combineDates(date);
+      if (newDate) setDate(newDate);
+    }
+  };
+
+  const handleDateSelect = (selectedDate: Date | undefined) => {
+    if (selectedDate) {
+      const newDate = combineDates(selectedDate);
+      setDate(newDate);
+    } else {
+      setDate(undefined);
+    }
+    setOpen(false);
+  };
 
   return (
     <div className="flex gap-4">
@@ -44,7 +72,7 @@ export function DatePicker({
               id="date-picker"
               className="w-32 justify-between font-normal"
             >
-              {date ? date.toLocaleDateString() : "Select date"}
+              {date ? format(date, "MM/dd/yyyy") : "Select date"}
               <ChevronDownIcon />
             </Button>
           </PopoverTrigger>
@@ -53,10 +81,7 @@ export function DatePicker({
               mode="single"
               selected={date}
               captionLayout="dropdown"
-              onSelect={(date) => {
-                setDate(date);
-                setOpen(false);
-              }}
+              onSelect={handleDateSelect}
               disabled={(date: Date) => date.getTime() < startOfToday.getTime()}
             />
           </PopoverContent>
@@ -70,7 +95,8 @@ export function DatePicker({
           type="time"
           id="time-picker"
           step="1"
-          defaultValue="10:30:00"
+          value={timeValue}
+          onChange={handleTimeChange}
           className="bg-background appearance-none [&::-webkit-calendar-picker-indicator]:hidden [&::-webkit-calendar-picker-indicator]:appearance-none"
         />
       </div>

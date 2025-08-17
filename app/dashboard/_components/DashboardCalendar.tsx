@@ -14,13 +14,19 @@ type CalendarEvent = {
 };
 
 export default function DashboardCalendar({ appointments }: any) {
-  const events: CalendarEvent[] = appointments.map((appt: any) => ({
-    title: appt.reason || "Appointment",
-    start: new Date(appt.date),
-    end: new Date(appt.date.getTime() + appt.duration * 60000),
-    allDay: false,
-    resource: appt,
-  }));
+  const events: CalendarEvent[] = appointments.map((appt: any) => {
+    console.log(appt.date);
+    const startMoment = moment(appt.date, "ddd MMM DD YYYY HH:mm:ss [GMT]ZZ");
+    const startDate = startMoment.toDate();
+    const endDate = startMoment.add(appt.duration || 20, "minutes").toDate();
+    return {
+      title: appt.reason || "Appointment",
+      start: startDate,
+      end: endDate,
+      allDay: false,
+      resource: appt,
+    };
+  });
 
   return (
     <div className="min-h-[500px]">

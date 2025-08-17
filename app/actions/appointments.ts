@@ -2,6 +2,7 @@
 import { prisma as Prisma } from "@/lib/prisma";
 import { redirect } from "next/navigation";
 import { auth } from "@/auth";
+import { revalidatePath } from "next/cache";
 
 export const getAllAppointments = async () => {
   const authResult = await auth();
@@ -91,4 +92,6 @@ export async function createAppointment(data: any) {
   if (!appointment) {
     throw new Error("Failed to create appointment");
   }
+
+  revalidatePath("/dashboard");
 }

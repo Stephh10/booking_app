@@ -10,7 +10,6 @@ import { getAllAppointments } from "../actions/appointments";
 export default async function page() {
   const appointmentsData = await getAllAppointments();
 
-  console.log(appointmentsData);
   return (
     <div>
       <DashboardNav />
