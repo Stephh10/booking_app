@@ -3,6 +3,7 @@
 import { Calendar, momentLocalizer } from "react-big-calendar";
 import moment from "moment";
 import { Appointment } from "@prisma/client";
+import { useRouter } from "next/navigation";
 const localizer = momentLocalizer(moment);
 
 type CalendarEvent = {
@@ -14,8 +15,9 @@ type CalendarEvent = {
 };
 
 export default function DashboardCalendar({ appointments }: any) {
+  const router = useRouter();
   const events: CalendarEvent[] = appointments.map((appt: any) => {
-    console.log(appt.date);
+    console.log(appt);
     const startMoment = moment(appt.date, "ddd MMM DD YYYY HH:mm:ss [GMT]ZZ");
     const startDate = startMoment.toDate();
     const endDate = startMoment.add(appt.duration || 20, "minutes").toDate();
@@ -46,6 +48,9 @@ export default function DashboardCalendar({ appointments }: any) {
               border: "1px solid rgba(0,0,0,0.1)",
             },
           };
+        }}
+        onSelectEvent={(event) => {
+          router.push(`/appointments/${event?.resource?.id}`);
         }}
       />
     </div>
