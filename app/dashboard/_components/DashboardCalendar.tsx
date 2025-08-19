@@ -50,7 +50,7 @@ export default function DashboardCalendar({ appointments }: any) {
           };
         }}
         onSelectEvent={(event) => {
-          router.push(`/appointments/${event?.resource?.id}`);
+          router.push(`/dashboard/appointments/${event?.resource?.id}`);
         }}
       />
     </div>

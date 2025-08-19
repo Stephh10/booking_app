@@ -6,7 +6,6 @@ import { getAllPatients } from "@/app/actions/patients";
 
 export default async function page() {
   const patientsData = await getAllPatients();
-  console.log(patientsData);
 
   return (
     <div>
