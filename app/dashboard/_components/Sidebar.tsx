@@ -16,7 +16,7 @@ const links = [
 export default function Sidebar() {
   const pathname = usePathname();
   return (
-    <div className="bg-[var(--secondary)] h-[500px] w-60 rounded-lg py-2 text-[var(--text)]">
+    <div className="hidden md:block bg-[var(--secondary)] h-[500px] w-60 rounded-lg py-2 text-[var(--text)]">
       <Link
         className="text-2xl text-[var(--text-dark)] cursor-pointer"
         href={"/"}
