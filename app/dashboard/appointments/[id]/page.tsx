@@ -6,8 +6,8 @@ import AppDetails from "../_components/AppDetails";
 import AppHistory from "../_components/AppHistory";
 import AppNotes from "../_components/AppNotes";
 import AppAttachments from "../_components/AppAttachments";
-import PageHeader from "@/components/PageHeader";
 import DashboardNav from "../../_components/DashboardNav";
+import { AppProfileDrop } from "../_components/AppProfileDrop";
 
 export default function page() {
   return (
@@ -15,11 +15,9 @@ export default function page() {
       <DashboardNav />
       <div className="p-4 bg-[var(--secondary)] rounded-2xl mt-4">
         <UserInfo>
-          <button>
-            <Ellipsis size={22} />
-          </button>
+          <AppProfileDrop />
         </UserInfo>
-        <Tabs defaultValue="details" className="w-[400px]">
+        <Tabs defaultValue="details" className="w-[600px]">
           <TabsList>
             <TabsTrigger className="cursor-pointer" value="details">
               Appointment Details
