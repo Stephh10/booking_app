@@ -41,6 +41,8 @@ model Appointment {
   status    String   @default("scheduled")
   doctorId  String
   patientId String?
+  diagnose  String?
+  notes     Json?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
