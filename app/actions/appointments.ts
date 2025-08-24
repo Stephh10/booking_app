@@ -3,7 +3,41 @@ import { prisma as Prisma } from "@/lib/prisma";
 import { redirect } from "next/navigation";
 import { auth } from "@/auth";
 import { revalidatePath } from "next/cache";
+import { Patient } from "@/types/patient";
 
+//GET PATIENT FROM APPOINTMENT ID
+
+export const getAppPatient = async (
+  appId: string
+): Promise<Patient | { error: string }> => {
+  if (!appId) {
+    return { error: "Appointment id is required" };
+  }
+
+  const appointment = await Prisma.appointment.findFirst({
+    where: {
+      id: appId,
+    },
+  });
+
+  if (!appointment || !appointment.patientId) {
+    return { error: "Appointment is requiredd" };
+  }
+
+  const patientData = await Prisma.patient.findFirst({
+    where: {
+      id: appointment.patientId,
+    },
+  });
+
+  if (!patientData) {
+    return { error: "Something went wrong" };
+  }
+
+  return patientData;
+};
+
+//GET ALL APPOINTMENTS
 export const getAllAppointments = async () => {
   const authResult = await auth();
   const activeUser = authResult?.user;
@@ -25,6 +59,7 @@ export const getAllAppointments = async () => {
   return appointments;
 };
 
+//CREATE APPOINTMENT
 export async function createAppointment(data: any) {
   const authResult = await auth();
   const activeUser = authResult?.user;

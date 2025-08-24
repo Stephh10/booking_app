@@ -8,14 +8,18 @@ import AppAttachments from "../_components/AppAttachments";
 import DashboardNav from "../../_components/DashboardNav";
 import { AppProfileDrop } from "../_components/AppProfileDrop";
 
-export default function page({ params }: { params: { id: string } }) {
-  const { id: appId } = params;
+type PageProps = {
+  params: Promise<{ id: string }>;
+};
+
+export default async function page({ params }: PageProps) {
+  const { id } = await params;
 
   return (
     <div>
       <DashboardNav />
       <div className="p-4 bg-[var(--secondary)] rounded-2xl my-4">
-        <UserInfo appId={appId}>
+        <UserInfo appId={id}>
           <AppProfileDrop />
         </UserInfo>
         <Tabs defaultValue="details" className="w-[600px]">
@@ -34,7 +38,7 @@ export default function page({ params }: { params: { id: string } }) {
             </TabsTrigger>
           </TabsList>
           <TabsContent value="details">
-            <AppDetails appId={appId} />
+            <AppDetails appId={id} />
           </TabsContent>
           <TabsContent value="history">
             <AppHistory />
