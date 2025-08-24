@@ -8,6 +8,7 @@ import { useState } from "react";
 import { Textarea } from "@/components/ui/textarea";
 import { DatePicker } from "@/components/DatePicker";
 import Link from "next/link";
+import { useTransition } from "react";
 
 const fields = [
   { key: "title", label: "Title", type: "input" },
@@ -15,7 +16,7 @@ const fields = [
   { key: "notes", label: "Notes", type: "input" },
 ];
 
-export default function AppDetails() {
+export default function AppDetails({ appId }: { appId: string }) {
   type FormDataKey = keyof typeof formData;
   const [isEditing, setIsEditing] = useState(false);
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined);

@@ -1,6 +1,12 @@
 import React from "react";
 
-export default function UserInfo({ children }: { children: React.ReactNode }) {
+export default function UserInfo({
+  appId,
+  children,
+}: {
+  appId: string;
+  children: React.ReactNode;
+}) {
   return (
     <div className="flex items-center justify-between bg-[var(--secondary)] p-4 rounded-xl mb-2 border-b-2 border-t-2">
       <div>

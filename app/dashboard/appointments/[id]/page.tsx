@@ -1,6 +1,5 @@
 import React from "react";
 import UserInfo from "@/components/UserInfo";
-import { Ellipsis } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import AppDetails from "../_components/AppDetails";
 import AppHistory from "../_components/AppHistory";
@@ -9,12 +8,14 @@ import AppAttachments from "../_components/AppAttachments";
 import DashboardNav from "../../_components/DashboardNav";
 import { AppProfileDrop } from "../_components/AppProfileDrop";
 
-export default function page() {
+export default function page({ params }: { params: { id: string } }) {
+  const { id: appId } = params;
+
   return (
     <div>
       <DashboardNav />
-      <div className="p-4 bg-[var(--secondary)] rounded-2xl mt-4">
-        <UserInfo>
+      <div className="p-4 bg-[var(--secondary)] rounded-2xl my-4">
+        <UserInfo appId={appId}>
           <AppProfileDrop />
         </UserInfo>
         <Tabs defaultValue="details" className="w-[600px]">
@@ -33,7 +34,7 @@ export default function page() {
             </TabsTrigger>
           </TabsList>
           <TabsContent value="details">
-            <AppDetails />
+            <AppDetails appId={appId} />
           </TabsContent>
           <TabsContent value="history">
             <AppHistory />
