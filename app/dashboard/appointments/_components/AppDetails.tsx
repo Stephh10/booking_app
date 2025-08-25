@@ -4,11 +4,13 @@ import React from "react";
 import { Label } from "@radix-ui/react-label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Textarea } from "@/components/ui/textarea";
 import { DatePicker } from "@/components/DatePicker";
 import Link from "next/link";
 import { useTransition } from "react";
+import { getSelectedAppointment } from "@/app/actions/appointments";
+import { Appointment } from "@/types/appointment";
 
 const fields = [
   { key: "title", label: "Title", type: "input" },
@@ -17,6 +19,9 @@ const fields = [
 ];
 
 export default function AppDetails({ appId }: { appId: string }) {
+  const [isPending, startTransition] = useTransition();
+
+  const [appData, setAppData] = useState<Appointment | null>(null);
   type FormDataKey = keyof typeof formData;
   const [isEditing, setIsEditing] = useState(false);
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined);
@@ -31,6 +36,20 @@ export default function AppDetails({ appId }: { appId: string }) {
     setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
+  useEffect(() => {
+    startTransition(async () => {
+      const result = await getSelectedAppointment(appId);
+
+      if ("error" in result) {
+        setAppData(null);
+        return;
+      }
+
+      setAppData(result);
+    });
+  }, [appId]);
+
+  console.log(appData);
   return (
     <div>
       <div className="grid gap-2">

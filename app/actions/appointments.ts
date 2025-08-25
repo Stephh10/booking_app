@@ -1,9 +1,29 @@
 "use server";
 import { prisma as Prisma } from "@/lib/prisma";
-import { redirect } from "next/navigation";
 import { auth } from "@/auth";
 import { revalidatePath } from "next/cache";
 import { Patient } from "@/types/patient";
+import { Appointment } from "@/types/appointment";
+
+//GET SELECTED APPOINTMENT
+
+export const getSelectedAppointment = async (
+  appId: string
+): Promise<Appointment | { error: string }> => {
+  if (!appId) {
+    return { error: "Appointment id is required" };
+  }
+
+  const appointment = await Prisma.appointment.findFirst({
+    where: { id: appId },
+  });
+
+  if (!appointment) {
+    return { error: "Appointment data not found" };
+  }
+
+  return appointment as unknown as Appointment;
+};
 
 //GET PATIENT FROM APPOINTMENT ID
 
@@ -108,7 +128,7 @@ export async function createAppointment(data: any) {
         firstName: data.firstName,
         lastName: data.lastName,
         email: data.patientEmail || null,
-        phone: data.patientPhone || null,
+        phone: data.phone || null,
         doctorId: activeUser.id,
       },
     });
