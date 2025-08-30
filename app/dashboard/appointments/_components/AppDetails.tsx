@@ -10,25 +10,24 @@ import { DatePicker } from "@/components/DatePicker";
 import Link from "next/link";
 import { useTransition } from "react";
 import { getSelectedAppointment } from "@/app/actions/appointments";
-import { Appointment } from "@/types/appointment";
+import { formatDate } from "@/lib/formatDate";
 
 const fields = [
-  { key: "title", label: "Title", type: "input" },
+  { key: "reason", label: "Reason", type: "input" },
   { key: "diagnose", label: "Diagnose", type: "input" },
-  { key: "notes", label: "Notes", type: "input" },
 ];
 
 export default function AppDetails({ appId }: { appId: string }) {
+  type FormDataKey = keyof typeof formData;
   const [isPending, startTransition] = useTransition();
 
-  const [appData, setAppData] = useState<Appointment | null>(null);
-  type FormDataKey = keyof typeof formData;
   const [isEditing, setIsEditing] = useState(false);
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined);
+
   const [formData, setFormData] = useState({
-    title: "Kevin Punter",
-    diagnose: "Enter patient diagnose...",
-    date: selectedDate ? selectedDate.toISOString() : undefined,
+    reason: "Reason...",
+    diagnose: "Diagnose...",
+    date: "Date...",
     notes: "Additional quick note...",
   });
 
@@ -41,15 +40,18 @@ export default function AppDetails({ appId }: { appId: string }) {
       const result = await getSelectedAppointment(appId);
 
       if ("error" in result) {
-        setAppData(null);
         return;
       }
 
-      setAppData(result);
+      setFormData({
+        reason: result.reason || "Reason...",
+        diagnose: result.diagnose || "Diagnose...",
+        date: formatDate(result.date),
+        notes: "Additional quick note...",
+      });
     });
   }, [appId]);
 
-  console.log(appData);
   return (
     <div>
       <div className="grid gap-2">
@@ -61,7 +63,7 @@ export default function AppDetails({ appId }: { appId: string }) {
                 <Textarea
                   id={key}
                   className="w-[50%] h-[60px] "
-                  value={formData[key as FormDataKey]}
+                  placeholder={formData[key as FormDataKey]}
                   onChange={(e) =>
                     handleChange(key as FormDataKey, e.target.value)
                   }
@@ -70,7 +72,7 @@ export default function AppDetails({ appId }: { appId: string }) {
                 <Input
                   id={key}
                   className="w-[50%] h-[35px]"
-                  value={formData[key as FormDataKey]}
+                  placeholder={formData[key as FormDataKey]}
                   onChange={(e) =>
                     handleChange(key as FormDataKey, e.target.value)
                   }
@@ -82,11 +84,11 @@ export default function AppDetails({ appId }: { appId: string }) {
           </div>
         ))}
         <div className="flex gap-2">
-          <Label>Date:</Label>
+          {!isEditing ? <Label>Date:</Label> : ""}
           {isEditing ? (
             <DatePicker date={selectedDate} setDate={setSelectedDate} />
           ) : (
-            <p>20 Sept 11h</p>
+            <p>{formData.date}</p>
           )}
         </div>
 

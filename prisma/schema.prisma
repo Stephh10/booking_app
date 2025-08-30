@@ -36,7 +36,6 @@ model Appointment {
   id        String   @id @default(cuid())
   date      DateTime
   duration  Int
-  title     String?
   reason    String?
   status    String   @default("scheduled")
   doctorId  String

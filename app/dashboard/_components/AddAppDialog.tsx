@@ -78,6 +78,10 @@ export default function AddAppDialog() {
               <Label htmlFor="username-1">Duration (Minutes)</Label>
               <Input id="duration" type="number" name="duration" />
             </div>
+            <div className="grid gap-3">
+              <Label htmlFor="diagnose">Diagnose</Label>
+              <Textarea id="diagnose" name="diagnose" />
+            </div>
             <div className="grid gap-3 mb-4">
               <Label htmlFor="firstName">First Name</Label>
               <Input id="firstName" type="text" name="firstName" />

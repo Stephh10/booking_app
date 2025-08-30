@@ -139,6 +139,7 @@ export async function createAppointment(data: any) {
       reason: data.reason,
       duration: data.duration,
       date: data.date,
+      diagnose: data.diagnose || null,
       patientId: existingPatient.id,
       doctorId: activeUser.id,
     },
