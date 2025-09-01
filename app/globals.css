@@ -104,15 +104,15 @@
     border-color: var(--btn-primary);
   }
 
-  .appointBtn {
-    @apply bg-[var(--btn-primary)] flex items-center justify-center gap-2 max-w-max p-2 rounded-xl text-[var(--text)] cursor-pointer;
+  .primaryBtn {
+    @apply bg-[var(--btn-primary)] flex items-center justify-center gap-2 p-2 rounded-xl text-[var(--text)] cursor-pointer;
   }
   .bg-btn {
     @apply bg-[var(--bg)] max-w-max p-2 rounded-xl text-[var(--text-dark)] border border-[var-(--text-dark)] cursor-pointer;
   }
 
   .outlineBtn {
-    @apply bg-[var(--background)] border-1 border-black p-2 rounded-xl cursor-pointer;
+    @apply bg-[var(--background)] shadow-xl p-2 rounded-xl cursor-pointer;
   }
 }
 

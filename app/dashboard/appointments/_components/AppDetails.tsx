@@ -3,7 +3,6 @@
 import React from "react";
 import { Label } from "@radix-ui/react-label";
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
 import { useState, useEffect } from "react";
 import { Textarea } from "@/components/ui/textarea";
 import { DatePicker } from "@/components/DatePicker";
@@ -11,6 +10,7 @@ import Link from "next/link";
 import { useTransition } from "react";
 import { getSelectedAppointment } from "@/app/actions/appointments";
 import { formatDate } from "@/lib/formatDate";
+import { updateSelectedAppointment } from "@/app/actions/appointments";
 
 const fields = [
   { key: "reason", label: "Reason", type: "input" },
@@ -28,7 +28,6 @@ export default function AppDetails({ appId }: { appId: string }) {
     reason: "Reason...",
     diagnose: "Diagnose...",
     date: "Date...",
-    notes: "Additional quick note...",
   });
 
   const handleChange = (field: FormDataKey, value: string) => {
@@ -47,10 +46,19 @@ export default function AppDetails({ appId }: { appId: string }) {
         reason: result.reason || "Reason...",
         diagnose: result.diagnose || "Diagnose...",
         date: formatDate(result.date),
-        notes: "Additional quick note...",
       });
     });
   }, [appId]);
+
+  function handleEditApp() {
+    startTransition(async () => {
+      const response = await updateSelectedAppointment(appId, {
+        ...formData,
+        date: selectedDate ? selectedDate.toISOString() : undefined,
+      });
+      setIsEditing(false);
+    });
+  }
 
   return (
     <div>
@@ -96,16 +104,20 @@ export default function AppDetails({ appId }: { appId: string }) {
           <Link href={"/dashboard"}>Go Back</Link>
 
           <div className="flex items-center gap-3">
-            <Button
-              className="cursor-pointer"
-              variant="secondary"
+            <button
+              className="outlineBtn w-[80px] text-center"
               onClick={() => setIsEditing(!isEditing)}
             >
               {isEditing ? "Cancel" : "Edit"}
-            </Button>
-            <Button className="cursor-pointer" variant="destructive">
-              Cancel Appointment
-            </Button>
+            </button>
+            {isEditing && (
+              <button
+                onClick={handleEditApp}
+                className="primaryBtn w-[80px] text-center"
+              >
+                Save
+              </button>
+            )}
           </div>
         </div>
       </div>

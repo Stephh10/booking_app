@@ -58,7 +58,7 @@ export default function AddAppDialog() {
   return (
     <Dialog open={openDialog} onOpenChange={setOpenDialog}>
       <DialogTrigger asChild>
-        <button className="appointBtn">+ Create Appointment</button>
+        <button className="primaryBtn">+ Create Appointment</button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px] max-h-[90vh] overflow-y-auto rounded-scrollbar">
         <DialogHeader>

@@ -4,6 +4,30 @@ import { auth } from "@/auth";
 import { revalidatePath } from "next/cache";
 import { Patient } from "@/types/patient";
 import { Appointment } from "@/types/appointment";
+import { UpdatedAppointment } from "@/types/appointment";
+
+//UPDATE SELECTED APPOINTMENT
+
+export const updateSelectedAppointment = async (
+  appId: string,
+  updatedData: UpdatedAppointment
+) => {
+  try {
+    if (!appId) {
+      return { error: "Appointment id is required" };
+    }
+
+    const appointment = await Prisma.appointment.update({
+      where: { id: appId },
+      data: updatedData,
+    });
+
+    revalidatePath(`/dashboard/appointments/${appId}`);
+    return appointment;
+  } catch (error) {
+    return { error: "Failed to update appointment" };
+  }
+};
 
 //GET SELECTED APPOINTMENT
 
