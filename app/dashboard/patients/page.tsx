@@ -3,6 +3,7 @@ import DashboardNav from "../_components/DashboardNav";
 import PageHeader from "@/components/PageHeader";
 import { PatientsTable } from "./_components/PatientsTable";
 import { getAllPatients } from "@/app/actions/patients";
+import AddPatientDialog from "../_components/AddPatientDialog";
 
 export default async function page() {
   const patientsData = await getAllPatients();
@@ -15,7 +16,7 @@ export default async function page() {
           title="Patients"
           description="Organize, track, and care for your patients effortlessly."
         >
-          <button className="outlineBtn">Create Patient</button>
+          <AddPatientDialog />
         </PageHeader>
         <PatientsTable data={patientsData} />
       </div>

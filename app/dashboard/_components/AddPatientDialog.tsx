@@ -18,24 +18,29 @@ export default function AddPatientDialog() {
     <Dialog>
       <form>
         <DialogTrigger asChild>
-          <Button variant="outline">Open Dialog</Button>
+          <button className="outlineBtn">Create Patient</button>
         </DialogTrigger>
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
             <DialogTitle>Edit profile</DialogTitle>
-            <DialogDescription>
-              Make changes to your profile here. Click save when you&apos;re
-              done.
-            </DialogDescription>
+            <DialogDescription>Create new patient here.</DialogDescription>
           </DialogHeader>
           <div className="grid gap-4">
             <div className="grid gap-3">
-              <Label htmlFor="name-1">Name</Label>
-              <Input id="name-1" name="name" defaultValue="Pedro Duarte" />
+              <Label htmlFor="firstName">First Name</Label>
+              <Input id="firstName" name="firstName" />
             </div>
             <div className="grid gap-3">
-              <Label htmlFor="username-1">Username</Label>
-              <Input id="username-1" name="username" defaultValue="@peduarte" />
+              <Label htmlFor="lastName">Last Name</Label>
+              <Input id="lastName" name="lastName" />
+            </div>
+            <div className="grid gap-3">
+              <Label htmlFor="email">Email</Label>
+              <Input id="email" name="email" />
+            </div>
+            <div className="grid gap-3">
+              <Label htmlFor="phone">Phone</Label>
+              <Input type="number" id="phone" name="phone" />
             </div>
           </div>
           <DialogFooter>
