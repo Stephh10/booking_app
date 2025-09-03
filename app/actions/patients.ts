@@ -2,23 +2,22 @@
 
 import { auth } from "@/auth";
 import { prisma as Prisma } from "@/lib/prisma";
+import { revalidatePath } from "next/cache";
 
 //REMOVE PATIENTS
 
-export const removePatients = (ids: string[]) => {
+export const removeSelectedPatients = async (ids: string[]) => {
   try {
-    if (!ids.length) {
-      return;
-    }
     const deletedPatients = Prisma.patient.deleteMany({
       where: {
         id: { in: ids },
       },
     });
 
+    revalidatePath("/dashboard/patients");
     return deletedPatients;
   } catch (error) {
-    return { error: "Something went wrong", errDetails: error };
+    return { error: "Something went wrong" };
   }
 };
 

@@ -4,7 +4,6 @@ import { Patient } from "@prisma/client";
 
 import * as React from "react";
 import {
-  ColumnDef,
   ColumnFiltersState,
   flexRender,
   getCoreRowModel,
@@ -15,18 +14,14 @@ import {
   useReactTable,
   VisibilityState,
 } from "@tanstack/react-table";
-import { ArrowUpDown, ChevronDown, MoreHorizontal } from "lucide-react";
+import { ChevronDown } from "lucide-react";
 import { patientColumns } from "./patientsColumns";
 
 import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
@@ -38,6 +33,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { removeSelectedPatients } from "@/app/actions/patients";
 
 export type Payment = {
   id: string;
@@ -73,6 +69,9 @@ export function PatientsTable({ data }: { data: Patient[] }) {
       rowSelection,
     },
   });
+
+  const selectedRows = table.getFilteredSelectedRowModel().rows;
+  const selectedIds = selectedRows.map((row) => row.original.id);
 
   return (
     <div className="w-full">
@@ -172,12 +171,8 @@ export function PatientsTable({ data }: { data: Patient[] }) {
             variant="destructive"
             className="cursor-pointer"
             size="sm"
-            onClick={() => {
-              const selectedRows = table.getFilteredSelectedRowModel().rows;
-              console.log(
-                "Za brisanje:",
-                selectedRows.map((r) => r.original.id)
-              );
+            onClick={async () => {
+              await removeSelectedPatients(selectedIds);
             }}
           >
             Delete selected

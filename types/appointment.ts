@@ -12,3 +12,10 @@ export interface Appointment {
   createdAt: Date;
   updatedAt: Date;
 }
+
+export interface UpdatedAppointment {
+  date?: string;
+  title?: string;
+  diagnose?: string;
+  status?: string;
+}
