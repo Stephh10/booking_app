@@ -1,4 +1,6 @@
-import React from "react";
+"use client";
+
+import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -12,15 +14,32 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { createPatient } from "@/app/actions/patients";
+import { useTransition } from "react";
+import { Patient } from "@/types/patient";
 
 export default function AddPatientDialog() {
+  const [openDialog, setOpenDialog] = useState(false);
+  const [isPending, startTransition] = useTransition();
+  function handleCreatePatient(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    const fd = new FormData(e.target as HTMLFormElement);
+    const formData = Object.fromEntries(fd.entries()) as unknown as Patient;
+
+    startTransition(() => {
+      createPatient(formData);
+    });
+
+    setOpenDialog(false);
+  }
+
   return (
-    <Dialog>
-      <form>
-        <DialogTrigger asChild>
-          <button className="outlineBtn">Create Patient</button>
-        </DialogTrigger>
-        <DialogContent className="sm:max-w-[425px]">
+    <Dialog open={openDialog} onOpenChange={setOpenDialog}>
+      <DialogTrigger asChild>
+        <button className="outlineBtn">Create Patient</button>
+      </DialogTrigger>
+      <DialogContent className="sm:max-w-[425px]">
+        <form onSubmit={handleCreatePatient}>
           <DialogHeader>
             <DialogTitle>Edit profile</DialogTitle>
             <DialogDescription>Create new patient here.</DialogDescription>
@@ -43,14 +62,16 @@ export default function AddPatientDialog() {
               <Input type="number" id="phone" name="phone" />
             </div>
           </div>
-          <DialogFooter>
+          <DialogFooter className="mt-4">
             <DialogClose asChild>
               <Button variant="outline">Cancel</Button>
             </DialogClose>
-            <Button type="submit">Save changes</Button>
+            <Button className="cursor-pointer" type="submit">
+              {isPending ? "Loading" : "Create"}
+            </Button>
           </DialogFooter>
-        </DialogContent>
-      </form>
+        </form>
+      </DialogContent>
     </Dialog>
   );
 }
