@@ -17,8 +17,6 @@ export default async function UserInfo({
   }
   const patientData = data as Patient;
 
-  console.log(patientData);
-
   return (
     <div className="flex items-center justify-between bg-[var(--secondary)] p-4 rounded-xl mb-2 border-b-2 border-t-2">
       <div>

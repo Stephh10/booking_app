@@ -17,10 +17,14 @@ export const updateSelectedAppointment = async (
       return { error: "Appointment id is required" };
     }
 
+    console.log(updatedData.date);
+
     const appointment = await Prisma.appointment.update({
       where: { id: appId },
       data: updatedData,
     });
+
+    console.log(appointment);
 
     revalidatePath(`/dashboard/appointments/${appId}`);
     return appointment;

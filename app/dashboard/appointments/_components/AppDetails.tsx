@@ -11,6 +11,8 @@ import { useTransition } from "react";
 import { getSelectedAppointment } from "@/app/actions/appointments";
 import { formatDate } from "@/lib/formatDate";
 import { updateSelectedAppointment } from "@/app/actions/appointments";
+import DateSelector from "@/components/DateSelector";
+import { setHours, setMinutes } from "date-fns";
 
 const fields = [
   { key: "reason", label: "Reason", type: "input" },
@@ -22,7 +24,9 @@ export default function AppDetails({ appId }: { appId: string }) {
   const [isPending, startTransition] = useTransition();
 
   const [isEditing, setIsEditing] = useState(false);
-  const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined);
+  const [selectedDate, setSelectedDate] = useState(
+    setHours(setMinutes(new Date(), 30), 16)
+  );
 
   const [formData, setFormData] = useState({
     reason: "Reason...",
@@ -56,6 +60,12 @@ export default function AppDetails({ appId }: { appId: string }) {
         ...formData,
         date: selectedDate ? selectedDate.toISOString() : undefined,
       });
+
+      setFormData((prev) => ({
+        ...prev,
+        date: formatDate(selectedDate),
+      }));
+
       setIsEditing(false);
     });
   }
@@ -91,14 +101,18 @@ export default function AppDetails({ appId }: { appId: string }) {
             )}
           </div>
         ))}
-        <div className="flex gap-2">
-          {!isEditing ? <Label>Date:</Label> : ""}
-          {isEditing ? (
-            <DatePicker date={selectedDate} setDate={setSelectedDate} />
-          ) : (
-            <p>{formData.date}</p>
-          )}
-        </div>
+
+        {!isEditing ? <Label>Date:</Label> : ""}
+        {isEditing ? (
+          <div className="flex">
+            <DateSelector
+              selectedDateTime={selectedDate}
+              setSelectedDateTime={setSelectedDate}
+            />
+          </div>
+        ) : (
+          <p>{formData.date}</p>
+        )}
 
         <div className="flex justify-between mt-1">
           <Link href={"/dashboard"}>Go Back</Link>
