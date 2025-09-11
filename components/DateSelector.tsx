@@ -13,10 +13,6 @@ export default function DateSelector({
   selectedDateTime,
   setSelectedDateTime,
 }: DateSelectorProps) {
-  // const [selectedDateTime, setSelectedDateTime] = useState(
-  //   setHours(setMinutes(new Date(), 30), 16)
-  // );
-
   console.log(selectedDateTime);
   return (
     <DatePicker

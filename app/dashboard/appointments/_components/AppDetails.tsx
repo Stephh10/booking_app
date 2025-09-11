@@ -32,10 +32,14 @@ export default function AppDetails({ appId }: { appId: string }) {
     reason: "Reason...",
     diagnose: "Diagnose...",
     date: "Date...",
+    duration: 20,
   });
 
   const handleChange = (field: FormDataKey, value: string) => {
-    setFormData((prev) => ({ ...prev, [field]: value }));
+    setFormData((prev) => ({
+      ...prev,
+      [field]: field === "duration" ? parseInt(value, 10) || 0 : value,
+    }));
   };
 
   useEffect(() => {
@@ -50,22 +54,30 @@ export default function AppDetails({ appId }: { appId: string }) {
         reason: result.reason || "Reason...",
         diagnose: result.diagnose || "Diagnose...",
         date: formatDate(result.date),
+        duration: Number(result.duration) || 20,
       });
+
+      if (result.date) {
+        setSelectedDate(new Date(result.date));
+      }
     });
   }, [appId]);
+
+  // console.log(formData);
 
   function handleEditApp() {
     startTransition(async () => {
       const response = await updateSelectedAppointment(appId, {
         ...formData,
         date: selectedDate ? selectedDate.toISOString() : undefined,
+        duration: formData.duration,
       });
 
+      console.log(response);
       setFormData((prev) => ({
         ...prev,
         date: formatDate(selectedDate),
       }));
-
       setIsEditing(false);
     });
   }
@@ -81,7 +93,7 @@ export default function AppDetails({ appId }: { appId: string }) {
                 <Textarea
                   id={key}
                   className="w-[50%] h-[60px] "
-                  placeholder={formData[key as FormDataKey]}
+                  placeholder={String(formData[key as FormDataKey])}
                   onChange={(e) =>
                     handleChange(key as FormDataKey, e.target.value)
                   }
@@ -90,7 +102,7 @@ export default function AppDetails({ appId }: { appId: string }) {
                 <Input
                   id={key}
                   className="w-[50%] h-[35px]"
-                  placeholder={formData[key as FormDataKey]}
+                  placeholder={String(formData[key as FormDataKey])}
                   onChange={(e) =>
                     handleChange(key as FormDataKey, e.target.value)
                   }
@@ -105,10 +117,25 @@ export default function AppDetails({ appId }: { appId: string }) {
         {!isEditing ? <Label>Date:</Label> : ""}
         {isEditing ? (
           <div className="flex">
-            <DateSelector
-              selectedDateTime={selectedDate}
-              setSelectedDateTime={setSelectedDate}
-            />
+            <div className="flex flex-col mb-4">
+              <Label>Date and Time</Label>
+              <DateSelector
+                selectedDateTime={selectedDate}
+                setSelectedDateTime={setSelectedDate}
+              />
+            </div>
+
+            <div className="flex flex-col">
+              <Label>Duration</Label>
+              <Input
+                type="number"
+                name="duration"
+                placeholder={String(formData.duration)}
+                onChange={(e) => {
+                  handleChange("duration", e.target.value);
+                }}
+              />
+            </div>
           </div>
         ) : (
           <p>{formData.date}</p>

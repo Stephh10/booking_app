@@ -18,4 +18,5 @@ export interface UpdatedAppointment {
   title?: string;
   diagnose?: string;
   status?: string;
+  duration?: number;
 }
