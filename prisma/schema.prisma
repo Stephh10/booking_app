@@ -41,10 +41,19 @@ model Appointment {
   doctorId  String
   patientId String?
   diagnose  String?
-  notes     Json?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   doctor  User     @relation(fields: [doctorId], references: [id])
   patient Patient? @relation(fields: [patientId], references: [id])
+  Note    Note[]
+}
+
+model Note {
+  id            String      @id @default(cuid())
+  content       String // tekst bilješke
+  isFlagged     Boolean     @default(false) // nešto poput "oznaci kao važno"
+  createdAt     DateTime    @default(now())
+  appointmentId String
+  appointment   Appointment @relation(fields: [appointmentId], references: [id])
 }
