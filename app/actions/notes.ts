@@ -27,10 +27,12 @@ export const getNotes = async (appointmentId: string) => {
     return { error: "Invalid appointment ID" };
   }
 
-  await Prisma.note.findMany({
+  const notesData = await Prisma.note.findMany({
     where: {
       appointmentId: appointmentId,
     },
     orderBy: [{ isFlagged: "desc" }, { createdAt: "desc" }],
   });
+
+  return notesData;
 };
