@@ -5,7 +5,6 @@ import { Label } from "@radix-ui/react-label";
 import { Input } from "@/components/ui/input";
 import { useState, useEffect } from "react";
 import { Textarea } from "@/components/ui/textarea";
-import { DatePicker } from "@/components/DatePicker";
 import Link from "next/link";
 import { useTransition } from "react";
 import { getSelectedAppointment } from "@/app/actions/appointments";
@@ -62,8 +61,6 @@ export default function AppDetails({ appId }: { appId: string }) {
       }
     });
   }, [appId]);
-
-  // console.log(formData);
 
   function handleEditApp() {
     startTransition(async () => {

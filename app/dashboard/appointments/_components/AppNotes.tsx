@@ -1,16 +1,35 @@
-import React from "react";
-import NoteCard from "./NoteCard";
+"use client";
 
-export default function AppNotes() {
+import React, { useState } from "react";
+import NoteCard from "./NoteCard";
+import { useTransition } from "react";
+import { createNote } from "@/app/actions/notes";
+import { getNotes } from "../../../actions/notes";
+
+export default function AppNotes({ appId }: { appId: string }) {
+  console.log(appId);
+  const [noteContent, setNoteContent] = useState("");
+  const [isPending, startTransition] = useTransition();
+
+  function handleCreateNote() {
+    startTransition(() => {
+      createNote({ content: noteContent, appointmentId: appId });
+    });
+    setNoteContent("");
+  }
+
   return (
     <div>
       <div className="mb-4 flex items-center border-2 w-[420px] rounded-xl h-[40px]">
         <input
+          onChange={(e) => setNoteContent(e.target.value)}
           className="flex-1 h-full pl-[5px] rounded-xl border-none outline-none"
           type="text"
           placeholder="Write a note..."
         />
-        <button className="primaryBtn">Add Note</button>
+        <button onClick={handleCreateNote} className="primaryBtn">
+          {!isPending ? "Add Note" : "Creating..."}
+        </button>
       </div>
       <NoteCard />
     </div>

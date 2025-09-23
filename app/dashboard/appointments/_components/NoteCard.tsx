@@ -5,13 +5,13 @@ export default function NoteCard() {
   return (
     <div className="p-4 border-2 rounded-xl">
       <div className="flex justify-between items-center mb-1">
-        <p className="font-bold text-[var(--text-soft)]">21.10.2025</p>
+        <p className="font-bold text-[var(--btn-primary)]">21.10.2025</p>
         <div className="flex gap-2 justify-between">
           <button>
-            <Flag />
+            <Flag size={20} />
           </button>
           <button>
-            <X />
+            <X className="cursor-pointer" size={20} />
           </button>
         </div>
       </div>

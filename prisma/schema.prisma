@@ -51,8 +51,8 @@ model Appointment {
 
 model Note {
   id            String      @id @default(cuid())
-  content       String // tekst bilješke
-  isFlagged     Boolean     @default(false) // nešto poput "oznaci kao važno"
+  content       String
+  isFlagged     Boolean     @default(false)
   createdAt     DateTime    @default(now())
   appointmentId String
   appointment   Appointment @relation(fields: [appointmentId], references: [id])

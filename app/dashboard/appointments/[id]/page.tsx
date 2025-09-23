@@ -44,7 +44,7 @@ export default async function page({ params }: PageProps) {
             <AppHistory />
           </TabsContent>
           <TabsContent value="notes">
-            <AppNotes />
+            <AppNotes appId={id} />
           </TabsContent>
           <TabsContent value="attachments">
             <AppAttachments />
