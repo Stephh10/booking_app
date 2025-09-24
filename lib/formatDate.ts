@@ -1,5 +1,4 @@
 export function formatDate(dateInput: string | Date): string {
-  // Ako je string, napravi Date objekat
   const date = typeof dateInput === "string" ? new Date(dateInput) : dateInput;
 
   if (isNaN(date.getTime())) {
