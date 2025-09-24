@@ -5,7 +5,7 @@ import { X, Flag, FlagOff } from "lucide-react";
 import { Note } from "@/types/note";
 import { formatDate } from "@/lib/formatDate";
 import { useTransition } from "react";
-import { changeNoteFlagState } from "@/app/actions/notes";
+import { changeNoteFlagState, removeNote } from "@/app/actions/notes";
 
 export default function NoteCard({ note: noteData }: { note: Note }) {
   const [isPending, startTransition] = useTransition();
@@ -15,6 +15,12 @@ export default function NoteCard({ note: noteData }: { note: Note }) {
   function changeFlagState() {
     startTransition(() => {
       changeNoteFlagState(noteData.id, !noteData.isFlagged);
+    });
+  }
+
+  function handleRemoveNote() {
+    startTransition(() => {
+      removeNote(noteData.id);
     });
   }
 
@@ -30,7 +36,7 @@ export default function NoteCard({ note: noteData }: { note: Note }) {
           <button className="cursor-pointer" onClick={changeFlagState}>
             {!noteData.isFlagged ? <Flag size={20} /> : <FlagOff size={20} />}
           </button>
-          <button>
+          <button onClick={handleRemoveNote} disabled={isPending}>
             <X className="cursor-pointer" size={20} />
           </button>
         </div>

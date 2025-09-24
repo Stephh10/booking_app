@@ -8,8 +8,6 @@ export default async function AppNotes({ appId }: { appId: string }) {
   if (!appId) return;
   const notesData = await getNotes(appId);
 
-  console.log(notesData);
-
   return (
     <div>
       <CreateNote appId={appId} />
