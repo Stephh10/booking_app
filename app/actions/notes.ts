@@ -3,6 +3,25 @@ import { Note } from "@/types/note";
 import { prisma as Prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 
+//CHANGE FLAG STATE
+
+export const changeNoteFlagState = async (
+  noteId: string,
+  newFlagState: boolean
+) => {
+  if (!noteId) {
+    return { error: "Invalid note ID" };
+  }
+
+  await Prisma.note.update({
+    where: { id: noteId },
+    data: { isFlagged: newFlagState },
+  });
+
+  revalidatePath("/dashboard/appointments");
+  return { success: true };
+};
+
 //CREATE NOTE
 
 export const createNote = async (noteData: Note) => {
