@@ -19,9 +19,8 @@ export default async function page({ params }: PageProps) {
     <div>
       <DashboardNav />
       <div className="p-4 bg-[var(--secondary)] rounded-2xl my-4">
-        <UserInfo appId={id}>
-          <AppProfileDrop />
-        </UserInfo>
+        <UserInfo appId={id} />
+
         <Tabs defaultValue="details" className="w-[600px]">
           <TabsList>
             <TabsTrigger className="cursor-pointer" value="details">

@@ -47,7 +47,10 @@ export const changeNoteFlagState = async (
 
 //CREATE NOTE
 
-export const createNote = async (noteData: Note) => {
+export const createNote = async (noteData: {
+  content: string;
+  appointmentId: string;
+}) => {
   try {
     if (!noteData.content || !noteData.appointmentId) {
       return { error: "Please enter valid data" };

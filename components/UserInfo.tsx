@@ -2,14 +2,9 @@ import React from "react";
 import { getAppPatient } from "@/app/actions/appointments";
 import { Patient } from "@/types/patient";
 import { Phone, AtSign, Hash } from "lucide-react";
+import { AppProfileDrop } from "@/app/dashboard/appointments/_components/AppProfileDrop";
 
-export default async function UserInfo({
-  appId,
-  children,
-}: {
-  appId: string;
-  children: React.ReactNode;
-}) {
+export default async function UserInfo({ appId }: { appId: string }) {
   const data: Patient | { error: string } = await getAppPatient(appId);
 
   if (data && "error" in data) {
@@ -40,7 +35,7 @@ export default async function UserInfo({
           )}
         </div>
       </div>
-      {children}
+      <AppProfileDrop patientId={patientData.id} />
     </div>
   );
 }
