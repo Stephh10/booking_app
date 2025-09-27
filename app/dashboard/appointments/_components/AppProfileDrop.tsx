@@ -14,7 +14,13 @@ import { useRouter } from "next/navigation";
 import { getAppPatient } from "@/app/actions/appointments";
 import { useTransition } from "react";
 
-export function AppProfileDrop({ patientId }: { patientId: string }) {
+export function AppProfileDrop({
+  patientId,
+  profileRouteId,
+}: {
+  patientId: string;
+  profileRouteId?: string;
+}) {
   const router = useRouter();
 
   function handleRedirect() {
@@ -35,16 +41,26 @@ export function AppProfileDrop({ patientId }: { patientId: string }) {
         sideOffset={4}
       >
         <DropdownMenuLabel>Edit Patient</DropdownMenuLabel>
-        <DropdownMenuGroup>
-          <DropdownMenuItem onClick={handleRedirect} className="cursor-pointer">
-            Patient Profile
-            <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
-          </DropdownMenuItem>
+        {profileRouteId ? (
           <DropdownMenuItem className="cursor-pointer">
-            Change Patient
+            Delete Patient
             <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
           </DropdownMenuItem>
-        </DropdownMenuGroup>
+        ) : (
+          <DropdownMenuGroup>
+            <DropdownMenuItem
+              onClick={handleRedirect}
+              className="cursor-pointer"
+            >
+              Patient Profile
+              <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
+            </DropdownMenuItem>
+            <DropdownMenuItem className="cursor-pointer">
+              Change Patient
+              <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
+            </DropdownMenuItem>
+          </DropdownMenuGroup>
+        )}
       </DropdownMenuContent>
     </DropdownMenu>
   );

@@ -5,6 +5,30 @@ import { prisma as Prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 import { Patient } from "@/types/patient";
 
+//GET SELECTED PATIENT
+
+export const getSelectedPatient = async (patientId: string) => {
+  try {
+    if (!patientId) {
+      return { error: "Patient Id is required" };
+    }
+
+    const patient = await Prisma.patient.findUnique({
+      where: {
+        id: patientId,
+      },
+    });
+
+    if (!patient) {
+      return { error: "Patient not found" };
+    }
+
+    return patient;
+  } catch (error) {
+    return { error: "Failed to fetch a patient" };
+  }
+};
+
 //CREATE PATIENT
 
 export const createPatient = async (data: Patient) => {
