@@ -4,14 +4,16 @@ import { Patient } from "@/types/patient";
 import { Phone, AtSign, Hash } from "lucide-react";
 import { AppProfileDrop } from "@/app/dashboard/appointments/_components/AppProfileDrop";
 
-export default async function UserInfo({ appId }: { appId: string }) {
-  const data: Patient | { error: string } = await getAppPatient(appId);
-
-  if (data && "error" in data) {
-    return <p>{data.error}</p>;
+export default async function UserInfo({
+  patientData,
+  profileRouteId,
+}: {
+  patientData: Patient | { error: string };
+  profileRouteId?: string;
+}) {
+  if (patientData && "error" in patientData) {
+    return <p>{patientData.error}</p>;
   }
-  const patientData = data as Patient;
-
   return (
     <div className="flex items-center justify-between bg-[var(--secondary)] p-4 rounded-xl mb-2 border-b-2 border-t-2">
       <div>
@@ -35,7 +37,10 @@ export default async function UserInfo({ appId }: { appId: string }) {
           )}
         </div>
       </div>
-      <AppProfileDrop patientId={patientData.id} />
+      <AppProfileDrop
+        patientId={patientData.id}
+        profileRouteId={profileRouteId}
+      />
     </div>
   );
 }

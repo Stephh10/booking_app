@@ -6,7 +6,8 @@ import AppHistory from "../_components/AppHistory";
 import AppNotes from "../_components/AppNotes";
 import AppAttachments from "../_components/AppAttachments";
 import DashboardNav from "../../_components/DashboardNav";
-import { AppProfileDrop } from "../_components/AppProfileDrop";
+import { getAppPatient } from "@/app/actions/appointments";
+import { Patient } from "@/types/patient";
 
 type PageProps = {
   params: Promise<{ id: string }>;
@@ -15,11 +16,13 @@ type PageProps = {
 export default async function page({ params }: PageProps) {
   const { id } = await params;
 
+  const data: Patient | { error: string } = await getAppPatient(id);
+
   return (
     <div>
       <DashboardNav />
       <div className="p-4 bg-[var(--secondary)] rounded-2xl my-4">
-        <UserInfo appId={id} />
+        <UserInfo patientData={data} />
 
         <Tabs defaultValue="details" className="w-[600px]">
           <TabsList>
