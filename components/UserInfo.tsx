@@ -1,10 +1,9 @@
 import React from "react";
-import { getAppPatient } from "@/app/actions/appointments";
 import { Patient } from "@/types/patient";
 import { Phone, AtSign, Hash } from "lucide-react";
 import { AppProfileDrop } from "@/app/dashboard/appointments/_components/AppProfileDrop";
 
-export default async function UserInfo({
+export default function UserInfo({
   patientData,
   profileRouteId,
 }: {

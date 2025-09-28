@@ -11,8 +11,6 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Ellipsis } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { getAppPatient } from "@/app/actions/appointments";
-import { useTransition } from "react";
 
 export function AppProfileDrop({
   patientId,

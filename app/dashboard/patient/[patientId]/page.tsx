@@ -1,9 +1,12 @@
 import React from "react";
-import { Phone, AtSign, Hash } from "lucide-react";
-import { AppProfileDrop } from "../../appointments/_components/AppProfileDrop";
 import { getSelectedPatient } from "@/app/actions/patients";
 import { Patient } from "@/types/patient";
 import UserInfo from "@/components/UserInfo";
+import DashboardNav from "../../_components/DashboardNav";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import AppHistory from "../../appointments/_components/AppHistory";
+import PatientDetails from "../_components/PatientDetails";
+import PatientAttachments from "../_components/PatientAttachments";
 
 export default async function page({
   params,
@@ -20,7 +23,32 @@ export default async function page({
 
   return (
     <div>
-      <UserInfo patientData={patientData} profileRouteId={patientId} />
+      <DashboardNav />
+      <div className="my-4">
+        <UserInfo patientData={patientData} profileRouteId={patientId} />
+        <Tabs defaultValue="details" className="w-[600px]">
+          <TabsList>
+            <TabsTrigger className="cursor-pointer" value="details">
+              Patient Details
+            </TabsTrigger>
+            <TabsTrigger className="cursor-pointer" value="history">
+              Patient History
+            </TabsTrigger>
+            <TabsTrigger className="cursor-pointer" value="attachments">
+              Attachments
+            </TabsTrigger>
+          </TabsList>
+          <TabsContent value="details">
+            <PatientDetails />
+          </TabsContent>
+          <TabsContent value="history">
+            <AppHistory />
+          </TabsContent>
+          <TabsContent value="attachments">
+            <PatientAttachments />
+          </TabsContent>
+        </Tabs>
+      </div>
     </div>
   );
 }
