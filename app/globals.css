@@ -116,6 +116,18 @@
   .outlineBtn {
     @apply bg-[var(--background)] shadow-xl p-2 rounded-xl cursor-pointer;
   }
+
+  .inputSection {
+    @apply flex gap-2;
+  }
+
+  .inputControl {
+    @apply flex flex-col flex-1 mb-1;
+  }
+
+  .inputControl input {
+    @apply h-[35px] pl-[5px] bg-[var(--background)] border-1 rounded-lg;
+  }
 }
 
 .dark {
