@@ -9,16 +9,17 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { InputDateSelector } from "@/components/InputDateSelector";
+import { useEditPatientState } from "@/store/useEditPatientState";
 
 export default function PatientDetails() {
-  let isEditing = false;
+  const { isEditing } = useEditPatientState();
 
   return (
     <div className="w-[450px]">
       <div className="inputSection">
         <div className="inputControl">
           <label htmlFor="">First Name</label>
-          {isEditing ? (
+          {!isEditing ? (
             <h2 className="formText">Kevin</h2>
           ) : (
             <input type="text" />
@@ -26,7 +27,7 @@ export default function PatientDetails() {
         </div>
         <div className="inputControl">
           <label htmlFor="">Last Name</label>
-          {isEditing ? (
+          {!isEditing ? (
             <h2 className="formText">Punter</h2>
           ) : (
             <input type="text" />
@@ -36,7 +37,7 @@ export default function PatientDetails() {
       <div className="inputSection">
         <div className="inputControl">
           <label htmlFor="">Gender</label>
-          {isEditing ? (
+          {!isEditing ? (
             <h2 className="formText">Male</h2>
           ) : (
             <Select>
@@ -55,7 +56,7 @@ export default function PatientDetails() {
         </div>
         <div className="inputControl">
           <label htmlFor="">Date of birth</label>
-          {isEditing ? (
+          {!isEditing ? (
             <h2 className="formText">12/11/1990</h2>
           ) : (
             <div className="w-full">
@@ -66,7 +67,7 @@ export default function PatientDetails() {
       </div>
       <div className="inputControl">
         <label htmlFor="">National Id (JMBG)</label>
-        {isEditing ? (
+        {!isEditing ? (
           <h2 className="formText">7346726487264823</h2>
         ) : (
           <input type="text" />
@@ -74,7 +75,7 @@ export default function PatientDetails() {
       </div>
       <div className="inputControl">
         <label htmlFor="">Email</label>
-        {isEditing ? (
+        {!isEditing ? (
           <h2 className="formText">kev@gmail.com</h2>
         ) : (
           <input type="text" />
@@ -82,7 +83,7 @@ export default function PatientDetails() {
       </div>
       <div className="inputControl">
         <label htmlFor="">Phone</label>
-        {isEditing ? (
+        {!isEditing ? (
           <h2 className="formText">387 65 223 345</h2>
         ) : (
           <input type="number" />
@@ -91,7 +92,7 @@ export default function PatientDetails() {
       <div className="inputSection">
         <div className="inputControl">
           <label htmlFor="">City</label>
-          {isEditing ? (
+          {!isEditing ? (
             <h2 className="formText">Banja Luka</h2>
           ) : (
             <input type="text" />
@@ -99,7 +100,7 @@ export default function PatientDetails() {
         </div>
         <div className="inputControl">
           <label htmlFor="">Postal Code</label>
-          {isEditing ? (
+          {!isEditing ? (
             <h2 className="formText">78000</h2>
           ) : (
             <input type="number" />
