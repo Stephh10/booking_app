@@ -2,6 +2,7 @@ import React from "react";
 import { Patient } from "@/types/patient";
 import { Phone, AtSign, Hash } from "lucide-react";
 import { AppProfileDrop } from "@/app/dashboard/appointments/_components/AppProfileDrop";
+import { SquarePen } from "lucide-react";
 
 export default function UserInfo({
   patientData,
@@ -36,10 +37,17 @@ export default function UserInfo({
           )}
         </div>
       </div>
-      <AppProfileDrop
-        patientId={patientData.id}
-        profileRouteId={profileRouteId}
-      />
+      <div className="flex items-center gap-4">
+        {profileRouteId && (
+          <button className="outlineBtn">
+            <SquarePen size={20} />
+          </button>
+        )}
+        <AppProfileDrop
+          patientId={patientData.id}
+          profileRouteId={profileRouteId}
+        />
+      </div>
     </div>
   );
 }

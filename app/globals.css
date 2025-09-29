@@ -92,6 +92,10 @@
     @apply border border-gray-300 rounded px-4 py-2 w-full mb-2 rounded-lg;
   }
 
+  .formText {
+    @apply h-[35px] text-[var(--text-soft)];
+  }
+
   .formBtn {
     @apply bg-[var(--btn-primary)] text-[var(--text)] h-[40px] rounded-lg cursor-pointer;
   }
@@ -102,7 +106,6 @@
 
   .activeLink {
     @apply border-l;
-    border-color: var(--btn-primary);
   }
 
   .primaryBtn {

@@ -5,7 +5,6 @@ import { ChevronDownIcon } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
-import { Label } from "@/components/ui/label";
 import {
   Popover,
   PopoverContent,
@@ -22,7 +21,7 @@ export function InputDateSelector() {
         <Button
           variant="outline"
           id="date"
-          className="data-[empty=true]:text-muted-foreground w-full justify-between font-normal text-[var(--text-soft)]"
+          className="data-[empty=true]:text-muted-foreground w-full justify-between font-normal text-[var(--text-soft)] hover:text-[var(--text-soft)]"
         >
           {date ? date.toLocaleDateString() : "Select date"}
           <ChevronDownIcon />
