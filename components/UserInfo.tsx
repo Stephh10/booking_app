@@ -55,12 +55,12 @@ export default function UserInfo({
               >
                 <X />
               </button>
-              <button
+              {/* <button
                 onClick={() => setIsEditing(false)}
                 className="outlineBtn bg-[var(--btn-primary)] text-[var(--bg)]"
               >
                 <Save />
-              </button>
+              </button> */}
             </div>
           ))}
         <AppProfileDrop

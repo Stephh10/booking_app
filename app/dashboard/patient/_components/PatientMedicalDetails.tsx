@@ -114,6 +114,11 @@ export default function PatientMedicalDetails() {
           )}
         </div>
       </div>
+      {isEditing && (
+        <div className="mt-4">
+          <button className="primaryBtn w-[220px] ml-auto ">Update</button>
+        </div>
+      )}
     </form>
   );
 }
