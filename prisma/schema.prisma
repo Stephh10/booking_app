@@ -7,6 +7,8 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+//USER MODEL
+
 model User {
   id        String   @id @default(cuid())
   firstName String
@@ -19,6 +21,8 @@ model User {
 
   appointments Appointment[]
 }
+
+//PATIENT MODEL
 
 model Patient {
   id String @id @default(cuid())
@@ -37,7 +41,29 @@ model Patient {
 
   doctorId String
 
-  appointments Appointment[]
+  appointments   Appointment[]
+  medicalDetails MedicalDetails?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model MedicalDetails {
+  id        String  @id @default(cuid())
+  patientId String  @unique
+  patient   Patient @relation(fields: [patientId], references: [id])
+
+  diagnosis       String?
+  bloodType       String?
+  allergies       String?
+  chronicDiseases String?
+  medications     String?
+  surgeries       String?
+  familyHistory   String?
+  height          Float?
+  weight          Float?
+  bloodPressure   String?
+  heartRate       Int?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -48,6 +74,8 @@ enum Gender {
   FEMALE
   OTHER
 }
+
+//APPOINTMENT MODEL
 
 model Appointment {
   id        String   @id @default(cuid())
@@ -65,6 +93,8 @@ model Appointment {
   patient Patient? @relation(fields: [patientId], references: [id])
   Note    Note[]
 }
+
+//NOTE MODEL
 
 model Note {
   id            String      @id @default(cuid())

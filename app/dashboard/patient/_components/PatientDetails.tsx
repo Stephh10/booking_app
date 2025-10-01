@@ -15,7 +15,7 @@ export default function PatientDetails() {
   const { isEditing } = useEditPatientState();
 
   return (
-    <div className="w-[450px]">
+    <form className="w-[450px]">
       <div className="inputSection">
         <div className="inputControl">
           <label htmlFor="">First Name</label>
@@ -107,6 +107,6 @@ export default function PatientDetails() {
           )}
         </div>
       </div>
-    </div>
+    </form>
   );
 }
