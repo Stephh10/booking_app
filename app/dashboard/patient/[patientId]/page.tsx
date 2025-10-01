@@ -7,6 +7,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import AppHistory from "../../appointments/_components/AppHistory";
 import PatientDetails from "../_components/PatientDetails";
 import PatientAttachments from "../_components/PatientAttachments";
+import PatientMedicalDetails from "../_components/PatientMedicalDetails";
 
 export default async function page({
   params,
@@ -31,6 +32,9 @@ export default async function page({
             <TabsTrigger className="cursor-pointer" value="details">
               Patient Details
             </TabsTrigger>
+            <TabsTrigger className="cursor-pointer" value="medical-details">
+              Medical Details
+            </TabsTrigger>
             <TabsTrigger className="cursor-pointer" value="history">
               Patient History
             </TabsTrigger>
@@ -40,6 +44,9 @@ export default async function page({
           </TabsList>
           <TabsContent value="details">
             <PatientDetails />
+          </TabsContent>
+          <TabsContent value="medical-details">
+            <PatientMedicalDetails />
           </TabsContent>
           <TabsContent value="history">
             <AppHistory />
