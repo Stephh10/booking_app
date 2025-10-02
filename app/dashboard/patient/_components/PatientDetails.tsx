@@ -10,29 +10,30 @@ import {
 } from "@/components/ui/select";
 import { InputDateSelector } from "@/components/InputDateSelector";
 import { useEditPatientState } from "@/store/useEditPatientState";
+import { useState } from "react";
+import EditableField from "./EditableField";
 
 export default function PatientDetails() {
   const { isEditing } = useEditPatientState();
+  const [formData, setFormData] = useState({});
 
   return (
     <form className="w-[450px]">
       <div className="inputSection">
-        <div className="inputControl">
-          <label htmlFor="">First Name</label>
-          {!isEditing ? (
-            <h2 className="formText">Kevin</h2>
-          ) : (
-            <input type="text" />
-          )}
-        </div>
-        <div className="inputControl">
-          <label htmlFor="">Last Name</label>
-          {!isEditing ? (
-            <h2 className="formText">Punter</h2>
-          ) : (
-            <input type="text" />
-          )}
-        </div>
+        <EditableField
+          label="First Name"
+          name="firstname"
+          inputData="Kevin"
+          isEditing={isEditing}
+          setFormData={setFormData}
+        />
+        <EditableField
+          label="Last Name"
+          name="lastname"
+          inputData="Punter"
+          isEditing={isEditing}
+          setFormData={setFormData}
+        />
       </div>
       <div className="inputSection">
         <div className="inputControl">
@@ -65,47 +66,42 @@ export default function PatientDetails() {
           )}
         </div>
       </div>
-      <div className="inputControl">
-        <label htmlFor="">National Id (JMBG)</label>
-        {!isEditing ? (
-          <h2 className="formText">7346726487264823</h2>
-        ) : (
-          <input type="text" />
-        )}
-      </div>
-      <div className="inputControl">
-        <label htmlFor="">Email</label>
-        {!isEditing ? (
-          <h2 className="formText">kev@gmail.com</h2>
-        ) : (
-          <input type="text" />
-        )}
-      </div>
-      <div className="inputControl">
-        <label htmlFor="">Phone</label>
-        {!isEditing ? (
-          <h2 className="formText">387 65 223 345</h2>
-        ) : (
-          <input type="number" />
-        )}
-      </div>
+      <EditableField
+        label="National ID"
+        name="nationalId"
+        inputData="34234234234234234"
+        isEditing={isEditing}
+        setFormData={setFormData}
+      />
+      <EditableField
+        label="Email"
+        name="email"
+        inputData="kev@gmail.com"
+        isEditing={isEditing}
+        setFormData={setFormData}
+      />
+      <EditableField
+        label="Phone"
+        name="phone"
+        inputData="387 65 223 345"
+        isEditing={isEditing}
+        setFormData={setFormData}
+      />
       <div className="inputSection">
-        <div className="inputControl">
-          <label htmlFor="">City</label>
-          {!isEditing ? (
-            <h2 className="formText">Banja Luka</h2>
-          ) : (
-            <input type="text" />
-          )}
-        </div>
-        <div className="inputControl">
-          <label htmlFor="">Postal Code</label>
-          {!isEditing ? (
-            <h2 className="formText">78000</h2>
-          ) : (
-            <input type="number" />
-          )}
-        </div>
+        <EditableField
+          label="City"
+          name="city"
+          inputData="New York"
+          isEditing={isEditing}
+          setFormData={setFormData}
+        />
+        <EditableField
+          label="Postal Code"
+          name="postalCode"
+          inputData="78000"
+          isEditing={isEditing}
+          setFormData={setFormData}
+        />
       </div>
       {isEditing && (
         <div className="mt-4">
