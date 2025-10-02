@@ -11,7 +11,12 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 
-export function InputDateSelector() {
+interface InputDateSelectorProps {
+  value?: Date | string;
+  onChange: (date: Date) => void;
+}
+
+export function InputDateSelector({ value, onChange }: InputDateSelectorProps) {
   const [open, setOpen] = React.useState(false);
   const [date, setDate] = React.useState<Date | undefined>(undefined);
 
@@ -33,7 +38,7 @@ export function InputDateSelector() {
           selected={date}
           captionLayout="dropdown"
           onSelect={(date) => {
-            setDate(date);
+            if (date) onChange(date);
             setOpen(false);
           }}
         />

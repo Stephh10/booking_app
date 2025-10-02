@@ -12,27 +12,48 @@ import { InputDateSelector } from "@/components/InputDateSelector";
 import { useEditPatientState } from "@/store/useEditPatientState";
 import { useState } from "react";
 import EditableField from "./EditableField";
+import { useForm, SubmitHandler } from "react-hook-form";
+import { Controller } from "react-hook-form";
+
+type Inputs = {
+  firstname: string;
+  lastname: string;
+  gender: string;
+  nationalId: string;
+  email: string;
+  phone: string;
+  city: string;
+  postalCode: string;
+  dateOfBirth: Date | string;
+};
 
 export default function PatientDetails() {
   const { isEditing } = useEditPatientState();
-  const [formData, setFormData] = useState({});
+  const {
+    register,
+    handleSubmit,
+    watch,
+    control,
+    formState: { errors },
+  } = useForm<Inputs>();
+  const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data);
 
   return (
-    <form className="w-[450px]">
+    <form className="w-[450px]" onSubmit={handleSubmit(onSubmit)}>
       <div className="inputSection">
         <EditableField
           label="First Name"
           name="firstname"
           inputData="Kevin"
           isEditing={isEditing}
-          setFormData={setFormData}
+          register={register}
         />
         <EditableField
           label="Last Name"
           name="lastname"
           inputData="Punter"
           isEditing={isEditing}
-          setFormData={setFormData}
+          register={register}
         />
       </div>
       <div className="inputSection">
@@ -41,18 +62,21 @@ export default function PatientDetails() {
           {!isEditing ? (
             <h2 className="formText">Male</h2>
           ) : (
-            <Select>
-              <SelectTrigger className="w-full bg-[var(--background)]">
-                <SelectValue
-                  placeholder="Select Gender"
-                  className="text-[var(--text-soft)]"
-                />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="light">Male</SelectItem>
-                <SelectItem value="dark">Female</SelectItem>
-              </SelectContent>
-            </Select>
+            <Controller
+              name="gender"
+              control={control}
+              render={({ field }) => (
+                <Select onValueChange={field.onChange} value={field.value}>
+                  <SelectTrigger className="w-full bg-[var(--background)]">
+                    <SelectValue placeholder="Select Gender" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="male">Male</SelectItem>
+                    <SelectItem value="female">Female</SelectItem>
+                  </SelectContent>
+                </Select>
+              )}
+            />
           )}
         </div>
         <div className="inputControl">
@@ -60,9 +84,16 @@ export default function PatientDetails() {
           {!isEditing ? (
             <h2 className="formText">12/11/1990</h2>
           ) : (
-            <div className="w-full">
-              <InputDateSelector />
-            </div>
+            <Controller
+              name="dateOfBirth"
+              control={control}
+              render={({ field }) => (
+                <InputDateSelector
+                  value={field.value}
+                  onChange={field.onChange}
+                />
+              )}
+            />
           )}
         </div>
       </div>
@@ -71,21 +102,21 @@ export default function PatientDetails() {
         name="nationalId"
         inputData="34234234234234234"
         isEditing={isEditing}
-        setFormData={setFormData}
+        register={register}
       />
       <EditableField
         label="Email"
         name="email"
         inputData="kev@gmail.com"
         isEditing={isEditing}
-        setFormData={setFormData}
+        register={register}
       />
       <EditableField
         label="Phone"
         name="phone"
         inputData="387 65 223 345"
         isEditing={isEditing}
-        setFormData={setFormData}
+        register={register}
       />
       <div className="inputSection">
         <EditableField
@@ -93,14 +124,14 @@ export default function PatientDetails() {
           name="city"
           inputData="New York"
           isEditing={isEditing}
-          setFormData={setFormData}
+          register={register}
         />
         <EditableField
           label="Postal Code"
           name="postalCode"
           inputData="78000"
           isEditing={isEditing}
-          setFormData={setFormData}
+          register={register}
         />
       </div>
       {isEditing && (

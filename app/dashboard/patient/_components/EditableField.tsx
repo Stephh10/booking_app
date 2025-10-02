@@ -1,11 +1,10 @@
-import { Input } from "@/components/ui/input";
 import React from "react";
 type FieldProps = {
   label: string;
   name: string;
   inputData: string | number;
   isEditing: boolean;
-  setFormData: React.Dispatch<React.SetStateAction<any>>;
+  register?: any;
 };
 
 export default function EditableField({
@@ -13,7 +12,7 @@ export default function EditableField({
   name,
   inputData,
   isEditing,
-  setFormData,
+  register,
 }: FieldProps) {
   return (
     <div className="inputControl">
@@ -21,14 +20,7 @@ export default function EditableField({
       {!isEditing ? (
         <h2 className="formText">{inputData}</h2>
       ) : (
-        <input
-          id={name}
-          name={name}
-          type="text"
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-            setFormData((prev: any) => ({ ...prev, [name]: e.target.value }))
-          }
-        />
+        <input id={name} name={name} type="text" {...register(name)} />
       )}
     </div>
   );
