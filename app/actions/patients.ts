@@ -4,6 +4,24 @@ import { auth } from "@/auth";
 import { prisma as Prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 import { Patient } from "@/types/patient";
+import { PatientDataForm } from "@/types/patientDataForm";
+
+//UPDATE SELECTED PATIENT
+
+export const updateSelectedPatient = async (patientData: PatientDataForm) => {
+  try {
+    await Prisma.patient.update({
+      where: {
+        id: patientData.id,
+      },
+      data: patientData,
+    });
+    revalidatePath(`/dashboard/patient/${patientData.id}`);
+    return { success: true };
+  } catch (error) {
+    return { error: "Failed to update patient" };
+  }
+};
 
 //GET SELECTED PATIENT
 

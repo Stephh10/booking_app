@@ -10,48 +10,79 @@ import {
 } from "@/components/ui/select";
 import { InputDateSelector } from "@/components/InputDateSelector";
 import { useEditPatientState } from "@/store/useEditPatientState";
-import { useState } from "react";
 import EditableField from "./EditableField";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { Controller } from "react-hook-form";
+import { PatientDataForm } from "@/types/patientDataForm";
+import { useTransition } from "react";
+import { Patient } from "@/types/patient";
+import { updateSelectedPatient } from "@/app/actions/patients";
+import { formatBirthDate } from "@/lib/formatBirthDate";
 
-type Inputs = {
-  firstname: string;
-  lastname: string;
-  gender: string;
-  nationalId: string;
-  email: string;
-  phone: string;
-  city: string;
-  postalCode: string;
-  dateOfBirth: Date | string;
-};
-
-export default function PatientDetails() {
-  const { isEditing } = useEditPatientState();
+export default function PatientDetails({
+  patientData,
+}: {
+  patientData: Patient;
+}) {
+  const { isEditing, setIsEditing } = useEditPatientState();
   const {
     register,
     handleSubmit,
-    watch,
     control,
     formState: { errors },
-  } = useForm<Inputs>();
-  const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data);
+  } = useForm<PatientDataForm>();
+
+  const [isPending, startTransition] = useTransition();
+
+  const {
+    id,
+    firstName,
+    lastName,
+    gender,
+    dateOfBirth,
+    nationalId,
+    email,
+    city,
+    phone,
+    postalCode,
+  } = patientData;
+
+  const formatedDateOfBirth = dateOfBirth
+    ? formatBirthDate(dateOfBirth)
+    : "Add information";
+
+  const defaultValue = "Add information";
+
+  function handleFormSubmit(data: PatientDataForm) {
+    startTransition(async () => {
+      const patientData = {
+        ...data,
+        id,
+      };
+      const updatedPatient = await updateSelectedPatient(patientData);
+
+      if ("error" in updatedPatient) {
+        console.log("Something went wrong");
+      }
+
+      setIsEditing(false);
+    });
+  }
 
   return (
-    <form className="w-[450px]" onSubmit={handleSubmit(onSubmit)}>
+    <form className="w-[450px]" onSubmit={handleSubmit(handleFormSubmit)}>
       <div className="inputSection">
         <EditableField
           label="First Name"
-          name="firstname"
-          inputData="Kevin"
+          name="firstName"
+          inputData={firstName}
           isEditing={isEditing}
           register={register}
         />
         <EditableField
           label="Last Name"
-          name="lastname"
-          inputData="Punter"
+          name="lastName"
+          inputData={lastName}
           isEditing={isEditing}
           register={register}
         />
@@ -60,7 +91,7 @@ export default function PatientDetails() {
         <div className="inputControl">
           <label htmlFor="">Gender</label>
           {!isEditing ? (
-            <h2 className="formText">Male</h2>
+            <h2 className="formText">{gender ?? defaultValue}</h2>
           ) : (
             <Controller
               name="gender"
@@ -82,7 +113,7 @@ export default function PatientDetails() {
         <div className="inputControl">
           <label htmlFor="">Date of birth</label>
           {!isEditing ? (
-            <h2 className="formText">12/11/1990</h2>
+            <h2 className="formText">{formatedDateOfBirth}</h2>
           ) : (
             <Controller
               name="dateOfBirth"
@@ -100,21 +131,21 @@ export default function PatientDetails() {
       <EditableField
         label="National ID"
         name="nationalId"
-        inputData="34234234234234234"
+        inputData={nationalId ?? defaultValue}
         isEditing={isEditing}
         register={register}
       />
       <EditableField
         label="Email"
         name="email"
-        inputData="kev@gmail.com"
+        inputData={email ?? defaultValue}
         isEditing={isEditing}
         register={register}
       />
       <EditableField
         label="Phone"
         name="phone"
-        inputData="387 65 223 345"
+        inputData={phone ?? defaultValue}
         isEditing={isEditing}
         register={register}
       />
@@ -122,14 +153,14 @@ export default function PatientDetails() {
         <EditableField
           label="City"
           name="city"
-          inputData="New York"
+          inputData={city ?? defaultValue}
           isEditing={isEditing}
           register={register}
         />
         <EditableField
           label="Postal Code"
           name="postalCode"
-          inputData="78000"
+          inputData={postalCode ?? defaultValue}
           isEditing={isEditing}
           register={register}
         />

@@ -30,12 +30,11 @@ model Patient {
   firstName   String
   lastName    String
   dateOfBirth DateTime?
-  gender      Gender?
+  gender      String?
   nationalId  String?   @unique
 
   email      String?
   phone      String?
-  address    String?
   city       String?
   postalCode String?
 
@@ -67,12 +66,6 @@ model MedicalDetails {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-}
-
-enum Gender {
-  MALE
-  FEMALE
-  OTHER
 }
 
 //APPOINTMENT MODEL

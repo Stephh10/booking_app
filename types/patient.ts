@@ -10,4 +10,9 @@ export interface Patient {
   createdAt: Date;
   updatedAt: Date;
   appointments?: Appointment[];
+  gender?: string;
+  dateOfBirth?: Date | string;
+  nationalId?: string;
+  city?: string;
+  postalCode?: string;
 }

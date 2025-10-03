@@ -22,6 +22,12 @@ export default async function page({
   }
   const patientData = data as Patient;
 
+  console.log(patientData);
+
+  if (!patientData) {
+    return <p>Patient not found</p>;
+  }
+
   return (
     <div>
       <DashboardNav />
@@ -43,7 +49,7 @@ export default async function page({
             </TabsTrigger>
           </TabsList>
           <TabsContent value="details">
-            <PatientDetails />
+            <PatientDetails patientData={patientData} />
           </TabsContent>
           <TabsContent value="medical-details">
             <PatientMedicalDetails />
