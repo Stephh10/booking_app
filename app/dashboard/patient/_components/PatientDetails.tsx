@@ -78,6 +78,7 @@ export default function PatientDetails({
           inputData={firstName}
           isEditing={isEditing}
           register={register}
+          errors={errors}
         />
         <EditableField
           label="Last Name"
@@ -85,6 +86,7 @@ export default function PatientDetails({
           inputData={lastName}
           isEditing={isEditing}
           register={register}
+          errors={errors}
         />
       </div>
       <div className="inputSection">
@@ -134,6 +136,7 @@ export default function PatientDetails({
         inputData={nationalId ?? defaultValue}
         isEditing={isEditing}
         register={register}
+        errors={errors}
       />
       <EditableField
         label="Email"
@@ -141,6 +144,7 @@ export default function PatientDetails({
         inputData={email ?? defaultValue}
         isEditing={isEditing}
         register={register}
+        errors={errors}
       />
       <EditableField
         label="Phone"
@@ -148,6 +152,7 @@ export default function PatientDetails({
         inputData={phone ?? defaultValue}
         isEditing={isEditing}
         register={register}
+        errors={errors}
       />
       <div className="inputSection">
         <EditableField
@@ -156,6 +161,7 @@ export default function PatientDetails({
           inputData={city ?? defaultValue}
           isEditing={isEditing}
           register={register}
+          errors={errors}
         />
         <EditableField
           label="Postal Code"
@@ -163,11 +169,14 @@ export default function PatientDetails({
           inputData={postalCode ?? defaultValue}
           isEditing={isEditing}
           register={register}
+          errors={errors}
         />
       </div>
       {isEditing && (
         <div className="mt-4">
-          <button className="primaryBtn w-[220px] ml-auto ">Update</button>
+          <button className="primaryBtn w-[220px] ml-auto ">
+            {isPending ? "Updating..." : "Update"}
+          </button>
         </div>
       )}
     </form>
