@@ -5,6 +5,41 @@ import { prisma as Prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 import { Patient } from "@/types/patient";
 import { PatientDataForm } from "@/types/patientDataForm";
+import { MedicalDetails } from "@prisma/client";
+
+//EDIT PATIENT MEDICAL DETAILS
+
+export const editPatientMedicalDetails = async (
+  medDataId: string,
+  medData: MedicalDetails
+) => {
+  try {
+    if (!medDataId) {
+      return { error: "Medical data Id is required" };
+    }
+    const formatedData = {
+      ...medData,
+      height: Number(medData.height),
+      weight: Number(medData.weight),
+      heartRate: Number(medData.heartRate),
+    };
+
+    const updatedUser = await Prisma.medicalDetails.update({
+      where: { id: medDataId },
+      data: formatedData,
+    });
+
+    if (!updatedUser) {
+      return { error: "Failed to update patient medical details" };
+    }
+
+    revalidatePath(`/dashboard/patient/${updatedUser.patientId}`);
+
+    return { success: true };
+  } catch (error) {
+    return { error: "Failed to update User" };
+  }
+};
 
 //GET PATIENT MEDICAL DETAILS
 
@@ -19,8 +54,6 @@ export const getPatientMedicalDetails = async (patientId: string) => {
         patientId: patientId,
       },
     });
-
-    console.log(patient);
 
     if (!patient) {
       return { error: "Patient not found" };

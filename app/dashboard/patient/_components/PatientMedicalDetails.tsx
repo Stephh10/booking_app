@@ -13,6 +13,8 @@ import { useForm } from "react-hook-form";
 import EditableField from "./EditableField";
 import { Controller } from "react-hook-form";
 import { MedicalDetails } from "@prisma/client";
+import { editPatientMedicalDetails } from "@/app/actions/patients";
+import { useTransition } from "react";
 
 export default function PatientMedicalDetails({
   patientMedData,
@@ -20,6 +22,7 @@ export default function PatientMedicalDetails({
   patientMedData: MedicalDetails;
 }) {
   const {
+    id,
     diagnosis,
     medications,
     familyHistory,
@@ -34,7 +37,8 @@ export default function PatientMedicalDetails({
   } = patientMedData;
   const defaultValue = "Add information";
 
-  const { isEditing } = useEditPatientState();
+  const { isEditing, setIsEditing } = useEditPatientState();
+  const [isPending, startTransition] = useTransition();
   const {
     register,
     handleSubmit,
@@ -43,7 +47,10 @@ export default function PatientMedicalDetails({
   } = useForm<MedicalDetails>();
 
   function handleMedDetailsSubmit(data: MedicalDetails) {
-    console.log(data);
+    startTransition(async () => {
+      await editPatientMedicalDetails(id, data);
+      setIsEditing(false);
+    });
   }
 
   return (

@@ -16,7 +16,7 @@ export default async function page({
 }: {
   params: { patientId: string };
 }) {
-  const { patientId } = params;
+  const { patientId } = await params;
 
   // PATIENT DATA
 
@@ -34,8 +34,6 @@ export default async function page({
 
   const patientMedicalDetails: MedicalDetails | { error: string } =
     await getPatientMedicalDetails(patientId);
-
-  console.log(patientMedicalDetails);
 
   return (
     <div>
