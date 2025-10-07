@@ -11,7 +11,7 @@ import {
 import { InputDateSelector } from "@/components/InputDateSelector";
 import { useEditPatientState } from "@/store/useEditPatientState";
 import EditableField from "./EditableField";
-import { useForm, SubmitHandler } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { Controller } from "react-hook-form";
 import { PatientDataForm } from "@/types/patientDataForm";
 import { useTransition } from "react";
@@ -47,11 +47,11 @@ export default function PatientDetails({
     postalCode,
   } = patientData;
 
+  const defaultValue = "Add information";
+
   const formatedDateOfBirth = dateOfBirth
     ? formatBirthDate(dateOfBirth)
-    : "Add information";
-
-  const defaultValue = "Add information";
+    : defaultValue;
 
   function handleFormSubmit(data: PatientDataForm) {
     startTransition(async () => {
@@ -174,7 +174,10 @@ export default function PatientDetails({
       </div>
       {isEditing && (
         <div className="mt-4">
-          <button className="primaryBtn w-[220px] ml-auto ">
+          <button
+            disabled={isPending}
+            className="primaryBtn w-[220px] ml-auto "
+          >
             {isPending ? "Updating..." : "Update"}
           </button>
         </div>

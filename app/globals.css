@@ -121,15 +121,15 @@
   }
 
   .inputSection {
-    @apply flex gap-2;
+    @apply flex gap-2 w-full;
   }
 
   .inputControl {
-    @apply flex flex-col flex-1 mb-1;
+    @apply flex-col flex-1 mb-1 overflow-x-hidden;
   }
 
   .inputControl input {
-    @apply h-[35px] pl-[5px] bg-[var(--background)] border-1 rounded-lg;
+    @apply h-[35px] pl-[5px] bg-[var(--background)] rounded-lg w-full;
   }
 }
 

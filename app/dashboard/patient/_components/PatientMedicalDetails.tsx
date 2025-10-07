@@ -9,110 +9,148 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useEditPatientState } from "@/store/useEditPatientState";
+import { useForm } from "react-hook-form";
+import EditableField from "./EditableField";
+import { Controller } from "react-hook-form";
+import { MedicalDetails } from "@prisma/client";
 
 export default function PatientMedicalDetails() {
   const { isEditing } = useEditPatientState();
+  const {
+    register,
+    handleSubmit,
+    control,
+    formState: { errors },
+  } = useForm<MedicalDetails>();
+
+  function handleMedDetailsSubmit(data: MedicalDetails) {
+    console.log(data);
+  }
 
   return (
-    <form className="w-[450px]">
-      <div className="inputControl">
-        <label htmlFor="">Diagnosis</label>
-        {!isEditing ? (
-          <h2 className="formText">Diabetes mellitus</h2>
-        ) : (
-          <input name="diagnosis" type="text" />
-        )}
-      </div>
-      <div className="inputControl">
-        <label htmlFor="">Allergies</label>
-        {!isEditing ? (
-          <h2 className="formText">None</h2>
-        ) : (
-          <input type="text" />
-        )}
-      </div>
-
-      <div className="inputControl">
-        <label htmlFor="">Medication</label>
-        {!isEditing ? (
-          <h2 className="formText">Apaurin</h2>
-        ) : (
-          <input type="text" />
-        )}
-      </div>
-      <div className="inputControl">
-        <label htmlFor="">Family History</label>
-        {!isEditing ? (
-          <h2 className="formText">None</h2>
-        ) : (
-          <input type="text" />
-        )}
-      </div>
+    <form className="w-[450px]" onSubmit={handleSubmit(handleMedDetailsSubmit)}>
+      <EditableField
+        label="Diagnosis"
+        name="diagnosis"
+        inputData="Diabetes mellitus"
+        isEditing={isEditing}
+        register={register}
+        errors={errors}
+      />
+      <EditableField
+        label="Medications"
+        name="medications"
+        inputData="Apaurin"
+        isEditing={isEditing}
+        register={register}
+        errors={errors}
+      />
+      <EditableField
+        label="Family History"
+        name="familyHistory"
+        inputData="None"
+        isEditing={isEditing}
+        register={register}
+        errors={errors}
+      />
       <div className="inputSection">
         <div className="inputControl">
           <label htmlFor="">BloodType</label>
           {!isEditing ? (
             <h2 className="formText">AB</h2>
           ) : (
-            <Select>
-              <SelectTrigger className="w-full bg-[var(--background)]">
-                <SelectValue
-                  placeholder="Blood Type"
-                  className="text-[var(--text-soft)]"
-                />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="light">Male</SelectItem>
-                <SelectItem value="dark">Female</SelectItem>
-              </SelectContent>
-            </Select>
+            <Controller
+              name="bloodType"
+              control={control}
+              render={({ field }) => (
+                <Select
+                  onValueChange={field.onChange}
+                  value={field.value ?? undefined}
+                >
+                  <SelectTrigger className="w-full bg-[var(--background)]">
+                    <SelectValue
+                      placeholder="Blood Type"
+                      className="text-[var(--text-soft)]"
+                    />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="A+">A+</SelectItem>
+                    <SelectItem value="A-">A-</SelectItem>
+                    <SelectItem value="B+">B+</SelectItem>
+                    <SelectItem value="B-">B-</SelectItem>
+                    <SelectItem value="AB+">AB+</SelectItem>
+                    <SelectItem value="AB-">AB-</SelectItem>
+                    <SelectItem value="O+">O+</SelectItem>
+                    <SelectItem value="O-">O-</SelectItem>
+                  </SelectContent>
+                </Select>
+              )}
+            />
           )}
         </div>
-        <div className="inputControl">
-          <label htmlFor="">Chronic Diseases</label>
-          {!isEditing ? (
-            <h2 className="formText">None</h2>
-          ) : (
-            <input type="text" />
-          )}
-        </div>
+        <EditableField
+          label="Chronic Diseases"
+          name="chronicDiseases"
+          inputData="None"
+          isEditing={isEditing}
+          register={register}
+          errors={errors}
+        />
       </div>
       <div className="inputSection">
-        <div className="inputControl">
-          <label htmlFor="">Blood Pressure</label>
-          {!isEditing ? (
-            <h2 className="formText">120/140</h2>
-          ) : (
-            <input type="number" />
-          )}
-        </div>
-        <div className="inputControl">
-          <label htmlFor="">Heart Rate</label>
-          {!isEditing ? (
-            <h2 className="formText">78</h2>
-          ) : (
-            <input type="number" />
-          )}
-        </div>
+        <EditableField
+          label="Blood Pressure"
+          name="bloodPressure"
+          inputData="120/142"
+          isEditing={isEditing}
+          register={register}
+          errors={errors}
+        />
+        <EditableField
+          label="Heart Rate"
+          name="heartRate"
+          inputData="72"
+          isEditing={isEditing}
+          register={register}
+          errors={errors}
+        />
       </div>
 
       <div className="inputSection">
-        <div className="inputControl">
-          <label htmlFor="">Weight</label>
-          {!isEditing ? (
-            <h2 className="formText">82kg</h2>
-          ) : (
-            <input type="text" />
-          )}
-        </div>
-        <div className="inputControl">
-          <label htmlFor="">Height</label>
-          {!isEditing ? (
-            <h2 className="formText">1.82</h2>
-          ) : (
-            <input type="number" />
-          )}
-        </div>
+        <EditableField
+          label="Weight"
+          name="weight"
+          inputData="78kg"
+          isEditing={isEditing}
+          register={register}
+          errors={errors}
+        />
+        <EditableField
+          label="Height"
+          name="height"
+          inputData="182cm"
+          isEditing={isEditing}
+          register={register}
+          errors={errors}
+        />
+      </div>
+      <div className="inputSection">
+        <EditableField
+          label="Allergies"
+          name="allergies"
+          inputData="None"
+          isEditing={isEditing}
+          register={register}
+          errors={errors}
+        />
+        <EditableField
+          label="Surgeries"
+          name="surgeries"
+          inputData="Currently none"
+          isEditing={isEditing}
+          register={register}
+          errors={errors}
+        />
       </div>
       {isEditing && (
         <div className="mt-4">
