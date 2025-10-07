@@ -6,6 +6,32 @@ import { revalidatePath } from "next/cache";
 import { Patient } from "@/types/patient";
 import { PatientDataForm } from "@/types/patientDataForm";
 
+//GET PATIENT MEDICAL DETAILS
+
+export const getPatientMedicalDetails = async (patientId: string) => {
+  try {
+    if (!patientId) {
+      return { error: "Patient Id is required" };
+    }
+
+    const patient = await Prisma.medicalDetails.findUnique({
+      where: {
+        patientId: patientId,
+      },
+    });
+
+    console.log(patient);
+
+    if (!patient) {
+      return { error: "Patient not found" };
+    }
+
+    return patient;
+  } catch (error) {
+    return { error: "Failed to fetch a patient" };
+  }
+};
+
 //UPDATE SELECTED PATIENT
 
 export const updateSelectedPatient = async (patientData: PatientDataForm) => {
@@ -95,6 +121,18 @@ export const createPatient = async (data: Patient) => {
         email: data.email || null,
         phone: data.phone || null,
         doctorId: activeUser.id,
+      },
+    });
+  }
+
+  const existingMedical = await Prisma.medicalDetails.findUnique({
+    where: { patientId: patient.id },
+  });
+
+  if (!existingMedical) {
+    await Prisma.medicalDetails.create({
+      data: {
+        patientId: patient.id,
       },
     });
   }

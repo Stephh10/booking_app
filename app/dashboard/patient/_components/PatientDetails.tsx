@@ -15,7 +15,7 @@ import { useForm } from "react-hook-form";
 import { Controller } from "react-hook-form";
 import { PatientDataForm } from "@/types/patientDataForm";
 import { useTransition } from "react";
-import { Patient } from "@/types/patient";
+import { Patient } from "@prisma/client";
 import { updateSelectedPatient } from "@/app/actions/patients";
 import { formatBirthDate } from "@/lib/formatBirthDate";
 

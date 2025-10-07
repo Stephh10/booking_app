@@ -1,6 +1,6 @@
 import React from "react";
 import { getSelectedPatient } from "@/app/actions/patients";
-import { Patient } from "@/types/patient";
+import { Patient } from "@prisma/client";
 import UserInfo from "@/components/UserInfo";
 import DashboardNav from "../../_components/DashboardNav";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -8,6 +8,8 @@ import AppHistory from "../../appointments/_components/AppHistory";
 import PatientDetails from "../_components/PatientDetails";
 import PatientAttachments from "../_components/PatientAttachments";
 import PatientMedicalDetails from "../_components/PatientMedicalDetails";
+import { getPatientMedicalDetails } from "@/app/actions/patients";
+import { MedicalDetails } from "@prisma/client";
 
 export default async function page({
   params,
@@ -16,17 +18,24 @@ export default async function page({
 }) {
   const { patientId } = params;
 
+  // PATIENT DATA
+
   const data: Patient | { error: string } = await getSelectedPatient(patientId);
   if (data && "error" in data) {
     return <p>{data.error}</p>;
   }
   const patientData = data as Patient;
 
-  console.log(patientData);
-
   if (!patientData) {
     return <p>Patient not found</p>;
   }
+
+  //PATIENT MEDICAL DETAILS
+
+  const patientMedicalDetails: MedicalDetails | { error: string } =
+    await getPatientMedicalDetails(patientId);
+
+  console.log(patientMedicalDetails);
 
   return (
     <div>
@@ -52,7 +61,11 @@ export default async function page({
             <PatientDetails patientData={patientData} />
           </TabsContent>
           <TabsContent value="medical-details">
-            <PatientMedicalDetails />
+            {"error" in patientMedicalDetails ? (
+              <p>{patientMedicalDetails.error}</p>
+            ) : (
+              <PatientMedicalDetails patientMedData={patientMedicalDetails} />
+            )}
           </TabsContent>
           <TabsContent value="history">
             <AppHistory />

@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { Patient } from "@/types/patient";
+import { Patient } from "@prisma/client";
 import { Phone, AtSign, Hash } from "lucide-react";
 import { AppProfileDrop } from "@/app/dashboard/appointments/_components/AppProfileDrop";
 import { SquarePen, X, Save } from "lucide-react";

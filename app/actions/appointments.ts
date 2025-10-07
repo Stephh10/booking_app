@@ -2,7 +2,7 @@
 import { prisma as Prisma } from "@/lib/prisma";
 import { auth } from "@/auth";
 import { revalidatePath } from "next/cache";
-import { Patient } from "@/types/patient";
+import { Patient } from "@prisma/client";
 import { Appointment } from "@/types/appointment";
 import { UpdatedAppointment } from "@/types/appointment";
 
@@ -21,8 +21,6 @@ export const updateSelectedAppointment = async (
       where: { id: appId },
       data: updatedData,
     });
-
-    console.log(appointment);
 
     revalidatePath(`/dashboard/appointments/${appId}`);
     return appointment;
@@ -110,70 +108,56 @@ export async function createAppointment(data: any) {
   const authResult = await auth();
   const activeUser = authResult?.user;
 
-  if (!data.doctorId || !data.date) {
-    throw new Error("Doctor ID and date are required to create an appointment");
-  }
+  if (!activeUser?.id) throw new Error("User not authenticated");
+  if (!data.doctorId || !data.date)
+    throw new Error("Doctor ID and date are required");
 
-  if (!activeUser || !activeUser.id) {
-    return { error: "Doctor ID is required" };
-  }
-
-  let existingPatient = null;
-
-  if (data.patientEmail) {
-    existingPatient = await Prisma.patient.findFirst({
+  const existingPatient =
+    (await Prisma.patient.findFirst({
       where: {
-        email: data.patientEmail,
+        OR: [
+          { email: data.patientEmail },
+          { phone: data.patientPhone },
+          {
+            firstName: data.firstName,
+            lastName: data.lastName,
+          },
+        ],
         doctorId: activeUser.id,
       },
-    });
-  }
-
-  if (!existingPatient && data.patientPhone) {
-    existingPatient = await Prisma.patient.findFirst({
-      where: {
-        phone: data.patientPhone,
-        doctorId: activeUser.id,
-      },
-    });
-  }
-
-  if (!existingPatient && data.firstName && data.lastName) {
-    existingPatient = await Prisma.patient.findFirst({
-      where: {
-        firstName: data.firstName,
-        lastName: data.lastName,
-        doctorId: activeUser.id,
-      },
-    });
-  }
-
-  if (!existingPatient) {
-    existingPatient = await Prisma.patient.create({
+    })) ??
+    (await Prisma.patient.create({
       data: {
         firstName: data.firstName,
         lastName: data.lastName,
         email: data.patientEmail || null,
-        phone: data.phone || null,
+        phone: data.patientPhone || null,
+        doctorId: activeUser.id,
+      },
+    }));
+
+  await Prisma.$transaction(async (tx) => {
+    await tx.appointment.create({
+      data: {
+        reason: data.reason,
+        duration: data.duration,
+        date: data.date,
+        diagnose: data.diagnose || null,
+        patientId: existingPatient.id,
         doctorId: activeUser.id,
       },
     });
-  }
 
-  const appointment = await Prisma.appointment.create({
-    data: {
-      reason: data.reason,
-      duration: data.duration,
-      date: data.date,
-      diagnose: data.diagnose || null,
-      patientId: existingPatient.id,
-      doctorId: activeUser.id,
-    },
+    const existingMedical = await tx.medicalDetails.findUnique({
+      where: { patientId: existingPatient.id },
+    });
+
+    if (!existingMedical) {
+      await tx.medicalDetails.create({
+        data: { patientId: existingPatient.id },
+      });
+    }
   });
-
-  if (!appointment) {
-    throw new Error("Failed to create appointment");
-  }
 
   revalidatePath("/dashboard");
 }

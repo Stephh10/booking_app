@@ -14,7 +14,26 @@ import EditableField from "./EditableField";
 import { Controller } from "react-hook-form";
 import { MedicalDetails } from "@prisma/client";
 
-export default function PatientMedicalDetails() {
+export default function PatientMedicalDetails({
+  patientMedData,
+}: {
+  patientMedData: MedicalDetails;
+}) {
+  const {
+    diagnosis,
+    medications,
+    familyHistory,
+    bloodType,
+    chronicDiseases,
+    bloodPressure,
+    heartRate,
+    weight,
+    height,
+    allergies,
+    surgeries,
+  } = patientMedData;
+  const defaultValue = "Add information";
+
   const { isEditing } = useEditPatientState();
   const {
     register,
@@ -32,7 +51,7 @@ export default function PatientMedicalDetails() {
       <EditableField
         label="Diagnosis"
         name="diagnosis"
-        inputData="Diabetes mellitus"
+        inputData={diagnosis ?? defaultValue}
         isEditing={isEditing}
         register={register}
         errors={errors}
@@ -40,7 +59,7 @@ export default function PatientMedicalDetails() {
       <EditableField
         label="Medications"
         name="medications"
-        inputData="Apaurin"
+        inputData={medications ?? defaultValue}
         isEditing={isEditing}
         register={register}
         errors={errors}
@@ -48,7 +67,7 @@ export default function PatientMedicalDetails() {
       <EditableField
         label="Family History"
         name="familyHistory"
-        inputData="None"
+        inputData={familyHistory ?? defaultValue}
         isEditing={isEditing}
         register={register}
         errors={errors}
@@ -57,7 +76,7 @@ export default function PatientMedicalDetails() {
         <div className="inputControl">
           <label htmlFor="">BloodType</label>
           {!isEditing ? (
-            <h2 className="formText">AB</h2>
+            <h2 className="formText">{bloodType ?? defaultValue}</h2>
           ) : (
             <Controller
               name="bloodType"
@@ -91,7 +110,7 @@ export default function PatientMedicalDetails() {
         <EditableField
           label="Chronic Diseases"
           name="chronicDiseases"
-          inputData="None"
+          inputData={chronicDiseases ?? defaultValue}
           isEditing={isEditing}
           register={register}
           errors={errors}
@@ -101,7 +120,7 @@ export default function PatientMedicalDetails() {
         <EditableField
           label="Blood Pressure"
           name="bloodPressure"
-          inputData="120/142"
+          inputData={bloodPressure ?? defaultValue}
           isEditing={isEditing}
           register={register}
           errors={errors}
@@ -109,7 +128,7 @@ export default function PatientMedicalDetails() {
         <EditableField
           label="Heart Rate"
           name="heartRate"
-          inputData="72"
+          inputData={heartRate ?? defaultValue}
           isEditing={isEditing}
           register={register}
           errors={errors}
@@ -120,7 +139,7 @@ export default function PatientMedicalDetails() {
         <EditableField
           label="Weight"
           name="weight"
-          inputData="78kg"
+          inputData={weight ?? defaultValue}
           isEditing={isEditing}
           register={register}
           errors={errors}
@@ -128,7 +147,7 @@ export default function PatientMedicalDetails() {
         <EditableField
           label="Height"
           name="height"
-          inputData="182cm"
+          inputData={height ?? defaultValue}
           isEditing={isEditing}
           register={register}
           errors={errors}
@@ -138,7 +157,7 @@ export default function PatientMedicalDetails() {
         <EditableField
           label="Allergies"
           name="allergies"
-          inputData="None"
+          inputData={allergies ?? defaultValue}
           isEditing={isEditing}
           register={register}
           errors={errors}
@@ -146,7 +165,7 @@ export default function PatientMedicalDetails() {
         <EditableField
           label="Surgeries"
           name="surgeries"
-          inputData="Currently none"
+          inputData={surgeries ?? defaultValue}
           isEditing={isEditing}
           register={register}
           errors={errors}
