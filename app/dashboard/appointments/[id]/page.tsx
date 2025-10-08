@@ -7,7 +7,7 @@ import AppNotes from "../_components/AppNotes";
 import AppAttachments from "../_components/AppAttachments";
 import DashboardNav from "../../_components/DashboardNav";
 import { getAppPatient } from "@/app/actions/appointments";
-import { Patient } from "@/types/patient";
+import { Patient } from "@prisma/client";
 
 type PageProps = {
   params: Promise<{ id: string }>;

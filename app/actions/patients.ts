@@ -17,7 +17,7 @@ export const editPatientMedicalDetails = async (
     if (!medDataId) {
       return { error: "Medical data Id is required" };
     }
-    const formatedData = {
+    const formattedData = {
       ...medData,
       height: Number(medData.height),
       weight: Number(medData.weight),
@@ -26,7 +26,7 @@ export const editPatientMedicalDetails = async (
 
     const updatedUser = await Prisma.medicalDetails.update({
       where: { id: medDataId },
-      data: formatedData,
+      data: formattedData,
     });
 
     if (!updatedUser) {
