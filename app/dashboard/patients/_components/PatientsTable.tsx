@@ -35,13 +35,6 @@ import {
 } from "@/components/ui/table";
 import { removeSelectedPatients } from "@/app/actions/patients";
 
-export type Payment = {
-  id: string;
-  amount: number;
-  status: "pending" | "processing" | "success" | "failed";
-  email: string;
-};
-
 export function PatientsTable({ data }: { data: Patient[] }) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(

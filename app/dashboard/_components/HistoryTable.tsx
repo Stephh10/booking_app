@@ -11,7 +11,7 @@ import {
   useReactTable,
   VisibilityState,
 } from "@tanstack/react-table";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, ChevronUp } from "lucide-react";
 import { historyColumns } from "./HistoryColumns";
 
 import { Button } from "@/components/ui/button";
@@ -21,7 +21,6 @@ import {
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Input } from "@/components/ui/input";
 import {
   Table,
   TableBody,
@@ -32,13 +31,6 @@ import {
 } from "@/components/ui/table";
 import { removeSelectedPatients } from "@/app/actions/patients";
 import { Appointment } from "@prisma/client";
-
-export type Payment = {
-  id: string;
-  amount: number;
-  status: "pending" | "processing" | "success" | "failed";
-  email: string;
-};
 
 export default function HistoryTable({ data }: { data: Appointment[] }) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
@@ -118,13 +110,21 @@ export default function HistoryTable({ data }: { data: Appointment[] }) {
                           : ""
                       }
                     >
-                      <div className="flex items-center gap-2">
+                      <div className="flex items-center gap-1">
                         {flexRender(
                           header.column.columnDef.header,
                           header.getContext()
                         )}
-                        {sorted === "asc" && <span>▲</span>}
-                        {sorted === "desc" && <span>▼</span>}
+                        {sorted === "asc" && (
+                          <span>
+                            <ChevronUp size={17} />
+                          </span>
+                        )}
+                        {sorted === "desc" && (
+                          <span>
+                            <ChevronDown size={17} />
+                          </span>
+                        )}
                       </div>
                     </TableHead>
                   );
