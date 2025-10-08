@@ -6,6 +6,32 @@ import { Patient } from "@prisma/client";
 import { Appointment } from "@/types/appointment";
 import { UpdatedAppointment } from "@/types/appointment";
 
+//GET ALL APPOINTMENTS FROM PATIENT ID
+
+export const getPatientAppointments = async (patientId: string) => {
+  try {
+    if (!patientId) {
+      return { error: "Patient Id is required" };
+    }
+
+    const patientApp = await Prisma.appointment.findMany({
+      where: {
+        patientId: patientId,
+      },
+    });
+
+    if (!patientApp) {
+      return { error: "No appointments found" };
+    }
+
+    console.log(patientApp);
+
+    return patientApp;
+  } catch (error) {
+    return { error: "Failed to fetch appointments" };
+  }
+};
+
 //UPDATE SELECTED APPOINTMENT
 
 export const updateSelectedAppointment = async (

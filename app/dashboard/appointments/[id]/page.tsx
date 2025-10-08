@@ -43,7 +43,11 @@ export default async function page({ params }: PageProps) {
             <AppDetails appId={id} />
           </TabsContent>
           <TabsContent value="history">
-            <AppHistory />
+            {"error" in data ? (
+              <p>{data.error}</p>
+            ) : (
+              <AppHistory patientId={data.id} />
+            )}
           </TabsContent>
           <TabsContent value="notes">
             <AppNotes appId={id} />
