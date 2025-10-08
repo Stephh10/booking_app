@@ -107,14 +107,25 @@ export default function HistoryTable({ data }: { data: Appointment[] }) {
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
+                  const sorted = header.column.getIsSorted();
                   return (
-                    <TableHead key={header.id}>
-                      {header.isPlaceholder
-                        ? null
-                        : flexRender(
-                            header.column.columnDef.header,
-                            header.getContext()
-                          )}
+                    <TableHead
+                      key={header.id}
+                      onClick={header.column.getToggleSortingHandler()}
+                      className={
+                        header.column.getCanSort()
+                          ? "cursor-pointer select-none"
+                          : ""
+                      }
+                    >
+                      <div className="flex items-center gap-2">
+                        {flexRender(
+                          header.column.columnDef.header,
+                          header.getContext()
+                        )}
+                        {sorted === "asc" && <span>▲</span>}
+                        {sorted === "desc" && <span>▼</span>}
+                      </div>
                     </TableHead>
                   );
                 })}

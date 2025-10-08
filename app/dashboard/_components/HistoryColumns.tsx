@@ -42,6 +42,12 @@ export const historyColumns: ColumnDef<Appointment>[] = [
   {
     accessorKey: "date",
     header: "Date",
+    enableSorting: true,
+    sortingFn: (a, b) => {
+      const dateA = new Date(a.getValue("date")).getTime();
+      const dateB = new Date(b.getValue("date")).getTime();
+      return dateA - dateB;
+    },
     cell: ({ row }) => {
       const date: Date = row.getValue("date");
       return new Date(date).toLocaleDateString("en-GB", {
