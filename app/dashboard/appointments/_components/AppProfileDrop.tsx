@@ -40,7 +40,7 @@ export function AppProfileDrop({
       >
         <DropdownMenuLabel>Edit Patient</DropdownMenuLabel>
         {profileRouteId ? (
-          <DropdownMenuItem className="cursor-pointer">
+          <DropdownMenuItem className="cursor-pointer bg-red-100">
             Delete Patient
             <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
           </DropdownMenuItem>

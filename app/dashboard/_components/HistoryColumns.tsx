@@ -10,6 +10,8 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { MoreHorizontal } from "lucide-react";
+import { redirect } from "next/navigation";
+import { deleteAppointment } from "@/app/actions/appointments";
 
 export const historyColumns: ColumnDef<Appointment>[] = [
   {
@@ -86,7 +88,8 @@ export const historyColumns: ColumnDef<Appointment>[] = [
     enableHiding: false,
     header: () => <div className="mx-auto">Actions</div>,
     cell: ({ row }) => {
-      const payment = row.original;
+      console.log(row);
+      const appointment = row.original;
 
       return (
         <div className="text-center">
@@ -100,13 +103,33 @@ export const historyColumns: ColumnDef<Appointment>[] = [
             <DropdownMenuContent align="end">
               <DropdownMenuLabel>Actions</DropdownMenuLabel>
               <DropdownMenuItem
-                onClick={() => navigator.clipboard.writeText(payment.id)}
+                onClick={() => navigator.clipboard.writeText(appointment.id)}
               >
-                Copy payment ID
+                Copy Appointment ID
               </DropdownMenuItem>
               <DropdownMenuSeparator />
-              <DropdownMenuItem>View customer</DropdownMenuItem>
-              <DropdownMenuItem>View payment details</DropdownMenuItem>
+              <DropdownMenuItem
+                onClick={() =>
+                  redirect(`/dashboard/appointments/${appointment.id}`)
+                }
+              >
+                View Appointment
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem className="h-[35px] bg-red-100">
+                <form
+                  action={async () => {
+                    await deleteAppointment(appointment.id);
+                  }}
+                >
+                  <button
+                    type="submit"
+                    className=" w-full text-center  mx-auto"
+                  >
+                    Delete Appointment
+                  </button>
+                </form>
+              </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
