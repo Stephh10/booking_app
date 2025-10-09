@@ -30,6 +30,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { removeSelectedPatients } from "@/app/actions/patients";
+import { removeSelectedAppointments } from "@/app/actions/appointments";
 import { Appointment } from "@prisma/client";
 
 export default function HistoryTable({ data }: { data: Appointment[] }) {
@@ -180,7 +181,7 @@ export default function HistoryTable({ data }: { data: Appointment[] }) {
             className="cursor-pointer"
             size="sm"
             onClick={async () => {
-              await removeSelectedPatients(selectedIds);
+              await removeSelectedAppointments(selectedIds);
             }}
           >
             Delete selected

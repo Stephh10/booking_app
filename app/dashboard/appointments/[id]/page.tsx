@@ -8,6 +8,7 @@ import AppAttachments from "../_components/AppAttachments";
 import DashboardNav from "../../_components/DashboardNav";
 import { getAppPatient } from "@/app/actions/appointments";
 import { Patient } from "@prisma/client";
+import { redirect } from "next/navigation";
 
 type PageProps = {
   params: Promise<{ id: string }>;
@@ -17,6 +18,10 @@ export default async function page({ params }: PageProps) {
   const { id } = await params;
 
   const data: Patient | { error: string } = await getAppPatient(id);
+
+  if ("error" in data) {
+    return redirect("/dashboard");
+  }
 
   return (
     <div>
@@ -44,9 +49,9 @@ export default async function page({ params }: PageProps) {
           </TabsContent>
           <TabsContent value="history">
             {"error" in data ? (
-              <p>{data.error}</p>
+              <p>{(data as { error: string }).error}</p>
             ) : (
-              <AppHistory patientId={data.id} />
+              <AppHistory patientId={(data as Patient).id} />
             )}
           </TabsContent>
           <TabsContent value="notes">

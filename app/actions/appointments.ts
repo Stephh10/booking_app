@@ -6,6 +6,25 @@ import { Patient } from "@prisma/client";
 import { Appointment } from "@/types/appointment";
 import { UpdatedAppointment } from "@/types/appointment";
 
+//DELETE SELECTED APPOINTMENTS
+
+export const removeSelectedAppointments = async (appIds: string[]) => {
+  if (!appIds.length) return { error: "No appointments selected" };
+
+  try {
+    await Prisma.appointment.deleteMany({
+      where: {
+        id: { in: appIds },
+      },
+    });
+
+    revalidatePath("/dashboard/appointments");
+    return { success: true };
+  } catch (error) {
+    return { error: "Failed to delete appointments" };
+  }
+};
+
 //DELETE APPOINTMENT
 
 export const deleteAppointment = async (appId: string) => {
