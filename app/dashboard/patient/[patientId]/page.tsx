@@ -40,7 +40,7 @@ export default async function page({
       <DashboardNav />
       <div className="p-4 bg-[var(--secondary)] rounded-2xl my-4">
         <UserInfo patientData={patientData} profileRouteId={patientId} />
-        <Tabs defaultValue="details" className="w-[600px]">
+        <Tabs defaultValue="details" className="w-full">
           <TabsList>
             <TabsTrigger className="cursor-pointer" value="details">
               Patient Details
@@ -66,7 +66,7 @@ export default async function page({
             )}
           </TabsContent>
           <TabsContent value="history">
-            <AppHistory />
+            <AppHistory patientId={patientId} />
           </TabsContent>
           <TabsContent value="attachments">
             <PatientAttachments />

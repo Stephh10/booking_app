@@ -15,7 +15,7 @@ export const historyColumns: ColumnDef<Appointment>[] = [
   {
     id: "select",
     header: ({ table }) => (
-      <div className="flex justify-center items-center">
+      <div className="flex justify-center items-center text-center mx-auto">
         <input
           type="checkbox"
           {...{
@@ -84,7 +84,7 @@ export const historyColumns: ColumnDef<Appointment>[] = [
   {
     id: "actions",
     enableHiding: false,
-    header: () => <div className="text-center">Actions</div>,
+    header: () => <div className="mx-auto">Actions</div>,
     cell: ({ row }) => {
       const payment = row.original;
 

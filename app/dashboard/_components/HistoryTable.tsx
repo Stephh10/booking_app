@@ -38,7 +38,9 @@ export default function HistoryTable({ data }: { data: Appointment[] }) {
     []
   );
   const [columnVisibility, setColumnVisibility] =
-    React.useState<VisibilityState>({});
+    React.useState<VisibilityState>({
+      duration: false,
+    });
   const [rowSelection, setRowSelection] = React.useState({});
 
   const table = useReactTable({
@@ -64,11 +66,12 @@ export default function HistoryTable({ data }: { data: Appointment[] }) {
   const selectedIds = selectedRows.map((row) => row.original.id);
 
   return (
-    <div className="w-full">
-      <div className="flex items-center py-4">
+    <div className=" w-full overflow-x-hidden pt-[0px] z-[-10]">
+      <div className="flex items-center justify-between pb-2 pt-0">
+        <button className="primaryBtn py-1">Add new Appointment</button>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="outline" className="ml-auto">
+            <Button variant="outline">
               Columns <ChevronDown />
             </Button>
           </DropdownMenuTrigger>
@@ -140,7 +143,11 @@ export default function HistoryTable({ data }: { data: Appointment[] }) {
                   data-state={row.getIsSelected() && "selected"}
                 >
                   {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>
+                    <TableCell
+                      key={cell.id}
+                      className="max-w-[164px] truncate whitespace-nowrap overflow-hidden text-ellipsis"
+                      title={String(cell.getValue() ?? "")}
+                    >
                       {flexRender(
                         cell.column.columnDef.cell,
                         cell.getContext()
