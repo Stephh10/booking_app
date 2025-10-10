@@ -120,6 +120,10 @@
     @apply bg-[var(--background)] shadow-xl p-2 rounded-xl cursor-pointer;
   }
 
+  .outlineMaxBtn {
+    @apply bg-[var(--background)] border border p-2 rounded-xl cursor-pointer;
+  }
+
   .inputSection {
     @apply flex gap-2 w-full;
   }
@@ -130,6 +134,18 @@
 
   .inputControl input {
     @apply h-[35px] pl-[5px] bg-[var(--background)] rounded-lg w-full;
+  }
+
+  .preview {
+    @apply p-2 rounded-lg shadow-lg bg-[var(--bg)] rounded-2xl flex-1 h-[130px];
+  }
+
+  .showContentBtn {
+    @apply flex font-bold text-sm cursor-pointer;
+  }
+
+  .uploadInput {
+    @apply flex-3 h-[40px] bg-[var(--bg)] rounded-2xl outline-none pl-[5px] text-lg border;
   }
 }
 
