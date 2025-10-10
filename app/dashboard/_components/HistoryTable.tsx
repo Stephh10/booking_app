@@ -29,7 +29,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { removeSelectedPatients } from "@/app/actions/patients";
 import { removeSelectedAppointments } from "@/app/actions/appointments";
 import { Appointment } from "@prisma/client";
 

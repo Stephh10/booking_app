@@ -15,9 +15,11 @@ import { useRouter } from "next/navigation";
 export function AppProfileDrop({
   patientId,
   profileRouteId,
+  setIsOpenDelete,
 }: {
   patientId: string;
   profileRouteId?: string;
+  setIsOpenDelete?: any;
 }) {
   const router = useRouter();
 
@@ -40,7 +42,12 @@ export function AppProfileDrop({
       >
         <DropdownMenuLabel>Edit Patient</DropdownMenuLabel>
         {profileRouteId ? (
-          <DropdownMenuItem className="cursor-pointer bg-red-100">
+          <DropdownMenuItem
+            onClick={() => {
+              setTimeout(() => setIsOpenDelete(true), 50);
+            }}
+            className="cursor-pointer"
+          >
             Delete Patient
             <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
           </DropdownMenuItem>

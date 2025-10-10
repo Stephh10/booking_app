@@ -7,6 +7,27 @@ import { Patient } from "@/types/patient";
 import { PatientDataForm } from "@/types/patientDataForm";
 import { MedicalDetails } from "@prisma/client";
 
+//DELETE PATIENT
+
+export const deletePatient = async (patientId: string) => {
+  try {
+    if (!patientId) {
+      return { error: "Patient Id is required" };
+    }
+
+    await Prisma.medicalDetails.deleteMany({ where: { patientId } });
+    await Prisma.appointment.deleteMany({ where: { patientId } });
+
+    await Prisma.patient.delete({ where: { id: patientId } });
+
+    revalidatePath("/dashboard/patients");
+
+    return { success: true };
+  } catch (error) {
+    return { error: "Failed to delete patient" };
+  }
+};
+
 //EDIT PATIENT MEDICAL DETAILS
 
 export const editPatientMedicalDetails = async (

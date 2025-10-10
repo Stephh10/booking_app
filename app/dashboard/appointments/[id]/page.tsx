@@ -29,7 +29,7 @@ export default async function page({ params }: PageProps) {
       <div className="p-4 bg-[var(--secondary)] rounded-2xl my-4">
         <UserInfo patientData={data} />
 
-        <Tabs defaultValue="details" className="w-[600px]">
+        <Tabs defaultValue="details" className="w-full">
           <TabsList>
             <TabsTrigger className="cursor-pointer" value="details">
               Appointment Details
