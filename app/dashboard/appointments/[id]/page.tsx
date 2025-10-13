@@ -4,7 +4,6 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import AppDetails from "../_components/AppDetails";
 import AppHistory from "../_components/AppHistory";
 import AppNotes from "../_components/AppNotes";
-import AppAttachments from "../_components/AppAttachments";
 import DashboardNav from "../../_components/DashboardNav";
 import { getAppPatient } from "@/app/actions/appointments";
 import { Patient } from "@prisma/client";
@@ -40,9 +39,6 @@ export default async function page({ params }: PageProps) {
             <TabsTrigger className="cursor-pointer" value="notes">
               Notes
             </TabsTrigger>
-            <TabsTrigger className="cursor-pointer" value="attachments">
-              Attachments
-            </TabsTrigger>
           </TabsList>
           <TabsContent value="details">
             <AppDetails appId={id} />
@@ -56,9 +52,6 @@ export default async function page({ params }: PageProps) {
           </TabsContent>
           <TabsContent value="notes">
             <AppNotes appId={id} />
-          </TabsContent>
-          <TabsContent value="attachments">
-            <AppAttachments />
           </TabsContent>
         </Tabs>
       </div>

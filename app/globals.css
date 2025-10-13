@@ -88,6 +88,10 @@
 }
 
 @layer components {
+  .container {
+    @apply max-w-[1500px] mx-auto px-4;
+  }
+
   .form-input {
     @apply border border-gray-300 rounded px-4 py-2 w-full mb-2 rounded-lg;
   }
@@ -136,16 +140,8 @@
     @apply h-[35px] pl-[5px] bg-[var(--background)] rounded-lg w-full;
   }
 
-  .preview {
-    @apply p-2 rounded-lg shadow-lg bg-[var(--bg)] rounded-2xl flex-1 h-[130px];
-  }
-
-  .showContentBtn {
-    @apply flex font-bold text-sm cursor-pointer;
-  }
-
-  .uploadInput {
-    @apply flex-3 h-[40px] bg-[var(--bg)] rounded-2xl outline-none pl-[5px] text-lg border;
+  .sheduleContainer {
+    @apply h-[90vh] flex flex-col items-center justify-center border-2;
   }
 }
 

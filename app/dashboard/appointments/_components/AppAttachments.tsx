@@ -1,10 +1,9 @@
 import React from "react";
-import UploadFile from "@/components/UploadFile";
 
 export default function AppAttachments() {
   return (
     <div>
-      <UploadFile />
+      <h2>App Attachments</h2>
     </div>
   );
 }

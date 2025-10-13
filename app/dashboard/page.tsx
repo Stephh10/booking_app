@@ -19,7 +19,7 @@ export default async function page() {
           description="Plan, prioritize and accomplisch yor appointments with ease."
         >
           <AddAppDialog />
-          <Link className="outlineBtn" href="/">
+          <Link className="outlineBtn" href="/schedule/1">
             Share appointment link
           </Link>
         </PageHeader>
