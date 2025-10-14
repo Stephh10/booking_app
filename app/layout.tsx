@@ -29,7 +29,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <main className="px-2">
+        <main className="bg-gradient-custom">
           <SessionProvider>{children}</SessionProvider>
         </main>
       </body>

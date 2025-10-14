@@ -5,7 +5,7 @@ export default function AuthLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <div className="bg-[var(--secondary)]">
+    <div>
       <Navigation />
       <main>{children}</main>
     </div>

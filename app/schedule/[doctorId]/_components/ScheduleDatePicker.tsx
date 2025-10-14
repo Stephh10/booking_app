@@ -18,7 +18,7 @@ export default function ScheduleDatePicker() {
         mode="single"
         selected={date}
         onSelect={setDate}
-        className="my-4 md:max-w-[70%]  lg:max-w-[55%] md:mx-auto w-full"
+        className="my-4 h-full w-full"
         captionLayout={"buttons" as any}
       />
     </div>
