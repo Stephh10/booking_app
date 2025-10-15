@@ -7,7 +7,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-//USER MODEL
+//DOCTOR-USER MODEL
 
 model User {
   id        String   @id @default(cuid())
@@ -19,7 +19,20 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  appointments Appointment[]
+  appointments   Appointment[]
+  availabilities DoctorAvailability[]
+}
+
+//DOCTOR AVAILABILITY
+
+model DoctorAvailability {
+  id        String   @id @default(cuid())
+  doctorId  String
+  dayOfWeek Int
+  startTime DateTime
+  endTime   DateTime
+
+  doctor User @relation(fields: [doctorId], references: [id])
 }
 
 //PATIENT MODEL

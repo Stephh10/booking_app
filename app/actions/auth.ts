@@ -58,29 +58,49 @@ export async function registerAction(
   if (
     typeof email !== "string" ||
     typeof password !== "string" ||
+    typeof firstName !== "string" ||
+    typeof lastName !== "string" ||
     !email ||
-    !password
+    !password ||
+    !firstName ||
+    !lastName
   ) {
-    return { error: "Please provide valid email and password" };
+    return { error: "Please provide all required fields." };
   }
 
-  const user = await Prisma.user.findUnique({
-    where: { email: email },
+  //EXISTING USER
+  const existingUser = await Prisma.user.findUnique({
+    where: { email },
   });
 
-  if (user) {
-    return { error: "User already exists" };
+  if (existingUser) {
+    return { error: "User already exists." };
   }
 
-  await Prisma.user.create({
+  //CREATE NEW USER
+  const newUser = await Prisma.user.create({
     data: {
-      firstName: firstName as string,
-      lastName: lastName as string,
+      firstName,
+      lastName,
       email,
       password: await bcrypt.hash(password, 10),
     },
   });
 
+  //CREATE AVAILABILITY TABLE
+
+  const availabilityData = Array.from({ length: 5 }, (_, i) => ({
+    doctorId: newUser.id,
+    dayOfWeek: i + 1,
+    startTime: new Date("1970-01-01T08:00:00Z"),
+    endTime: new Date("1970-01-01T16:00:00Z"),
+  }));
+
+  await Prisma.doctorAvailability.createMany({
+    data: availabilityData,
+  });
+
+  // 🔹 Automatski login
   await signIn("credentials", { email, password, redirect: false });
 
   redirect("/");

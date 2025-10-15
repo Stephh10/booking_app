@@ -36,7 +36,7 @@ export default function AddPatientDialog() {
   return (
     <Dialog open={openDialog} onOpenChange={setOpenDialog}>
       <DialogTrigger asChild>
-        <button className="outlineBtn">Create Patient</button>
+        <button className="primaryBtn">Create Patient</button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <form onSubmit={handleCreatePatient}>
