@@ -3,8 +3,13 @@ import React from "react";
 import { Calendar } from "@/components/ui/calendar";
 import { useState, useEffect } from "react";
 
-export default function ScheduleDatePicker() {
-  const [date, setDate] = useState<Date | undefined>(new Date());
+export default function ScheduleDatePicker({
+  selectedDate: date,
+  setSelectedDate: setDate,
+}: {
+  selectedDate: Date | undefined;
+  setSelectedDate: (date: Date | undefined) => void;
+}) {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {

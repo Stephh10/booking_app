@@ -100,7 +100,6 @@ export async function registerAction(
     data: availabilityData,
   });
 
-  // 🔹 Automatski login
   await signIn("credentials", { email, password, redirect: false });
 
   redirect("/");

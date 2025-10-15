@@ -1,9 +1,18 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import ScheduleDatePicker from "./_components/ScheduleDatePicker";
 import AvailableDateCard from "./_components/AvailableDateCard";
 import Link from "next/link";
+import { useState } from "react";
+import { useTransition } from "react";
+import { getDoctorAvailability } from "@/app/actions/availability";
+
+interface FreeSlot {
+  dayOfWeek: number;
+  startTime: Date;
+  endTime: Date;
+}
 
 const availableDates = [
   {
@@ -29,6 +38,23 @@ const availableDates = [
 ];
 
 export default function page() {
+  const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined);
+  const [availableDatess, setAvailableDates] = useState<FreeSlot[] | undefined>(
+    undefined
+  );
+  const [isPending, startTransition] = useTransition();
+
+  useEffect(() => {
+    if (selectedDate) {
+      startTransition(async () => {
+        const result = await getDoctorAvailability(selectedDate);
+        setAvailableDates(result);
+      });
+    }
+  }, [selectedDate]);
+
+  console.log(availableDatess);
+
   return (
     <div className="container h-screen">
       <h1 className="text-xl font-bold py-2">AppDoc</h1>
@@ -46,7 +72,10 @@ export default function page() {
         <div className="scheduleMainWrapper bg-[var(--bg)]">
           <div className="scheduleMain max-h-[420px]">
             <div className="flex-1">
-              <ScheduleDatePicker />
+              <ScheduleDatePicker
+                selectedDate={selectedDate}
+                setSelectedDate={setSelectedDate}
+              />
             </div>
             <div className="mainRight flex-1 px-3 overflow-y-scroll">
               {availableDates.map((data, index) => (
