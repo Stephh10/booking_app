@@ -14,32 +14,9 @@ interface FreeSlot {
   endTime: Date;
 }
 
-const availableDates = [
-  {
-    date: "10:00 - 10:30",
-    available: true,
-  },
-  {
-    date: "10:30 - 11:00",
-    available: false,
-  },
-  {
-    date: "11:00 - 11:30",
-    available: true,
-  },
-  {
-    date: "11:30 - 12:00",
-    available: true,
-  },
-  {
-    date: "11:30 - 12:00",
-    available: true,
-  },
-];
-
 export default function page() {
-  const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined);
-  const [availableDatess, setAvailableDates] = useState<FreeSlot[] | undefined>(
+  const [selectedDate, setSelectedDate] = useState<Date>(new Date());
+  const [availableDates, setAvailableDates] = useState<FreeSlot[] | undefined>(
     undefined
   );
   const [isPending, startTransition] = useTransition();
@@ -53,15 +30,15 @@ export default function page() {
     }
   }, [selectedDate]);
 
-  console.log(availableDatess);
-
   return (
     <div className="container h-screen">
       <h1 className="text-xl font-bold py-2">AppDoc</h1>
       <div className="sheduleContainer max-w-[790px] mx-auto">
         <div className="mb-2">
           <h2 className="text-2xl font-bold">Dr. Kevin Johnson</h2>
-          <h2 className="text-[var(--text-soft)] text-xl ">Cardiologists</h2>
+          <h2 className="text-[var(--btn-primary)] text-xl font-bold ">
+            Cardiologists
+          </h2>
         </div>
         <div>
           <h2 className="text-xl font-bold">
@@ -78,7 +55,7 @@ export default function page() {
               />
             </div>
             <div className="mainRight flex-1 px-3 overflow-y-scroll">
-              {availableDates.map((data, index) => (
+              {availableDates?.map((data, index) => (
                 <AvailableDateCard key={index} dateData={data} />
               ))}
             </div>

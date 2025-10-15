@@ -8,7 +8,7 @@ export default function ScheduleDatePicker({
   setSelectedDate: setDate,
 }: {
   selectedDate: Date | undefined;
-  setSelectedDate: (date: Date | undefined) => void;
+  setSelectedDate: (date: any) => void;
 }) {
   const [mounted, setMounted] = useState(false);
 

@@ -1,7 +1,6 @@
 "use server";
 import { auth } from "@/auth";
 import { getDay } from "date-fns";
-import { ClockFading } from "lucide-react";
 import { prisma as Prisma } from "@/lib/prisma";
 
 interface FreeSlot {
@@ -15,8 +14,6 @@ export const getDoctorAvailability = async (selectedDate: Date) => {
   const activeUser = authResult?.user;
   const dayOfWeek = getDay(selectedDate);
 
-  const myData = { doctorId: activeUser?.id, dayOfWeek };
-
   // get available date
   const availability = await Prisma.doctorAvailability.findFirst({
     where: {
@@ -28,13 +25,16 @@ export const getDoctorAvailability = async (selectedDate: Date) => {
   if (!availability) return [];
 
   // get appointments
+
+  const startOfDay = new Date(selectedDate);
+  startOfDay.setHours(0, 0, 0, 0);
+  const endOfDay = new Date(selectedDate);
+  endOfDay.setHours(23, 59, 59, 999);
+
   const appointments = await Prisma.appointment.findMany({
     where: {
       doctorId: activeUser?.id,
-      date: {
-        gte: new Date(selectedDate.setHours(0, 0, 0, 0)),
-        lt: new Date(selectedDate.setHours(23, 59, 59, 999)),
-      },
+      date: { gte: startOfDay, lt: endOfDay },
       status: "scheduled",
     },
   });
@@ -45,22 +45,38 @@ export const getDoctorAvailability = async (selectedDate: Date) => {
     return { start, end };
   });
 
+  const workingDayStart = new Date(selectedDate);
+  workingDayStart.setHours(
+    availability.startTime.getHours(),
+    availability.startTime.getMinutes(),
+    0,
+    0
+  );
+
+  const workingDayEnd = new Date(selectedDate);
+  workingDayEnd.setHours(
+    availability.endTime.getHours(),
+    availability.endTime.getMinutes(),
+    0,
+    0
+  );
+
   const SLOT_DURATION = 30;
-
-  // get free slots
   const freeSlots: FreeSlot[] = [];
-  let slotTime = new Date(availability.startTime);
 
-  while (slotTime < availability.endTime) {
+  let slotTime = new Date(workingDayStart);
+
+  while (slotTime < workingDayEnd) {
     const slotEnd = new Date(slotTime.getTime() + SLOT_DURATION * 60000);
 
-    //check appointments
-    const isFree = !bookedIntervals.some(
-      (b) =>
-        (slotTime >= b.start && slotTime < b.end) ||
-        (slotEnd > b.start && slotEnd <= b.end) ||
-        (slotTime <= b.start && slotEnd >= b.end) //
-    );
+    const slotStartTime = slotTime.getTime();
+    const slotEndTime = slotEnd.getTime();
+
+    const isFree = !bookedIntervals.some((b) => {
+      const bookedStart = b.start.getTime();
+      const bookedEnd = b.end.getTime();
+      return slotStartTime < bookedEnd && slotEndTime > bookedStart;
+    });
 
     if (isFree) {
       freeSlots.push({
