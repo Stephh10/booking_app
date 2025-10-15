@@ -19,6 +19,7 @@ export default function page() {
   const [availableDates, setAvailableDates] = useState<FreeSlot[] | undefined>(
     undefined
   );
+  const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const [isPending, startTransition] = useTransition();
 
   useEffect(() => {
@@ -29,6 +30,8 @@ export default function page() {
       });
     }
   }, [selectedDate]);
+
+  console.log(activeIndex);
 
   return (
     <div className="container h-screen">
@@ -56,7 +59,12 @@ export default function page() {
             </div>
             <div className="mainRight flex-1 px-3 overflow-y-scroll">
               {availableDates?.map((data, index) => (
-                <AvailableDateCard key={index} dateData={data} />
+                <AvailableDateCard
+                  key={index}
+                  dateData={data}
+                  isActive={activeIndex === index}
+                  onClick={() => setActiveIndex(index)}
+                />
               ))}
             </div>
           </div>
