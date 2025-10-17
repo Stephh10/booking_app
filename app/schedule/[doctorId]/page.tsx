@@ -7,6 +7,8 @@ import Link from "next/link";
 import { useState } from "react";
 import { useTransition } from "react";
 import { getDoctorAvailability } from "@/app/actions/availability";
+import ScheduleForm from "./_components/ScheduleForm";
+import { set } from "date-fns";
 
 interface FreeSlot {
   dayOfWeek: number;
@@ -15,10 +17,14 @@ interface FreeSlot {
 }
 
 export default function page() {
+  //selectedDate from ScheduleDatePicker
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
+  const [timeCard, setTimeCard] = useState<Date | null>(null);
+  //availableDates from db
   const [availableDates, setAvailableDates] = useState<FreeSlot[] | undefined>(
     undefined
   );
+  //selected date functionality
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const [isPending, startTransition] = useTransition();
 
@@ -29,9 +35,9 @@ export default function page() {
         setAvailableDates(result);
       });
     }
-  }, [selectedDate]);
 
-  console.log(activeIndex);
+    setActiveIndex(null);
+  }, [selectedDate]);
 
   return (
     <div className="container h-screen">
@@ -63,34 +69,14 @@ export default function page() {
                   key={index}
                   dateData={data}
                   isActive={activeIndex === index}
-                  onClick={() => setActiveIndex(index)}
+                  onClick={(dateData: any) => (
+                    setActiveIndex(index), setTimeCard(dateData)
+                  )}
                 />
               ))}
             </div>
           </div>
-          <div className="scheduleInputSection mt-4 px-6">
-            <div className="inputControl">
-              <input
-                type="text"
-                name=""
-                placeholder="First Name and Last Name"
-              />
-            </div>
-            <div className="inputSection">
-              <div className="inputControl">
-                <input type="email" name="" placeholder="Email" />
-              </div>
-              <div className="inputControl">
-                <input type="number" name="" placeholder="Phone" />
-              </div>
-            </div>
-            <div className="inputControl">
-              <textarea name="" id="" rows={5} placeholder="Message"></textarea>
-            </div>
-            <button className="h-[40px] bg-[var(--btn-primary)] text-[var(--text)] w-full mb-3 rounded-xl cursor-pointer">
-              Confirm Appointment
-            </button>
-          </div>
+          <ScheduleForm selectedTime={timeCard} />
         </div>
         <div className="scheduleFooter">
           <Link href="/about">Terms of service</Link>
