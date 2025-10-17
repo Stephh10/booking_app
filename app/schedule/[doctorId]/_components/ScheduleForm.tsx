@@ -3,6 +3,7 @@
 import React from "react";
 import { useTransition } from "react";
 import { useForm } from "react-hook-form";
+import { handleScheduleSubmit } from "@/app/actions/schedule";
 
 export default function ScheduleForm({
   selectedTime,
@@ -27,7 +28,9 @@ export default function ScheduleForm({
     };
 
     console.log(formatedData);
-    startTransition(() => {});
+    startTransition(async () => {
+      const response = await handleScheduleSubmit(formatedData);
+    });
   }
 
   return (

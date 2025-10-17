@@ -8,7 +8,6 @@ import { useState } from "react";
 import { useTransition } from "react";
 import { getDoctorAvailability } from "@/app/actions/availability";
 import ScheduleForm from "./_components/ScheduleForm";
-import { set } from "date-fns";
 
 interface FreeSlot {
   dayOfWeek: number;
@@ -16,7 +15,12 @@ interface FreeSlot {
   endTime: Date;
 }
 
-export default function page() {
+export default async function page({
+  params,
+}: {
+  params: { doctorId: string };
+}) {
+  const { doctorId } = await params;
   //selectedDate from ScheduleDatePicker
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
   const [timeCard, setTimeCard] = useState<Date | null>(null);
