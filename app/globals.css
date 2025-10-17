@@ -186,7 +186,7 @@
   }
 
   .scheduleFooter {
-    @apply h-[40px] flex items-center justify-between;
+    @apply h-[40px] flex items-center justify-between gap-4;
   }
 }
 

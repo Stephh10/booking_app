@@ -41,9 +41,9 @@ export default function ScheduleMain() {
   }, [selectedDate]);
 
   return (
-    <div className="container h-screen">
+    <div className="container min-h-screen">
       <h1 className="text-xl font-bold py-2">AppDoc</h1>
-      <div className="sheduleContainer max-w-[790px] mx-auto">
+      <div className="sheduleContainer max-w-[790px] mx-auto -mt-1">
         <div className="mb-2">
           <h2 className="text-2xl font-bold flex gap-2 items-center">
             <SquareUser size={30} />
