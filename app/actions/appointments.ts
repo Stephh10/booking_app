@@ -168,60 +168,77 @@ export const getAllAppointments = async () => {
 };
 
 //CREATE APPOINTMENT
-export async function createAppointment(data: any) {
-  const authResult = await auth();
-  const activeUser = authResult?.user;
+export async function createAppointment(data: any, doctorId?: string) {
+  try {
+    const authResult = await auth();
+    let activeUser = undefined;
 
-  if (!activeUser?.id) throw new Error("User not authenticated");
-  if (!data.doctorId || !data.date)
-    throw new Error("Doctor ID and date are required");
-
-  const existingPatient =
-    (await Prisma.patient.findFirst({
-      where: {
-        OR: [
-          { email: data.patientEmail },
-          { phone: data.patientPhone },
-          {
-            firstName: data.firstName,
-            lastName: data.lastName,
-          },
-        ],
-        doctorId: activeUser.id,
-      },
-    })) ??
-    (await Prisma.patient.create({
-      data: {
-        firstName: data.firstName,
-        lastName: data.lastName,
-        email: data.patientEmail || null,
-        phone: data.patientPhone || null,
-        doctorId: activeUser.id,
-      },
-    }));
-
-  await Prisma.$transaction(async (tx) => {
-    await tx.appointment.create({
-      data: {
-        reason: data.reason,
-        duration: data.duration,
-        date: data.date,
-        diagnose: data.diagnose || null,
-        patientId: existingPatient.id,
-        doctorId: activeUser.id,
-      },
-    });
-
-    const existingMedical = await tx.medicalDetails.findUnique({
-      where: { patientId: existingPatient.id },
-    });
-
-    if (!existingMedical) {
-      await tx.medicalDetails.create({
-        data: { patientId: existingPatient.id },
-      });
+    if (!doctorId) {
+      activeUser = authResult?.user;
+    } else {
+      activeUser = {
+        id: doctorId,
+      };
     }
-  });
 
-  revalidatePath("/dashboard");
+    if (!activeUser?.id) {
+      return { error: "You are not authentificated" };
+    }
+
+    console.log(activeUser, data.date);
+
+    const existingPatient =
+      (await Prisma.patient.findFirst({
+        where: {
+          OR: [
+            { email: data.patientEmail },
+            { phone: data.patientPhone },
+            {
+              firstName: data.firstName,
+              lastName: data.lastName,
+            },
+          ],
+          doctorId: activeUser.id,
+        },
+      })) ??
+      (await Prisma.patient.create({
+        data: {
+          firstName: data.firstName,
+          lastName: data.lastName,
+          email: data.patientEmail || null,
+          phone: data.patientPhone || null,
+          doctorId: activeUser.id,
+        },
+      }));
+
+    const appointment = await Prisma.$transaction(async (tx) => {
+      const createdAppointment = await tx.appointment.create({
+        data: {
+          reason: data.reason,
+          duration: data.duration,
+          date: data.date,
+          diagnose: data.diagnose || null,
+          patientId: existingPatient.id,
+          doctorId: activeUser.id,
+        },
+      });
+
+      const existingMedical = await tx.medicalDetails.findUnique({
+        where: { patientId: existingPatient.id },
+      });
+
+      if (!existingMedical) {
+        await tx.medicalDetails.create({
+          data: { patientId: existingPatient.id },
+        });
+      }
+
+      revalidatePath("/dashboard");
+      return createdAppointment;
+    });
+    return appointment;
+    revalidatePath("/dashboard");
+  } catch (error) {
+    return { error: "Something is wrong" };
+  }
 }

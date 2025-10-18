@@ -17,7 +17,7 @@ interface FreeSlot {
   endTime: Date;
 }
 
-export default function ScheduleMain() {
+export default function ScheduleMain({ doctorId }: { doctorId: string }) {
   //selectedDate from ScheduleDatePicker
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
   const [timeCard, setTimeCard] = useState<Date | null>(null);
@@ -83,7 +83,7 @@ export default function ScheduleMain() {
               ))}
             </div>
           </div>
-          <ScheduleForm selectedTime={timeCard} />
+          <ScheduleForm doctorId={doctorId} selectedTime={timeCard} />
         </div>
         <ScheduleFooter />
       </div>

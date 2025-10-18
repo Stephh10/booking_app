@@ -1,6 +1,8 @@
 "use client";
 
 import { prisma as Prisma } from "@/lib/prisma";
+import { Patient } from "@prisma/client";
+import { createAppointment } from "./appointments";
 
 type ScheduleData = {
   date: Date;
@@ -12,7 +14,8 @@ type ScheduleData = {
   message: string;
 };
 
-export const handleScheduleSubmit = (data: ScheduleData) => {
-  console.log("All good");
-  return { success: "Route hittt" };
+export const handleScheduleSubmit = async (data: any, doctorId: string) => {
+  const appointment = await createAppointment(data, doctorId);
+
+  return appointment;
 };

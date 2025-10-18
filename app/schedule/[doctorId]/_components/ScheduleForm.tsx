@@ -4,13 +4,17 @@ import React from "react";
 import { useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { handleScheduleSubmit } from "@/app/actions/schedule";
+import { useRouter } from "next/navigation";
 
 export default function ScheduleForm({
   selectedTime,
+  doctorId,
 }: {
   selectedTime: Date | null;
+  doctorId: string;
 }) {
   const [isPending, startTransition] = useTransition();
+  const router = useRouter();
   const {
     handleSubmit,
     register,
@@ -24,12 +28,19 @@ export default function ScheduleForm({
     const formatedData = {
       date: selectedTime,
       duration: 30,
-      ...data,
+      patientEmail: data.email,
+      patientPhone: data.phone,
+      reason: data.message,
+      firstName: data.firstName,
+      lastName: data.lastName,
     };
 
-    console.log(formatedData);
     startTransition(async () => {
-      const response = await handleScheduleSubmit(formatedData);
+      const response = await handleScheduleSubmit(formatedData, doctorId);
+
+      if ("error" in response) return;
+
+      router.push("/schedule/success");
     });
   }
 
@@ -97,7 +108,7 @@ export default function ScheduleForm({
         type="submit"
         className="h-[40px] bg-[var(--btn-primary)] text-[var(--text)] w-full mb-3 rounded-xl cursor-pointer"
       >
-        Confirm Appointment
+        {isPending ? "Confirming..." : "Confirm Appointment"}
       </button>
     </form>
   );

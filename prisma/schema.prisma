@@ -60,6 +60,8 @@ model Patient {
   updatedAt DateTime @updatedAt
 }
 
+//MEDICAL DETAILS - PATIENT
+
 model MedicalDetails {
   id        String  @id @default(cuid())
   patientId String  @unique
