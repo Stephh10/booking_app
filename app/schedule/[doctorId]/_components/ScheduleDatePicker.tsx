@@ -12,6 +12,9 @@ export default function ScheduleDatePicker({
 }) {
   const [mounted, setMounted] = useState(false);
 
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
   useEffect(() => {
     setMounted(true);
   }, []);
@@ -23,7 +26,8 @@ export default function ScheduleDatePicker({
         mode="single"
         selected={date}
         onSelect={setDate}
-        className="my-4 h-full w-full"
+        disabled={(date) => date < today}
+        className="my-4 h-full w-full bg-inherit [&_td]:bg-inherit [&_th]:bg-inherit"
         captionLayout={"buttons" as any}
       />
     </div>

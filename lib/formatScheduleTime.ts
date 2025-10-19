@@ -9,11 +9,11 @@ export function formatScheduleTime({ startTime, endTime }: TimeRange): string {
   const end = new Date(endTime);
 
   const format = (date: Date) =>
-    date.toLocaleTimeString("hr-HR", {
+    date.toLocaleTimeString("en-US", {
       hour: "2-digit",
       minute: "2-digit",
-      hour12: false,
+      hour12: true,
     });
 
-  return `${format(start)} - ${format(end)}`;
+  return `${format(start)} to ${format(end)}`;
 }

@@ -40,7 +40,7 @@ export default function ScheduleForm({
 
       if ("error" in response) return;
 
-      router.push("/schedule/success");
+      router.push(`/appointment/scheduled/${response.id}`);
     });
   }
 
