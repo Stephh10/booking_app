@@ -40,6 +40,8 @@ export default function ScheduleMain({ doctorId }: { doctorId: string }) {
     setActiveIndex(null);
   }, [selectedDate]);
 
+  console.log(availableDates);
+
   return (
     <div className="container min-h-screen">
       <h1 className="text-xl font-bold py-2">AppDoc</h1>
@@ -70,17 +72,26 @@ export default function ScheduleMain({ doctorId }: { doctorId: string }) {
                 setSelectedDate={setSelectedDate}
               />
             </div>
-            <div className="mainRight flex-1 px-3 overflow-y-scroll">
-              {availableDates?.map((data, index) => (
-                <AvailableDateCard
-                  key={index}
-                  dateData={data}
-                  isActive={activeIndex === index}
-                  onClick={(dateData: any) => (
-                    setActiveIndex(index), setTimeCard(dateData)
-                  )}
-                />
-              ))}
+            <div className="mainRight flex-1 px-3 overflow-y-scroll h-[420px]">
+              {availableDates?.length ? (
+                availableDates?.map((data, index) => (
+                  <AvailableDateCard
+                    key={index}
+                    dateData={data}
+                    isActive={activeIndex === index}
+                    onClick={(dateData: any) => (
+                      setActiveIndex(index), setTimeCard(dateData)
+                    )}
+                  />
+                ))
+              ) : (
+                <div className="h-full flex items-center justify-center">
+                  <h2 className="text-xl text-[var(--text-soft)]">
+                    {" "}
+                    No available dates
+                  </h2>
+                </div>
+              )}
             </div>
           </div>
           <ScheduleForm doctorId={doctorId} selectedTime={timeCard} />

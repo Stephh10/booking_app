@@ -55,7 +55,7 @@ export default function DashboardCalendar({ appointments }: any) {
         events={events}
         startAccessor="start"
         endAccessor="end"
-        style={{ height: 500 }}
+        style={{ height: 550 }}
         view={view}
         onView={handleViewChange}
         date={date}
