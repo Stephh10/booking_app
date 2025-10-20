@@ -3,8 +3,69 @@ import { prisma as Prisma } from "@/lib/prisma";
 import { auth } from "@/auth";
 import { revalidatePath } from "next/cache";
 import { Patient } from "@prisma/client";
-import { Appointment } from "@/types/appointment";
+import { Appointment } from "@prisma/client";
 import { UpdatedAppointment } from "@/types/appointment";
+
+//GET NEXT APPOINTMENT
+
+export const getNextAppointment = async (): Promise<
+  Appointment | { error: string }
+> => {
+  const authResult = await auth();
+  const activeUser = authResult?.user;
+
+  if (!activeUser) {
+    return { error: "Please Login to continue this operation" };
+  }
+
+  const now = new Date();
+
+  const nextAppointment = await Prisma.appointment.findFirst({
+    where: {
+      doctorId: activeUser.id,
+      date: {
+        gt: now,
+      },
+    },
+    orderBy: {
+      date: "asc",
+    },
+  });
+
+  if (!nextAppointment) {
+    return { error: "No upcoming appointments found" };
+  }
+
+  return nextAppointment;
+};
+
+//GET TODAY'S APPOINTMENTS
+export const getTodaysAppointments = async (): Promise<
+  Appointment[] | { error: string }
+> => {
+  const authResult = await auth();
+  const activeUser = authResult?.user;
+
+  if (!activeUser) {
+    return { error: "Please Login to continue this operation" };
+  }
+
+  const today = new Date();
+  const startOfDay = new Date(today.setHours(0, 0, 0, 0));
+  const endOfDay = new Date(today.setHours(23, 59, 59, 999));
+
+  const appointments = await Prisma.appointment.findMany({
+    where: {
+      doctorId: activeUser.id,
+      date: {
+        gte: startOfDay,
+        lte: endOfDay,
+      },
+    },
+  });
+
+  return appointments;
+};
 
 //DELETE SELECTED APPOINTMENTS
 
