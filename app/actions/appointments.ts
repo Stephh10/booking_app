@@ -6,10 +6,53 @@ import { Patient } from "@prisma/client";
 import { Appointment } from "@prisma/client";
 import { UpdatedAppointment } from "@/types/appointment";
 
+// GET PAST APPOINTMENTS
+
+export const getPastAppointments = async (): Promise<
+  Appointment[] | { error: string }
+> => {
+  const authResult = await auth();
+  const activeUser = authResult?.user;
+
+  if (!activeUser) {
+    return { error: "Please Login to continue this operation" };
+  }
+
+  const now = new Date();
+
+  const startOfDay = new Date();
+  startOfDay.setHours(0, 0, 0, 0);
+
+  const endOfDay = new Date();
+  endOfDay.setHours(23, 59, 59, 999);
+
+  const todaysAppointments = await Prisma.appointment.findMany({
+    where: {
+      doctorId: activeUser.id,
+      date: {
+        gte: startOfDay,
+        lte: endOfDay,
+      },
+    },
+    orderBy: {
+      date: "asc",
+    },
+  });
+
+  const pastAppointments = todaysAppointments.filter((appointment) => {
+    const endTime = new Date(
+      new Date(appointment.date).getTime() + appointment.duration * 60 * 1000
+    );
+    return endTime < now;
+  });
+
+  return pastAppointments;
+};
+
 //GET NEXT APPOINTMENT
 
 export const getNextAppointment = async (): Promise<
-  Appointment | { error: string }
+  { patient: Patient; date: Date } | { error: string }
 > => {
   const authResult = await auth();
   const activeUser = authResult?.user;
@@ -32,14 +75,29 @@ export const getNextAppointment = async (): Promise<
     },
   });
 
-  if (!nextAppointment) {
-    return { error: "No upcoming appointments found" };
+  if (!nextAppointment || !nextAppointment.patientId) {
+    return {
+      error: !nextAppointment
+        ? "No upcoming appointments found"
+        : "Patient not found",
+    };
   }
 
-  return nextAppointment;
+  const patient = await Prisma.patient.findUnique({
+    where: {
+      id: nextAppointment.patientId,
+    },
+  });
+
+  if (!patient) {
+    return { error: "Patient not found" };
+  }
+
+  return { patient, date: nextAppointment.date };
 };
 
 //GET TODAY'S APPOINTMENTS
+
 export const getTodaysAppointments = async (): Promise<
   Appointment[] | { error: string }
 > => {

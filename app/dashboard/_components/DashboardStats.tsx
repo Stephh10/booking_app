@@ -2,10 +2,17 @@ import React from "react";
 import DashboardCard from "./DashboardCard";
 import { getAllPatients } from "@/app/actions/patients";
 import { getTodaysAppointments } from "@/app/actions/appointments";
-
+import { getNextAppointment } from "@/app/actions/appointments";
+import { formatDate } from "@/lib/formatDate";
+import { getPastAppointments } from "@/app/actions/appointments";
 export default async function DashboardStats() {
-  const patientsData = await getAllPatients();
-  const todaysAppData = await getTodaysAppointments();
+  const [patientsData, todaysAppData, nextAppData, pastAppData] =
+    await Promise.all([
+      getAllPatients(),
+      getTodaysAppointments(),
+      getNextAppointment(),
+      getPastAppointments(),
+    ]);
 
   return (
     <div className="flex gap-2 my-4">
@@ -16,9 +23,13 @@ export default async function DashboardStats() {
       />
       <DashboardCard
         title="Next Appointment"
-        value={"September 5 10AM"}
+        value={"error" in nextAppData ? "" : formatDate(nextAppData.date)}
         className="dashboardStats"
-        desc="Kevin Punter"
+        desc={
+          "error" in nextAppData
+            ? nextAppData.error
+            : `${nextAppData.patient.firstName} ${nextAppData.patient.lastName}`
+        }
       />
       <DashboardCard
         title="Total Patients"
@@ -27,7 +38,7 @@ export default async function DashboardStats() {
       />
       <DashboardCard
         title="Completed Today"
-        value={"5"}
+        value={Array.isArray(pastAppData) ? pastAppData.length : 0}
         className="dashboardStats"
       />
     </div>
