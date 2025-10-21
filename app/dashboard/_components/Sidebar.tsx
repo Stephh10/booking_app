@@ -4,10 +4,18 @@ import React from "react";
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Calendar, Users, MessageSquare, Settings } from "lucide-react";
+import {
+  Calendar,
+  Users,
+  MessageSquare,
+  Settings,
+  LayoutPanelLeft,
+  LogOut,
+} from "lucide-react";
 
 const links = [
-  { name: "Appointments", href: "/dashboard", icon: Calendar },
+  { name: "Dashboard", href: "/dashboard", icon: LayoutPanelLeft },
+  { name: "Appointments", href: "/dashboard/appointments", icon: Calendar },
   { name: "Patients", href: "/dashboard/patients", icon: Users },
   { name: "Messages", href: "/dashboard/messages", icon: MessageSquare },
   { name: "Settings", href: "/dashboard/settings", icon: Settings },
@@ -16,14 +24,14 @@ const links = [
 export default function Sidebar() {
   const pathname = usePathname();
   return (
-    <div className="hidden md:block bg-[var(--secondary)] h-[500px] w-60 rounded-lg py-2 text-[var(--text)]">
+    <div className="hidden md:block bg-[var(--secondary)] h-[500px] w-60 rounded-lg py-2 text-[var(--text)] overflow-hidden">
       <Link
         className="text-2xl text-[var(--text-dark)] cursor-pointer"
         href={"/"}
       >
         BookingSite
       </Link>
-      <nav className="flex flex-col gap-2 mt-2">
+      <nav className="flex flex-col gap-2 mt-2 h-[93.5%] overflow-hidden ">
         {links.map((link) => {
           const isActive = pathname === link.href;
 
@@ -44,6 +52,26 @@ export default function Sidebar() {
             </Link>
           );
         })}
+        <div className="mt-auto navFooter">
+          <div className="text-center">
+            <Link className="sidebarLink" href={"/"}>
+              Support
+            </Link>
+            <Link className="sidebarLink" href={"/"}>
+              Privacy Policy
+            </Link>
+            <Link className="sidebarLink" href={"/"}>
+              Terms & Conditions
+            </Link>
+          </div>
+          <Link
+            className="flex items-center gap-3 px-3 py-2 transition-colors text-gray-600 hover:bg-[var(--text)]"
+            href={"/"}
+          >
+            <LogOut size={20} />
+            Logout
+          </Link>
+        </div>
       </nav>
     </div>
   );
