@@ -20,26 +20,36 @@ export default async function DashboardStats() {
         title="Today's Appointments"
         value={Array.isArray(todaysAppData) ? todaysAppData.length : 0}
         className="dashboardStats bg-[var(--btn-primary)] text-[var(--text)]"
+        link={`/`}
       />
       <DashboardCard
         title="Next Appointment"
-        value={"error" in nextAppData ? "" : formatDate(nextAppData.date)}
+        value={
+          "error" in nextAppData ? "" : formatDate(nextAppData.appointment.date)
+        }
         className="dashboardStats"
         desc={
           "error" in nextAppData
             ? nextAppData.error
             : `${nextAppData.patient.firstName} ${nextAppData.patient.lastName}`
         }
+        link={
+          "error" in nextAppData
+            ? "/"
+            : `/dashboard/appointments/${nextAppData.appointment.id}`
+        }
       />
       <DashboardCard
         title="Total Patients"
         value={patientsData.length}
         className="dashboardStats"
+        link={`/patients`}
       />
       <DashboardCard
         title="Completed Today"
         value={Array.isArray(pastAppData) ? pastAppData.length : 0}
         className="dashboardStats"
+        link={`/`}
       />
     </div>
   );

@@ -52,7 +52,8 @@ export const getPastAppointments = async (): Promise<
 //GET NEXT APPOINTMENT
 
 export const getNextAppointment = async (): Promise<
-  { patient: Patient; date: Date } | { error: string }
+  | { patient: Patient; appointment: { id: string; date: Date } }
+  | { error: string }
 > => {
   const authResult = await auth();
   const activeUser = authResult?.user;
@@ -93,7 +94,10 @@ export const getNextAppointment = async (): Promise<
     return { error: "Patient not found" };
   }
 
-  return { patient, date: nextAppointment.date };
+  return {
+    patient,
+    appointment: { id: nextAppointment.id, date: nextAppointment.date },
+  };
 };
 
 //GET TODAY'S APPOINTMENTS

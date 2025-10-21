@@ -126,7 +126,7 @@
   }
 
   .dashboardStats {
-    @apply flex-1 p-2 rounded-lg text-lg shadow-lg bg-[var(--bg)];
+    @apply flex-1 p-2 rounded-lg text-lg shadow-lg bg-[var(--bg)] cursor-pointer transform transition duration-150 ease-in-out hover:scale-105 shadow-md;
   }
 
   .activeLink {
