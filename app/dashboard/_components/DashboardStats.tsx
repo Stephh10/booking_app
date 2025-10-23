@@ -3,8 +3,8 @@ import DashboardCard from "./DashboardCard";
 import { getAllPatients } from "@/app/actions/patients";
 import { getTodaysAppointments } from "@/app/actions/appointments";
 import { getNextAppointment } from "@/app/actions/appointments";
-import { formatDate } from "@/lib/formatDate";
 import { getPastAppointments } from "@/app/actions/appointments";
+import { formatDate } from "@/lib/formatDate";
 export default async function DashboardStats() {
   const [patientsData, todaysAppData, nextAppData, pastAppData] =
     await Promise.all([

@@ -2,6 +2,10 @@ import React from "react";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import DashboardNav from "../_components/DashboardNav";
+import TodayAppointmentsTable from "./_components/tables/TodayAppointmentsTable/TodayAppointmentsTable";
+import { getTodaysAppointments } from "@/app/actions/appointments";
+import { getAllAppointments } from "@/app/actions/appointments";
+import { getPastAppointments } from "@/app/actions/appointments";
 
 export default async function page({
   searchParams,
@@ -9,8 +13,20 @@ export default async function page({
   searchParams: Promise<{ view?: string }>;
 }) {
   const paramsData = await searchParams;
-
   const currentView = paramsData?.view || "all";
+
+  const [todaysAppData, allAppointments, pastAppData] = await Promise.all([
+    getTodaysAppointments(),
+    getAllAppointments(),
+    getPastAppointments(),
+  ]);
+
+  const safeTodaysAppData = Array.isArray(todaysAppData) ? todaysAppData : [];
+  const safeAllAppointments = Array.isArray(allAppointments)
+    ? allAppointments
+    : [];
+  const safePastAppData = Array.isArray(pastAppData) ? pastAppData : [];
+
   return (
     <>
       <DashboardNav />
@@ -43,7 +59,7 @@ export default async function page({
             </TabsTrigger>
           </TabsList>
           <TabsContent value="today">
-            <h2>Today's appointments</h2>
+            <TodayAppointmentsTable data={safeTodaysAppData} />
           </TabsContent>
           <TabsContent value="completed">
             <h2>Completed today</h2>

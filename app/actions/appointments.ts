@@ -6,6 +6,13 @@ import { Patient } from "@prisma/client";
 import { Appointment } from "@prisma/client";
 import { UpdatedAppointment } from "@/types/appointment";
 
+type AppointmentWithPatient = Appointment & {
+  patient: {
+    firstName: string;
+    lastName: string;
+  } | null;
+};
+
 // GET PAST APPOINTMENTS
 
 export const getPastAppointments = async (): Promise<
@@ -103,7 +110,7 @@ export const getNextAppointment = async (): Promise<
 //GET TODAY'S APPOINTMENTS
 
 export const getTodaysAppointments = async (): Promise<
-  Appointment[] | { error: string }
+  AppointmentWithPatient[] | { error: string }
 > => {
   const authResult = await auth();
   const activeUser = authResult?.user;
@@ -122,6 +129,14 @@ export const getTodaysAppointments = async (): Promise<
       date: {
         gte: startOfDay,
         lte: endOfDay,
+      },
+    },
+    include: {
+      patient: {
+        select: {
+          firstName: true,
+          lastName: true,
+        },
       },
     },
   });
