@@ -20,7 +20,7 @@ export default async function DashboardStats() {
         title="Today's Appointments"
         value={Array.isArray(todaysAppData) ? todaysAppData.length : 0}
         className="dashboardStats bg-[var(--btn-primary)] text-[var(--text)]"
-        link={`/`}
+        link={`/dashboard/appointments?view=today`}
       />
       <DashboardCard
         title="Next Appointment"
@@ -49,7 +49,7 @@ export default async function DashboardStats() {
         title="Completed Today"
         value={Array.isArray(pastAppData) ? pastAppData.length : 0}
         className="dashboardStats"
-        link={`/`}
+        link={`/dashboard/appointments?view=completed`}
       />
     </div>
   );
