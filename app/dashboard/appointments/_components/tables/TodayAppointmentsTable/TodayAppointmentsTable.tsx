@@ -172,9 +172,9 @@ export default function TodayAppointmentsTable({
               <TableRow>
                 <TableCell
                   colSpan={historyColumns.length}
-                  className="h-24 text-center"
+                  className="h-24 text-center text-lg text-[var(--text-soft)]"
                 >
-                  No results.
+                  There are no appointments scheduled for today
                 </TableCell>
               </TableRow>
             )}

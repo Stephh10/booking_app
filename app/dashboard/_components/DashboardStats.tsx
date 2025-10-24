@@ -43,7 +43,7 @@ export default async function DashboardStats() {
         title="Total Patients"
         value={patientsData.length}
         className="dashboardStats"
-        link={`/patients`}
+        link={`/dashboard/patients`}
       />
       <DashboardCard
         title="Completed Today"

@@ -12,6 +12,7 @@ import {
 import { MoreHorizontal } from "lucide-react";
 import { redirect } from "next/navigation";
 import { deleteAppointment } from "@/app/actions/appointments";
+import { cancelAppointment } from "@/app/actions/appointments";
 
 type AppointmentWithPatient = Appointment & {
   patient: {
@@ -108,7 +109,7 @@ export const todayAppointmentsColumns: ColumnDef<AppointmentWithPatient>[] = [
         <div className="text-center">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="ghost" className="h-8 w-8 p-0">
+              <Button variant="ghost" className="h-8 w-8 p-0 cursor-pointer">
                 <span className="sr-only">Open menu</span>
                 <MoreHorizontal />
               </Button>
@@ -116,17 +117,36 @@ export const todayAppointmentsColumns: ColumnDef<AppointmentWithPatient>[] = [
             <DropdownMenuContent align="end">
               <DropdownMenuLabel>Actions</DropdownMenuLabel>
               <DropdownMenuItem
-                onClick={() => navigator.clipboard.writeText(appointment.id)}
-              >
-                Copy Appointment ID
-              </DropdownMenuItem>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem
                 onClick={() =>
                   redirect(`/dashboard/appointments/${appointment.id}`)
                 }
               >
                 View Appointment
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              {appointment.status === "scheduled" && (
+                <>
+                  <DropdownMenuItem>
+                    <form
+                      action={async () => {
+                        await cancelAppointment(appointment.id);
+                      }}
+                    >
+                      <button
+                        type="submit"
+                        className=" w-full text-center  mx-auto"
+                      >
+                        Cancel Appointment
+                      </button>
+                    </form>
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                </>
+              )}
+              <DropdownMenuItem
+                onClick={() => navigator.clipboard.writeText(appointment.id)}
+              >
+                Copy Appointment ID
               </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem className="h-[35px] bg-red-100">

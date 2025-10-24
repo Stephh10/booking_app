@@ -13,6 +13,29 @@ type AppointmentWithPatient = Appointment & {
   } | null;
 };
 
+//CANCEL APPOINTMENT
+
+export const cancelAppointment = async (appId: string) => {
+  try {
+    if (!appId) {
+      return { error: "Appointment id is required" };
+    }
+
+    await Prisma.appointment.update({
+      where: { id: appId },
+      data: {
+        status: "canceled",
+      },
+    });
+
+    revalidatePath(`/dashboard/appointments/today`);
+
+    return { success: true };
+  } catch (error) {
+    return { error: "Failed to cancel appointment" };
+  }
+};
+
 // GET PAST APPOINTMENTS
 
 export const getPastAppointments = async (): Promise<
@@ -200,8 +223,6 @@ export const getPatientAppointments = async (patientId: string) => {
       return { error: "No appointments found" };
     }
 
-    console.log(patientApp);
-
     return patientApp;
   } catch (error) {
     return { error: "Failed to fetch appointments" };
@@ -295,6 +316,7 @@ export const getAllAppointments = async () => {
   const appointments = await Prisma.appointment.findMany({
     where: {
       doctorId: activeUser.id,
+      status: "scheduled",
     },
   });
 
@@ -322,8 +344,6 @@ export async function createAppointment(data: any, doctorId?: string) {
     if (!activeUser?.id) {
       return { error: "You are not authentificated" };
     }
-
-    console.log(activeUser, data.date);
 
     const existingPatient =
       (await Prisma.patient.findFirst({
@@ -374,8 +394,8 @@ export async function createAppointment(data: any, doctorId?: string) {
       revalidatePath("/dashboard");
       return createdAppointment;
     });
-    return appointment;
     revalidatePath("/dashboard");
+    return appointment;
   } catch (error) {
     return { error: "Something is wrong" };
   }
