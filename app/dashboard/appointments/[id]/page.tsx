@@ -29,14 +29,29 @@ export default async function page({ params }: PageProps) {
         <UserInfo patientData={data} />
 
         <Tabs defaultValue="details" className="w-full">
-          <TabsList>
-            <TabsTrigger className="cursor-pointer" value="details">
+          <TabsList className="w-full flex border-1 p-0">
+            <TabsTrigger
+              className="menuTab
+             data-[state=active]:bg-[var(--btn-primary)] 
+             data-[state=active]:text-white"
+              value="details"
+            >
               Appointment Details
             </TabsTrigger>
-            <TabsTrigger className="cursor-pointer" value="history">
+            <TabsTrigger
+              className="menuTab
+             data-[state=active]:bg-[var(--btn-primary)] 
+             data-[state=active]:text-white"
+              value="history"
+            >
               Patient History
             </TabsTrigger>
-            <TabsTrigger className="cursor-pointer" value="notes">
+            <TabsTrigger
+              className="menuTab
+             data-[state=active]:bg-[var(--btn-primary)] 
+             data-[state=active]:text-white"
+              value="notes"
+            >
               Notes
             </TabsTrigger>
           </TabsList>

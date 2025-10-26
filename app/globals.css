@@ -126,7 +126,7 @@
   }
 
   .primaryBtn {
-    @apply bg-[var(--btn-primary)] flex items-center justify-center gap-2 p-2 rounded-xl text-[var(--text)] cursor-pointer;
+    @apply bg-[var(--btn-primary)] flex items-center justify-center gap-2 p-2  rounded-lg text-[var(--text)] cursor-pointer;
   }
 
   .bg-btn {

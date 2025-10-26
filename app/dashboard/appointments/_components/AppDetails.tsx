@@ -70,7 +70,6 @@ export default function AppDetails({ appId }: { appId: string }) {
         duration: formData.duration,
       });
 
-      console.log(response);
       setFormData((prev) => ({
         ...prev,
         date: formatDate(selectedDate),
@@ -83,22 +82,20 @@ export default function AppDetails({ appId }: { appId: string }) {
     <div>
       <div className="grid gap-2">
         {fields.map(({ key, label, type }) => (
-          <div key={key} className="grid gap-2 border-b-2 pb-1">
+          <div key={key} className="inputControl">
             <Label htmlFor={key}>{label}</Label>
             {isEditing ? (
               type === "textarea" ? (
                 <Textarea
                   id={key}
-                  className="w-[50%] h-[60px] "
                   placeholder={String(formData[key as FormDataKey])}
                   onChange={(e) =>
                     handleChange(key as FormDataKey, e.target.value)
                   }
                 />
               ) : (
-                <Input
+                <input
                   id={key}
-                  className="w-[50%] h-[35px]"
                   placeholder={String(formData[key as FormDataKey])}
                   onChange={(e) =>
                     handleChange(key as FormDataKey, e.target.value)
@@ -106,15 +103,17 @@ export default function AppDetails({ appId }: { appId: string }) {
                 />
               )
             ) : (
-              <p className="h-[35px]">{formData[key as FormDataKey]}</p>
+              <p className="h-[35px] text-[var(--text-soft)]">
+                {formData[key as FormDataKey]}
+              </p>
             )}
           </div>
         ))}
 
         {!isEditing ? <Label>Date:</Label> : ""}
         {isEditing ? (
-          <div className="flex">
-            <div className="flex flex-col mb-4">
+          <div className="inputSection">
+            <div className="flex flex-1 flex-col mb-4">
               <Label>Date and Time</Label>
               <DateSelector
                 selectedDateTime={selectedDate}
@@ -122,9 +121,9 @@ export default function AppDetails({ appId }: { appId: string }) {
               />
             </div>
 
-            <div className="flex flex-col">
+            <div className="inputControl">
               <Label>Duration</Label>
-              <Input
+              <input
                 type="number"
                 name="duration"
                 placeholder={String(formData.duration)}
@@ -135,7 +134,7 @@ export default function AppDetails({ appId }: { appId: string }) {
             </div>
           </div>
         ) : (
-          <p>{formData.date}</p>
+          <p className="h-[35px] text-[var(--text-soft)]">{formData.date}</p>
         )}
 
         <div className="flex justify-between mt-1">

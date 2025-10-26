@@ -41,17 +41,37 @@ export default async function page({
       <div className="p-4 bg-[var(--secondary)] rounded-2xl my-4">
         <UserInfo patientData={patientData} profileRouteId={patientId} />
         <Tabs defaultValue="details" className="w-full">
-          <TabsList>
-            <TabsTrigger className="cursor-pointer" value="details">
+          <TabsList className="w-full flex border-1 p-0">
+            <TabsTrigger
+              className="menuTab
+             data-[state=active]:bg-[var(--btn-primary)] 
+             data-[state=active]:text-white"
+              value="details"
+            >
               Patient Details
             </TabsTrigger>
-            <TabsTrigger className="cursor-pointer" value="medical-details">
+            <TabsTrigger
+              className="menuTab
+             data-[state=active]:bg-[var(--btn-primary)] 
+             data-[state=active]:text-white"
+              value="medical-details"
+            >
               Medical Details
             </TabsTrigger>
-            <TabsTrigger className="cursor-pointer" value="history">
+            <TabsTrigger
+              className="menuTab
+             data-[state=active]:bg-[var(--btn-primary)] 
+             data-[state=active]:text-white"
+              value="history"
+            >
               Patient History
             </TabsTrigger>
-            <TabsTrigger className="cursor-pointer" value="attachments">
+            <TabsTrigger
+              className="menuTab
+             data-[state=active]:bg-[var(--btn-primary)] 
+             data-[state=active]:text-white"
+              value="attachments"
+            >
               Attachments
             </TabsTrigger>
           </TabsList>
