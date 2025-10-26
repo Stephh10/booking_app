@@ -9,7 +9,7 @@ import { getAllAppointments } from "../actions/appointments";
 import { auth } from "@/auth";
 
 export default async function page() {
-  const appointmentsData = await getAllAppointments();
+  const appointmentsData = await getAllAppointments("scheduled");
   const activeUser = await auth();
 
   if (!activeUser || !activeUser.user) {

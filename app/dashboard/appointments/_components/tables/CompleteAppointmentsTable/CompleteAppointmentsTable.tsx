@@ -185,7 +185,7 @@ export default function CompleteAppointmentsTable({
                   colSpan={historyColumns.length}
                   className="h-24 text-center text-lg text-[var(--text-soft)]"
                 >
-                  There are no appointments scheduled for today
+                  There are no completed appointments for today
                 </TableCell>
               </TableRow>
             )}

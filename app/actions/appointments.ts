@@ -5,6 +5,8 @@ import { revalidatePath } from "next/cache";
 import { Patient } from "@prisma/client";
 import { Appointment } from "@prisma/client";
 import { UpdatedAppointment } from "@/types/appointment";
+import { syncAppointmentsStatus } from "@/lib/appointments";
+import { stat } from "fs";
 
 type AppointmentWithPatient = Appointment & {
   patient: {
@@ -313,7 +315,7 @@ export const getAppPatient = async (
 };
 
 //GET ALL APPOINTMENTS
-export const getAllAppointments = async () => {
+export const getAllAppointments = async (statusFilter?: string) => {
   const authResult = await auth();
   const activeUser = authResult?.user;
 
@@ -321,10 +323,12 @@ export const getAllAppointments = async () => {
     return { error: "You are not authentificated" };
   }
 
+  await syncAppointmentsStatus();
+
   const appointments = await Prisma.appointment.findMany({
     where: {
       doctorId: activeUser.id,
-      status: "scheduled",
+      status: statusFilter,
     },
     include: {
       patient: {
