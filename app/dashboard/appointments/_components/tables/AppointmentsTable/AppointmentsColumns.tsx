@@ -74,6 +74,25 @@ export const appointmentsColumns: ColumnDef<AppointmentWithPatient>[] = [
     },
   },
   {
+    id: "time",
+    accessorKey: "date",
+    header: "Date",
+    enableSorting: true,
+    sortingFn: (a, b) => {
+      const dateA = new Date(a.getValue("date")).getTime();
+      const dateB = new Date(b.getValue("date")).getTime();
+      return dateA - dateB;
+    },
+    cell: ({ row }) => {
+      const date: Date = row.getValue("date");
+      return new Date(date).toLocaleDateString("en-GB", {
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+      });
+    },
+  },
+  {
     accessorKey: "status",
     header: "Status",
     cell: ({ row }) => {
@@ -102,7 +121,6 @@ export const appointmentsColumns: ColumnDef<AppointmentWithPatient>[] = [
     enableHiding: false,
     header: () => <div className="mx-auto">Actions</div>,
     cell: ({ row }) => {
-      console.log(row);
       const appointment = row.original;
 
       return (
