@@ -188,6 +188,10 @@
   .menuTab {
     @apply flex-1 transition-all cursor-pointer py-4 hover:bg-[var(--text)] hover:text-[var(--bg)];
   }
+
+  .tableSearchInput {
+    @apply h-[35px] max-w-sm pl-[5px] bg-[var(--background)] rounded-lg w-full border-1;
+  }
 }
 
 .dark {

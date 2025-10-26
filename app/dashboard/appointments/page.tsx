@@ -2,10 +2,13 @@ import React from "react";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import DashboardNav from "../_components/DashboardNav";
-import TodayAppointmentsTable from "./_components/tables/TodayAppointmentsTable/TodayAppointmentsTable";
 import { getTodaysAppointments } from "@/app/actions/appointments";
 import { getAllAppointments } from "@/app/actions/appointments";
 import { getPastAppointments } from "@/app/actions/appointments";
+
+import CompleteAppointmentsTable from "./_components/tables/CompleteAppointmentsTable/CompleteAppointmentsTable";
+import TodayAppointmentsTable from "./_components/tables/TodayAppointmentsTable/TodayAppointmentsTable";
+import AppointmentsTable from "./_components/tables/AppointmentsTable/AppointmentsTable";
 
 export default async function page({
   searchParams,
@@ -62,10 +65,10 @@ export default async function page({
             <TodayAppointmentsTable data={safeTodaysAppData} />
           </TabsContent>
           <TabsContent value="completed">
-            <h2>Completed today</h2>
+            <CompleteAppointmentsTable data={safePastAppData} />
           </TabsContent>
           <TabsContent value="all">
-            <h2>All Appointments</h2>
+            <AppointmentsTable data={safeAllAppointments} />
           </TabsContent>
         </Tabs>
       </div>

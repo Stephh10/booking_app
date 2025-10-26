@@ -39,7 +39,7 @@ export const cancelAppointment = async (appId: string) => {
 // GET PAST APPOINTMENTS
 
 export const getPastAppointments = async (): Promise<
-  Appointment[] | { error: string }
+  AppointmentWithPatient[] | { error: string }
 > => {
   const authResult = await auth();
   const activeUser = authResult?.user;
@@ -66,6 +66,14 @@ export const getPastAppointments = async (): Promise<
     },
     orderBy: {
       date: "asc",
+    },
+    include: {
+      patient: {
+        select: {
+          firstName: true,
+          lastName: true,
+        },
+      },
     },
   });
 
@@ -317,6 +325,14 @@ export const getAllAppointments = async () => {
     where: {
       doctorId: activeUser.id,
       status: "scheduled",
+    },
+    include: {
+      patient: {
+        select: {
+          firstName: true,
+          lastName: true,
+        },
+      },
     },
   });
 

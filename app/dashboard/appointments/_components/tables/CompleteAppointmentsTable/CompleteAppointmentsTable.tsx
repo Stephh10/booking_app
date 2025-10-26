@@ -13,7 +13,9 @@ import {
 } from "@tanstack/react-table";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import { historyColumns } from "../../../../_components/HistoryColumns";
-import { todayAppointmentsColumns } from "./TodayAppointmentsColumns";
+import { Input } from "@/components/ui/input";
+
+import { completeAppointmentsColumns } from "./CompleteAppointmentsColumns";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -40,7 +42,7 @@ type AppointmentWithPatient = Appointment & {
   } | null;
 };
 
-export default function TodayAppointmentsTable({
+export default function CompleteAppointmentsTable({
   data,
 }: {
   data: AppointmentWithPatient[];
@@ -57,7 +59,7 @@ export default function TodayAppointmentsTable({
 
   const table = useReactTable({
     data,
-    columns: todayAppointmentsColumns,
+    columns: completeAppointmentsColumns,
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
     getCoreRowModel: getCoreRowModel(),
