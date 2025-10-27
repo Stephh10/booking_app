@@ -5,7 +5,10 @@ import AppDetails from "../_components/AppDetails";
 import AppHistory from "../_components/AppHistory";
 import AppNotes from "../_components/AppNotes";
 import DashboardNav from "../../_components/DashboardNav";
-import { getAppPatient } from "@/app/actions/appointments";
+import {
+  getAppPatient,
+  getSelectedAppointment,
+} from "@/app/actions/appointments";
 import { Patient } from "@prisma/client";
 import { redirect } from "next/navigation";
 
@@ -19,6 +22,12 @@ export default async function page({ params }: PageProps) {
   const data: Patient | { error: string } = await getAppPatient(id);
 
   if ("error" in data) {
+    return redirect("/dashboard");
+  }
+
+  const selectedAppointment = await getSelectedAppointment(id);
+
+  if ("error" in selectedAppointment) {
     return redirect("/dashboard");
   }
 
@@ -56,7 +65,7 @@ export default async function page({ params }: PageProps) {
             </TabsTrigger>
           </TabsList>
           <TabsContent value="details">
-            <AppDetails appId={id} />
+            <AppDetails appointmentData={selectedAppointment} />
           </TabsContent>
           <TabsContent value="history">
             {"error" in data ? (

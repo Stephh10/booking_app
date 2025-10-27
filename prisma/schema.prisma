@@ -87,7 +87,7 @@ model MedicalDetails {
 
 model Appointment {
   id        String   @id @default(cuid())
-  date      DateTime
+  date      String
   duration  Int
   reason    String?
   status    String   @default("scheduled")

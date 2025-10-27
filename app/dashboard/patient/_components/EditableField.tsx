@@ -5,7 +5,7 @@ import React from "react";
 type FieldProps = {
   label: string;
   name: string;
-  inputData: string | number;
+  inputData: string | number | null;
   isEditing: boolean;
   register?: any;
   errors?: FieldErrors<PatientDataForm>;

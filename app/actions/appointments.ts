@@ -243,7 +243,7 @@ export const getPatientAppointments = async (patientId: string) => {
 
 export const updateSelectedAppointment = async (
   appId: string,
-  updatedData: UpdatedAppointment
+  updatedData: any
 ) => {
   try {
     if (!appId) {
