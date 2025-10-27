@@ -16,7 +16,7 @@ export default function DateSelector({
   console.log(selectedDateTime);
   return (
     <DatePicker
-      className="w-full h-[35px] pl-2 bg-white rounded-lg"
+      className="w-full h-[35px] pl-2 bg-white rounded-lg text-[var(--text-soft)]"
       selected={selectedDateTime}
       onChange={(date: any) => setSelectedDateTime(date)}
       showTimeSelect

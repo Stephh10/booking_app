@@ -2,7 +2,6 @@
 
 import React from "react";
 import { Label } from "@radix-ui/react-label";
-import { Input } from "@/components/ui/input";
 import { useState, useEffect } from "react";
 import { Textarea } from "@/components/ui/textarea";
 import Link from "next/link";
@@ -32,6 +31,7 @@ export default function AppDetails({ appId }: { appId: string }) {
     diagnose: "Diagnose...",
     date: "Date...",
     duration: 20,
+    status: "pending",
   });
 
   const handleChange = (field: FormDataKey, value: string) => {
@@ -54,6 +54,7 @@ export default function AppDetails({ appId }: { appId: string }) {
         diagnose: result.diagnose || "Diagnose...",
         date: formatDate(result.date),
         duration: Number(result.duration) || 20,
+        status: result.status,
       });
 
       if (result.date) {
@@ -79,8 +80,11 @@ export default function AppDetails({ appId }: { appId: string }) {
   }
 
   return (
-    <div>
-      <div className="grid gap-2">
+    <div className="relative ">
+      <h2 className="absolute top-0 right-0 bg-[var(--btn-primary)] text-[var(--text)] rounded-lg px-4 py-1 capitalize">
+        {formData.status}
+      </h2>
+      <div className="flex flex-col gap-2">
         {fields.map(({ key, label, type }) => (
           <div key={key} className="inputControl">
             <Label htmlFor={key}>{label}</Label>
@@ -103,26 +107,27 @@ export default function AppDetails({ appId }: { appId: string }) {
                 />
               )
             ) : (
-              <p className="h-[35px] text-[var(--text-soft)]">
-                {formData[key as FormDataKey]}
-              </p>
+              <p className="formText">{formData[key as FormDataKey]}</p>
             )}
           </div>
         ))}
 
-        {!isEditing ? <Label>Date:</Label> : ""}
-        {isEditing ? (
-          <div className="inputSection">
-            <div className="flex flex-1 flex-col mb-4">
-              <Label>Date and Time</Label>
+        <div className="inputSection">
+          <div className="flex flex-1 flex-col mb-4">
+            <Label>Date and Time</Label>
+            {isEditing ? (
               <DateSelector
                 selectedDateTime={selectedDate}
                 setSelectedDateTime={setSelectedDate}
               />
-            </div>
+            ) : (
+              <h2 className="formText">{formData.date}</h2>
+            )}
+          </div>
 
-            <div className="inputControl">
-              <Label>Duration</Label>
+          <div className="inputControl">
+            <Label>Duration (Minutes)</Label>
+            {isEditing ? (
               <input
                 type="number"
                 name="duration"
@@ -131,14 +136,19 @@ export default function AppDetails({ appId }: { appId: string }) {
                   handleChange("duration", e.target.value);
                 }}
               />
-            </div>
+            ) : (
+              <h2 className="formText">{formData.duration}</h2>
+            )}
           </div>
-        ) : (
-          <p className="h-[35px] text-[var(--text-soft)]">{formData.date}</p>
-        )}
+        </div>
 
         <div className="flex justify-between mt-1">
-          <Link href={"/dashboard"}>Go Back</Link>
+          <Link
+            className="outlineBtn px-4 border-1 transform hover:scale-103"
+            href={"/dashboard"}
+          >
+            Go Back
+          </Link>
 
           <div className="flex items-center gap-3">
             <button

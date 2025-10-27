@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { Patient } from "@prisma/client";
 import { Phone, AtSign, Hash } from "lucide-react";
 import { AppProfileDrop } from "@/app/dashboard/appointments/_components/AppProfileDrop";
-import { SquarePen, X, Save } from "lucide-react";
+import { SquarePen, X, CalendarX } from "lucide-react";
 import { useEditPatientState } from "@/store/useEditPatientState";
 import { DialogDeletePatient } from "@/app/dashboard/patient/_components/DialogDeletePatient";
 
@@ -67,6 +67,9 @@ export default function UserInfo({
               </button> */}
               </div>
             ))}
+          <button className="outlineBtn rounded-lg border-1">
+            <CalendarX size={20} />
+          </button>
           <AppProfileDrop
             patientId={patientData.id}
             profileRouteId={profileRouteId}
