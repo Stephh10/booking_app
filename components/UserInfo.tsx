@@ -7,6 +7,7 @@ import { AppProfileDrop } from "@/app/dashboard/appointments/_components/AppProf
 import { SquarePen, X, CalendarX } from "lucide-react";
 import { useEditPatientState } from "@/store/useEditPatientState";
 import { DialogDeletePatient } from "@/app/dashboard/patient/_components/DialogDeletePatient";
+import { ChangeStatusDialog } from "./ChangeStatusDialog";
 
 export default function UserInfo({
   patientData,
@@ -16,6 +17,7 @@ export default function UserInfo({
   profileRouteId?: string;
 }) {
   const [isOpenDelete, setIsOpenDelete] = useState(false);
+  const [isOpenChangeStatus, setIsOpenChangeStatus] = useState(false);
 
   const { isEditing, setIsEditing } = useEditPatientState();
   if (patientData && "error" in patientData) {
@@ -67,7 +69,10 @@ export default function UserInfo({
               </button> */}
               </div>
             ))}
-          <button className="outlineBtn rounded-lg border-1">
+          <button
+            onClick={() => setIsOpenChangeStatus(true)}
+            className="outlineBtn rounded-lg border-1"
+          >
             <CalendarX size={20} />
           </button>
           <AppProfileDrop
@@ -81,6 +86,11 @@ export default function UserInfo({
         isOpen={isOpenDelete}
         setIsOpen={setIsOpenDelete}
         patientId={patientData.id}
+      />
+      <ChangeStatusDialog
+        appointmentId="1233"
+        isOpen={isOpenChangeStatus}
+        setIsOpen={() => setIsOpenChangeStatus(false)}
       />
     </>
   );
