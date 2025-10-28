@@ -6,6 +6,7 @@ import { Phone, AtSign, Hash } from "lucide-react";
 import { AppProfileDrop } from "@/app/dashboard/appointments/_components/AppProfileDrop";
 import { SquarePen, X, CalendarX } from "lucide-react";
 import { useEditPatientState } from "@/store/useEditPatientState";
+import { useEditAppountmentState } from "@/store/useEditAppountmentState";
 import { DialogDeletePatient } from "@/app/dashboard/patient/_components/DialogDeletePatient";
 import { ChangeStatusDialog } from "./ChangeStatusDialog";
 
@@ -20,6 +21,9 @@ export default function UserInfo({
   const [isOpenChangeStatus, setIsOpenChangeStatus] = useState(false);
 
   const { isEditing, setIsEditing } = useEditPatientState();
+  const { isEditingAppointment, setIsEditingAppointment } =
+    useEditAppountmentState();
+
   if (patientData && "error" in patientData) {
     return <p>{patientData.error}</p>;
   }
@@ -47,34 +51,53 @@ export default function UserInfo({
             )}
           </div>
         </div>
+
         <div className="flex items-center gap-2">
+          {/* CHANGE APPOINTMENT STATUS */}
+          {!profileRouteId && (
+            <button
+              onClick={() => setIsOpenChangeStatus(true)}
+              className="outlineBtn rounded-lg border-1"
+            >
+              <CalendarX size={20} />
+            </button>
+          )}
+          {/* EDIT PATIENT */}
           {profileRouteId &&
             (!isEditing ? (
-              <button className="outlineBtn">
+              <button className="outlineBtn rounded-lg border-1">
                 <SquarePen onClick={() => setIsEditing(true)} size={20} />
               </button>
             ) : (
               <div className="flex items-center gap-2">
                 <button
                   onClick={() => setIsEditing(false)}
-                  className="outlineBtn bg-[var(--destructive)] text-[var(--bg)]"
+                  className="outlineBtn rounded-lg bg-[var(--destructive)] text-[var(--bg)]"
                 >
-                  <X />
+                  <X size={20} />
                 </button>
-                {/* <button
-                onClick={() => setIsEditing(false)}
-                className="outlineBtn bg-[var(--btn-primary)] text-[var(--bg)]"
-              >
-                <Save />
-              </button> */}
               </div>
             ))}
-          <button
-            onClick={() => setIsOpenChangeStatus(true)}
-            className="outlineBtn rounded-lg border-1"
-          >
-            <CalendarX size={20} />
-          </button>
+          {/* EDIT APPOINTMENT */}
+          {!profileRouteId &&
+            (!isEditingAppointment ? (
+              <button className="outlineBtn rounded-lg border-1">
+                <SquarePen
+                  onClick={() => setIsEditingAppointment(true)}
+                  size={20}
+                />
+              </button>
+            ) : (
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={() => setIsEditingAppointment(false)}
+                  className="outlineBtn rounded-lg border-1 bg-[var(--destructive)] text-[var(--bg)]"
+                >
+                  <X size={20} />
+                </button>
+              </div>
+            ))}
+
           <AppProfileDrop
             patientId={patientData.id}
             profileRouteId={profileRouteId}

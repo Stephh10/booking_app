@@ -10,6 +10,7 @@ import DateSelector from "@/components/DateSelector";
 import { Appointment } from "@prisma/client";
 import EditableField from "../../patient/_components/EditableField";
 import { useForm } from "react-hook-form";
+import { useEditAppountmentState } from "@/store/useEditAppountmentState";
 
 export default function AppDetails({
   appointmentData,
@@ -23,13 +24,17 @@ export default function AppDetails({
     formState: { errors },
   } = useForm<Appointment>();
 
-  const [selectedDate, setSelectedDate] = useState(appointmentData.date);
   const [isPending, startTransition] = useTransition();
 
-  const [isEditing, setIsEditing] = useState(false);
+  //date state
+  const [selectedDate, setSelectedDate] = useState(appointmentData.date);
 
-  const { id, diagnose, duration, date, reason, status, updatedAt } =
-    appointmentData;
+  const {
+    isEditingAppointment: isEditing,
+    setIsEditingAppointment: setIsEditing,
+  } = useEditAppountmentState();
+
+  const { diagnose, duration, date, reason, status } = appointmentData;
 
   function handleFormSubmit(data: Appointment) {
     startTransition(async () => {
@@ -39,8 +44,8 @@ export default function AppDetails({
         duration: Number(data.duration),
       });
       if ("error" in response) {
-        console.log("Something went wrong");
         console.log(response);
+        return;
       }
 
       setIsEditing(false);
@@ -53,8 +58,8 @@ export default function AppDetails({
   return (
     <div className="relative ">
       <form className="w-[450px]" onSubmit={handleSubmit(handleFormSubmit)}>
-        <h2 className="absolute top-0 right-0 bg-[var(--btn-primary)] text-[var(--text)] rounded-lg px-4 py-1 capitalize">
-          {appointmentData.status}
+        <h2 className="absolute top-0 right-0 bg-[var(--btn-primary)] text-[var(--text)] rounded-lg px-4 py-2 text-center capitalize">
+          {status}
         </h2>
         <EditableField
           label="Reason"
@@ -93,20 +98,25 @@ export default function AppDetails({
             errors={errors}
           />
         </div>
-        <button
-          type="button"
-          onClick={() => setIsEditing(!isEditing)}
-          className="p2"
-        >
-          Edit
-        </button>
-        <button
-          type="submit"
-          onClick={() => setIsEditing(!isEditing)}
-          className="primaryBtn"
-        >
-          Submit
-        </button>
+
+        <div className="appDetailsAction flex justify-between">
+          <button
+            type="button"
+            onClick={() => setIsEditing(!isEditing)}
+            className="p2"
+          >
+            Edit
+          </button>
+          {isEditing && (
+            <button
+              type="submit"
+              onClick={() => setIsEditing(!isEditing)}
+              className="primaryBtn px-7"
+            >
+              Save
+            </button>
+          )}
+        </div>
       </form>
     </div>
   );

@@ -31,13 +31,13 @@ export function AppProfileDrop({
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <button className="primaryBtn">
-          <Ellipsis size={22} />
+          <Ellipsis size={20} />
         </button>
       </DropdownMenuTrigger>
       <DropdownMenuContent
         className="w-50"
         side="bottom"
-        align="start"
+        align="end"
         sideOffset={4}
       >
         <DropdownMenuLabel>Edit Patient</DropdownMenuLabel>
