@@ -12,6 +12,7 @@ import { deletePatient } from "@/app/actions/patients";
 
 import { useTransition } from "react";
 import { useRouter } from "next/navigation";
+import { cancelAppointment } from "@/app/actions/appointments";
 
 export function ChangeStatusDialog({
   isOpen,
@@ -25,13 +26,12 @@ export function ChangeStatusDialog({
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
 
-  function handleDeletePatient() {
+  function handleStatusChange() {
     startTransition(async () => {
-      const response = await deletePatient(appointmentId);
+      const response = await cancelAppointment(appointmentId);
 
       if (response.success) {
         setIsOpen(false);
-        router.push("/dashboard");
       }
     });
   }
@@ -54,11 +54,11 @@ export function ChangeStatusDialog({
               </button>
             </DialogClose>
             <button
-              onClick={handleDeletePatient}
+              onClick={handleStatusChange}
               className="primaryBtn"
               type="submit"
             >
-              {isPending ? "Deleting..." : "Delete anyway"}
+              {isPending ? "Changing status..." : "Change Status"}
             </button>
           </DialogFooter>
         </DialogContent>

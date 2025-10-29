@@ -35,7 +35,7 @@ export default async function page({ params }: PageProps) {
     <div>
       <DashboardNav />
       <div className="p-4 bg-[var(--secondary)] rounded-2xl my-4">
-        <UserInfo patientData={data} />
+        <UserInfo patientData={data} appointmentId={id} />
 
         <Tabs defaultValue="details" className="w-full">
           <TabsList className="w-full flex border-1 p-0">

@@ -6,7 +6,6 @@ import { Patient } from "@prisma/client";
 import { Appointment } from "@prisma/client";
 import { UpdatedAppointment } from "@/types/appointment";
 import { syncAppointmentsStatus } from "@/lib/appointments";
-import { stat } from "fs";
 
 type AppointmentWithPatient = Appointment & {
   patient: {

@@ -9,13 +9,16 @@ import { useEditPatientState } from "@/store/useEditPatientState";
 import { useEditAppountmentState } from "@/store/useEditAppountmentState";
 import { DialogDeletePatient } from "@/app/dashboard/patient/_components/DialogDeletePatient";
 import { ChangeStatusDialog } from "./ChangeStatusDialog";
+import { Appointment } from "@prisma/client";
 
 export default function UserInfo({
   patientData,
   profileRouteId,
+  appointmentData,
 }: {
   patientData: Patient | { error: string };
   profileRouteId?: string;
+  appointmentData?: Appointment;
 }) {
   const [isOpenDelete, setIsOpenDelete] = useState(false);
   const [isOpenChangeStatus, setIsOpenChangeStatus] = useState(false);
@@ -57,7 +60,8 @@ export default function UserInfo({
           {!profileRouteId && (
             <button
               onClick={() => setIsOpenChangeStatus(true)}
-              className="outlineBtn rounded-lg border-1"
+              className="outlineBtn rounded-lg border-1 disabled:opacity-50 disabled:cursor-not-allowed disabled:bg-gray-200"
+              disabled={appointmentData?.status !== "scheduled"}
             >
               <CalendarX size={20} />
             </button>
@@ -111,7 +115,7 @@ export default function UserInfo({
         patientId={patientData.id}
       />
       <ChangeStatusDialog
-        appointmentId="1233"
+        appointmentId={appointmentData?.id || ""}
         isOpen={isOpenChangeStatus}
         setIsOpen={() => setIsOpenChangeStatus(false)}
       />

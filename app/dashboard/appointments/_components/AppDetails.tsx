@@ -50,17 +50,19 @@ export default function AppDetails({
 
       setIsEditing(false);
     });
-    console.log({
-      ...data,
-      date: selectedDate ? selectedDate.toISOString() : undefined,
-    });
   }
   return (
     <div className="relative ">
       <form className="w-[450px]" onSubmit={handleSubmit(handleFormSubmit)}>
-        <h2 className="absolute top-0 right-0 bg-[var(--btn-primary)] text-[var(--text)] rounded-lg px-4 py-2 text-center capitalize">
+        <div
+          className={`absolute top-0 right-0 text-[var(--text)] rounded-lg px-4 py-2 text-center capitalize ${
+            status !== "scheduled"
+              ? "border-2 text-[var(--text-soft)]"
+              : "bg-[var(--btn-primary)]"
+          }`}
+        >
           {status}
-        </h2>
+        </div>
         <EditableField
           label="Reason"
           name="reason"
