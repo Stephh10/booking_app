@@ -11,7 +11,7 @@ import { Appointment } from "@prisma/client";
 import EditableField from "../../patient/_components/EditableField";
 import { useForm } from "react-hook-form";
 import { useEditAppountmentState } from "@/store/useEditAppountmentState";
-
+import { useRouter } from "next/navigation";
 export default function AppDetails({
   appointmentData,
 }: {
@@ -25,6 +25,7 @@ export default function AppDetails({
   } = useForm<Appointment>();
 
   const [isPending, startTransition] = useTransition();
+  const router = useRouter();
 
   //date state
   const [selectedDate, setSelectedDate] = useState(appointmentData.date);
@@ -103,11 +104,10 @@ export default function AppDetails({
 
         <div className="appDetailsAction flex justify-between">
           <button
-            type="button"
-            onClick={() => setIsEditing(!isEditing)}
-            className="p2"
+            onClick={() => router.push("/dashboard")}
+            className="outlineBtn border-1"
           >
-            Edit
+            Go Back
           </button>
           {isEditing && (
             <button
