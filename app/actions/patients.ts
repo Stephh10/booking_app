@@ -3,9 +3,61 @@
 import { auth } from "@/auth";
 import { prisma as Prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
-import { Patient } from "@/types/patient";
 import { PatientDataForm } from "@/types/patientDataForm";
 import { MedicalDetails } from "@prisma/client";
+import { Patient } from "@prisma/client";
+
+//GET PATIENT BY NAME
+
+export const getPatientsByName = async (
+  query: string
+): Promise<Patient[] | { error: string }> => {
+  try {
+    if (!query || query.trim() === "") {
+      return { error: "Query is required" };
+    }
+
+    const searchTerm = query.trim();
+
+    const patients = await Prisma.patient.findMany({
+      where: {
+        OR: [
+          {
+            firstName: {
+              startsWith: searchTerm,
+            },
+          },
+          {
+            lastName: {
+              startsWith: searchTerm,
+            },
+          },
+        ],
+      },
+      orderBy: [
+        {
+          firstName: "asc",
+        },
+        {
+          lastName: "asc",
+        },
+      ],
+      take: 20,
+      select: {
+        id: true,
+        firstName: true,
+        lastName: true,
+        email: true,
+        phone: true,
+        dateOfBirth: true,
+      },
+    });
+
+    return patients as Patient[];
+  } catch (error) {
+    return { error: "Failed to search patients" };
+  }
+};
 
 //DELETE PATIENT
 
