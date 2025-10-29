@@ -5,6 +5,7 @@ import NavSearchItem from "./NavSearchItem";
 import { getPatientsByName } from "@/app/actions/patients";
 import { useTransition } from "react";
 import { Patient } from "@prisma/client";
+import { Spinner } from "@/components/ui/spinner";
 
 export default function NavSearchInput() {
   const [searchValue, setSearchValue] = useState("");
@@ -49,29 +50,20 @@ export default function NavSearchInput() {
         </button>
       </div>
       {searchValue && (
-        <div className="searchResult absolute top-full left-0 mt-3 w-full rounded-lg p-1 bg-[var(--bg)] shadow-xl text-center px-3">
+        <div className="searchResult absolute top-full left-0 mt-3 w-full rounded-lg p-1 bg-[var(--bg)] shadow-xl px-3">
           {searchData.length ? (
             searchData.map((patient) => (
               <NavSearchItem key={patient.id} itemData={patient} />
             ))
           ) : isPending ? (
-            <p className="text-sm text-[var(--text-soft)]">Loading...</p>
+            <div className="text-sm text-[var(--text-soft)]">
+              <Spinner className="size-5 mx-auto text-[var(--text-soft)]" />
+            </div>
           ) : (
             <p className="text-sm text-[var(--text-soft)]">No Result Found</p>
           )}
         </div>
       )}
-      {/* {searchData.length && searchData.length > 0 && (
-        <div className="searchResult absolute top-full left-0 mt-3  w-full rounded-lg p-1 bg-[var(--bg)] shadow-xl text-center px-3">
-          {searchData.length ? (
-            searchData.map((patient) => (
-              <NavSearchItem key={patient.id} itemData={patient} />
-            ))
-          ) : (
-            <p className="text-sm text-[var(--text-soft)]">No Result Found</p>
-          )}
-        </div>
-      )} */}
     </div>
   );
 }
