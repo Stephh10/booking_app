@@ -3,8 +3,9 @@
 import React from "react";
 import { Link } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { Patient } from "@prisma/client";
 
-export default function NavSearchItem({ itemData }: { itemData: any }) {
+export default function NavSearchItem({ itemData }: { itemData: Patient }) {
   const router = useRouter();
   return (
     <div
