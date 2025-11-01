@@ -142,7 +142,7 @@
   }
 
   .inputSection {
-    @apply flex gap-2 w-full;
+    @apply flex gap-3 w-full;
   }
 
   .inputControl {
@@ -191,6 +191,10 @@
 
   .tableSearchInput {
     @apply h-[35px] max-w-sm pl-[5px] bg-[var(--background)] rounded-lg w-full border-1;
+  }
+
+  .line {
+    @apply w-full h-[2px] bg-[var(--text)] my-2;
   }
 }
 

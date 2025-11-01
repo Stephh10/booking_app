@@ -4,17 +4,19 @@ import React from "react";
 import { useState } from "react";
 import PageHeader from "@/components/PageHeader";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import GeneralSettings from "./GeneralSettings";
+import { useEditSettings } from "@/store/useEditSettings";
 
 export default function SettingsMain() {
-  const [isEdit, setIsEdit] = useState(false);
+  const { isEditing, setIsEditing } = useEditSettings();
 
   return (
     <>
       <PageHeader title="Settings" description="Manage your account settings.">
-        {isEdit ? (
+        {isEditing ? (
           <div className="flex gap-2">
             <button
-              onClick={() => setIsEdit(false)}
+              onClick={() => setIsEditing(false)}
               className="w-[120px] border-1 py-1 rounded-lg cursor-pointer"
             >
               Cancel
@@ -25,7 +27,7 @@ export default function SettingsMain() {
           </div>
         ) : (
           <button
-            onClick={() => setIsEdit(true)}
+            onClick={() => setIsEditing(true)}
             className="bg-[var(--btn-primary)]  text-[var(--text)] w-[120px] border-2 py-1 rounded-lg cursor-pointer"
           >
             Edit
@@ -38,7 +40,7 @@ export default function SettingsMain() {
             <TabsTrigger
               className="menuTab
                  data-[state=active]:bg-[var(--btn-primary)] 
-                 data-[state=active]:text-white "
+                 data-[state=active]:text-white"
               value="general"
             >
               General
@@ -77,7 +79,7 @@ export default function SettingsMain() {
             </TabsTrigger>
           </TabsList>
           <TabsContent value="general">
-            <h2>General</h2>
+            <GeneralSettings />
           </TabsContent>
           <TabsContent value="preferences">
             <h2>Preferences</h2>

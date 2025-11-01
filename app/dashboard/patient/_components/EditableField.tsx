@@ -24,10 +24,16 @@ export default function EditableField({
     <div className="inputControl">
       <label htmlFor={name}>{label}</label>
       {!isEditing ? (
-        <h2 className="formText">{inputData}</h2>
+        <h2 className="formText mt-1">{inputData}</h2>
       ) : (
-        <div>
-          <input id={name} name={name} type="text" {...register(name)} />
+        <div className="mt-1">
+          <input
+            id={name}
+            name={name}
+            defaultValue={inputData}
+            type="text"
+            {...register(name)}
+          />
           {fieldError && (
             <p className="text-red-500 text-sm">
               {fieldError && "Place for error message"}
