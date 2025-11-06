@@ -5,6 +5,7 @@ import { useState } from "react";
 import PageHeader from "@/components/PageHeader";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import GeneralSettings from "./GeneralSettings";
+import PreferencesSettings from "./PreferencesSettings";
 import { useEditSettings } from "@/store/useEditSettings";
 
 export default function SettingsMain() {
@@ -82,7 +83,7 @@ export default function SettingsMain() {
             <GeneralSettings />
           </TabsContent>
           <TabsContent value="preferences">
-            <h2>Preferences</h2>
+            <PreferencesSettings />
           </TabsContent>
           <TabsContent value="work-time">
             <h2>Work Time</h2>

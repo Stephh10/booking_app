@@ -196,6 +196,18 @@
   .line {
     @apply w-full h-[2px] bg-[var(--text)] my-2;
   }
+
+  .settingsHeader {
+    @apply font-bold text-lg text-[var(--btn-primary)] mb-2;
+  }
+
+  .settingsModeCard {
+    @apply w-[250px] h-[250px] flex flex-col items-center gap-2 cursor-pointer border-2 overflow-hidden rounded-lg;
+  }
+
+  .activeModeCard {
+    @apply border-4 border-[var(--btn-primary)];
+  }
 }
 
 .dark {
