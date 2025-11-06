@@ -277,3 +277,13 @@
     background-color: #6b7280;
   }
 }
+
+/* shad cn input selector config */
+[data-slot="trigger"],
+button[data-state] {
+  cursor: pointer;
+}
+
+[data-radix-collection-item] {
+  cursor: pointer !important;
+}

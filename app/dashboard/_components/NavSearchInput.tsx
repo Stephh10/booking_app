@@ -35,7 +35,7 @@ export default function NavSearchInput() {
       <div className="flex items-center gap-2 h-[40px] bg-[var(--bg)] rounded-lg px-4 shadow-lg ">
         <Search size={20} />
         <input
-          className="h-full outline-none"
+          className="h-full flex-1 outline-none"
           type="text"
           placeholder="Search Patients"
           ref={inputRef}
@@ -60,7 +60,11 @@ export default function NavSearchInput() {
               <Spinner className="size-5 mx-auto text-[var(--text-soft)]" />
             </div>
           ) : (
-            <p className="text-sm text-[var(--text-soft)]">No Result Found</p>
+            <div className="text-center">
+              <p className="text-sm text-[var(--text-soft)]  ">
+                No Result Found
+              </p>
+            </div>
           )}
         </div>
       )}
