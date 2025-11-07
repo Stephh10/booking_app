@@ -7,6 +7,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import GeneralSettings from "./GeneralSettings";
 import PreferencesSettings from "./PreferencesSettings";
 import { useEditSettings } from "@/store/useEditSettings";
+import WorkTimeSettings from "./WorkTimeSettings";
 
 export default function SettingsMain() {
   const { isEditing, setIsEditing } = useEditSettings();
@@ -86,7 +87,7 @@ export default function SettingsMain() {
             <PreferencesSettings />
           </TabsContent>
           <TabsContent value="work-time">
-            <h2>Work Time</h2>
+            <WorkTimeSettings />
           </TabsContent>
           <TabsContent value="account">
             <h2>Account</h2>
