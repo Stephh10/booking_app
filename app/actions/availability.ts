@@ -2,12 +2,81 @@
 import { auth } from "@/auth";
 import { getDay } from "date-fns";
 import { prisma as Prisma } from "@/lib/prisma";
+import { DoctorAvailability } from "@prisma/client";
 
 interface FreeSlot {
   dayOfWeek: number;
   startTime: Date;
   endTime: Date;
 }
+
+//UPDATE ACTIVE DAYS
+
+export const updateActiveDays = async (selectedDay: number) => {
+  console.log(selectedDay);
+
+  const authResult = await auth();
+  const activeUser = authResult?.user;
+
+  if (!activeUser) {
+    return { error: "You are not authentificated" };
+  }
+
+  const dayData = await Prisma.doctorAvailability.findFirst({
+    where: {
+      doctorId: activeUser.id,
+      dayOfWeek: selectedDay,
+    },
+  });
+
+  if (dayData) {
+    await Prisma.doctorAvailability.delete({
+      where: {
+        id: dayData.id,
+      },
+    });
+  } else {
+    const startTime = new Date();
+    startTime.setHours(9, 0, 0, 0);
+
+    const endTime = new Date();
+    endTime.setHours(17, 0, 0, 0);
+
+    await Prisma.doctorAvailability.create({
+      data: {
+        doctorId: activeUser.id,
+        dayOfWeek: selectedDay,
+        startTime,
+        endTime,
+      },
+    });
+  }
+
+  return { success: "Updated work schedule successfully" };
+};
+
+//GET ACTIVE DATES
+
+export const getAvailableDays = async (): Promise<
+  DoctorAvailability[] | { error: string }
+> => {
+  const authResult = await auth();
+  const activeUser = authResult?.user;
+
+  if (!activeUser) {
+    return { error: "You are not authentificated" };
+  }
+
+  const availabeDays = await Prisma.doctorAvailability.findMany({
+    where: {
+      doctorId: activeUser.id,
+    },
+  });
+
+  return availabeDays;
+};
+
+//GET DOCTOR AVAILABILITY - FOR PATIENTS
 
 export const getDoctorAvailability = async (selectedDate: Date) => {
   const authResult = await auth();
