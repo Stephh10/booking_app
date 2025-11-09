@@ -39,14 +39,18 @@ export default function WorkTimeSettings() {
         </div>
       ) : (
         <div className="workSettingsDetails grid  grid-cols-2 lg:grid-cols-3 gap-2 lg:gap-4">
-          {daysInWeek.map((day, index) => (
-            <WorkTimeCard
-              key={index}
-              dayName={day.dayName}
-              selectedDay={index}
-              availableDays={availableDays}
-            />
-          ))}
+          {daysInWeek.map((day, index) => {
+            const dayData = availableDays.find(
+              (item) => item.dayOfWeek === index
+            );
+            return (
+              <WorkTimeCard
+                key={index}
+                selectedCardDay={day}
+                selectedDay={dayData}
+              />
+            );
+          })}
         </div>
       )}
     </div>

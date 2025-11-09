@@ -5,6 +5,8 @@ import { Clock } from "lucide-react";
 import { DoctorAvailability } from "@prisma/client";
 import { updateActiveDays } from "@/app/actions/availability";
 import { useTransition } from "react";
+import { formatWorkCardDate } from "@/lib/dateFormats/formatWorkCardDate";
+import { generateTimeSlots } from "@/lib/dateFormats/generateTimeSlots";
 
 import {
   Select,
@@ -17,26 +19,31 @@ import {
 
 export default function WorkTimeCard({
   selectedDay,
-  dayName,
-  availableDays,
+  selectedCardDay,
 }: {
-  selectedDay: number;
-  dayName: string;
-  availableDays: DoctorAvailability[];
+  selectedDay: DoctorAvailability | undefined;
+  selectedCardDay: any;
 }) {
-  const [isPending, startTransition] = useTransition();
+  //TIME CHANGE
 
-  const days = availableDays.map((item) => item.dayOfWeek);
-  const activeDayData = days.includes(selectedDay);
-  const [activeDay, setActiveDay] = useState(activeDayData);
+  const [startTime, setStartTime] = useState(selectedDay?.startTime);
+  const [endTime, setEndTime] = useState(selectedDay?.endTime);
+
+  //ACTIVE DATE
+  const [isPending, startTransition] = useTransition();
+  const [activeDay, setActiveDay] = useState(selectedDay ? true : false);
+  const timeSlots = generateTimeSlots();
 
   function handleUpdateActiveDays() {
+    console.log("Updatinggg");
     setActiveDay((prev) => !prev);
 
     startTransition(async () => {
-      const response = await updateActiveDays(selectedDay);
+      await updateActiveDays(selectedCardDay.dayOfWeek);
     });
   }
+
+  console.log(formatWorkCardDate(endTime!));
 
   return (
     <div className="workTimeCard border-2 p-2 rounded-lg">
@@ -61,42 +68,40 @@ export default function WorkTimeCard({
               disabled={!activeDay}
               className="flex-6 [&_svg]:hidden"
             >
-              <SelectValue placeholder={dayName} />
+              <SelectValue placeholder={selectedCardDay.dayName} />
             </SelectTrigger>
           </Select>
         </div>
         <div className="workTimeCardSelector">
           <h1 className="flex-1">From</h1>
-          <Select>
+          <Select value={formatWorkCardDate(startTime!)}>
             <SelectTrigger disabled={!activeDay} className="flex-6">
-              <SelectValue placeholder="English" />
+              <SelectValue />
             </SelectTrigger>
             <SelectContent>
               <SelectGroup>
-                <SelectItem value="en">English</SelectItem>
-              </SelectGroup>
-              <SelectGroup>
-                <SelectItem disabled value="es">
-                  German
-                </SelectItem>
+                {timeSlots.map((t) => (
+                  <SelectItem key={t} value={t}>
+                    {t}
+                  </SelectItem>
+                ))}
               </SelectGroup>
             </SelectContent>
           </Select>
         </div>
         <div className="workTimeCardSelector">
           <h1 className="flex-1">To</h1>
-          <Select>
+          <Select value={formatWorkCardDate(endTime!)}>
             <SelectTrigger disabled={!activeDay} className="flex-6">
-              <SelectValue placeholder="English" />
+              <SelectValue />
             </SelectTrigger>
             <SelectContent>
               <SelectGroup>
-                <SelectItem value="en">English</SelectItem>
-              </SelectGroup>
-              <SelectGroup>
-                <SelectItem disabled value="es">
-                  German
-                </SelectItem>
+                {timeSlots.map((t) => (
+                  <SelectItem key={t} value={t}>
+                    {t}
+                  </SelectItem>
+                ))}
               </SelectGroup>
             </SelectContent>
           </Select>
