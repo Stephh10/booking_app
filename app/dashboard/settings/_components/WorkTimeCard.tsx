@@ -25,10 +25,9 @@ export default function WorkTimeCard({
   availableDays: DoctorAvailability[];
 }) {
   const [isPending, startTransition] = useTransition();
+
   const days = availableDays.map((item) => item.dayOfWeek);
-
   const activeDayData = days.includes(selectedDay);
-
   const [activeDay, setActiveDay] = useState(activeDayData);
 
   function handleUpdateActiveDays() {
@@ -36,7 +35,6 @@ export default function WorkTimeCard({
 
     startTransition(async () => {
       const response = await updateActiveDays(selectedDay);
-      console.log(response);
     });
   }
 
