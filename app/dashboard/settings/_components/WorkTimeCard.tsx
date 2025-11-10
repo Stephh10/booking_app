@@ -7,8 +7,8 @@ import { updateActiveDays } from "@/app/actions/availability";
 import { useTransition } from "react";
 import { formatWorkCardDate } from "@/lib/dateFormats/formatWorkCardDate";
 import { generateTimeSlots } from "@/lib/dateFormats/generateTimeSlots";
-import { parseToIsoTime } from "@/lib/dateFormats/parseToIsoTime";
 import { validateTime } from "@/lib/dateFormats/validateTime";
+import { updateDayTime } from "@/app/actions/availability";
 
 import {
   Select,
@@ -47,13 +47,8 @@ export default function WorkTimeCard({
   }
 
   function handleTimeUpdate(type: string, time: string) {
-    console.log({
-      type,
-      time: parseToIsoTime(time),
-    });
+    const newTimes = { ...selectedTime, [type]: time };
     setSelectedTime((prev) => {
-      const newTimes = { ...prev, [type]: time };
-
       //TIME VALIDATION
       if (newTimes.from && newTimes.to) {
         if (
@@ -68,6 +63,16 @@ export default function WorkTimeCard({
       }
 
       return newTimes;
+    });
+
+    startTransition(async () => {
+      if (typeof newTimes.from !== "string" || typeof newTimes.to !== "string")
+        return;
+      await updateDayTime(
+        selectedCardDay.dayOfWeek,
+        newTimes.from,
+        newTimes.to
+      );
     });
   }
 

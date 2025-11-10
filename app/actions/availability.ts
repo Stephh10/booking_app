@@ -3,12 +3,60 @@ import { auth } from "@/auth";
 import { getDay } from "date-fns";
 import { prisma as Prisma } from "@/lib/prisma";
 import { DoctorAvailability } from "@prisma/client";
+import { parseToIsoTime } from "@/lib/dateFormats/parseToIsoTime";
 
 interface FreeSlot {
   dayOfWeek: number;
   startTime: Date;
   endTime: Date;
 }
+
+//UPDATE DAY TIME
+
+export const updateDayTime = async (
+  selectedDay: number,
+  startTime: string,
+  endTime: string
+) => {
+  const authResult = await auth();
+  const activeUser = authResult?.user;
+
+  const formatedDates = {
+    startTime: parseToIsoTime(startTime),
+    endTime: parseToIsoTime(endTime),
+  };
+
+  console.log(formatedDates);
+
+  console.log(startTime, endTime);
+
+  if (!activeUser) {
+    return { error: "You are not authenticated" };
+  }
+
+  // Pronađi zapis koji treba da update-uješ
+  const record = await Prisma.doctorAvailability.findFirst({
+    where: {
+      doctorId: activeUser.id,
+      dayOfWeek: selectedDay,
+    },
+  });
+
+  if (!record) {
+    return { error: "No availability found for this day" };
+  }
+
+  // Update po id-u
+  const updated = await Prisma.doctorAvailability.update({
+    where: { id: record.id },
+    data: {
+      startTime: parseToIsoTime(startTime),
+      endTime: parseToIsoTime(endTime),
+    },
+  });
+
+  return { success: "Updated work schedule successfully", updated };
+};
 
 //UPDATE ACTIVE DAYS
 
