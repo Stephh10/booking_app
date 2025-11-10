@@ -1,7 +1,11 @@
-import { da } from "date-fns/locale";
+//CREATES A DATE STRING FROM A DATE OBJECT
 
-export function formatWorkCardDate(date: Date) {
+export function formatWorkCardDate(date: any) {
+  if (typeof date === "string") return date;
+
   if (!date) return "";
+
+  if (date instanceof Date && isNaN(date.getTime())) return "";
 
   let hours = date.getHours();
   const minutes = date.getMinutes();
@@ -9,7 +13,6 @@ export function formatWorkCardDate(date: Date) {
   const ampm = hours >= 12 ? "PM" : "AM";
   hours = hours % 12 || 12;
 
-  // uvijek dodaj minute s paddingom
   const mins = `:${String(minutes).padStart(2, "0")}`;
 
   return `${hours}${mins}${ampm}`;

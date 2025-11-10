@@ -7,6 +7,8 @@ import { updateActiveDays } from "@/app/actions/availability";
 import { useTransition } from "react";
 import { formatWorkCardDate } from "@/lib/dateFormats/formatWorkCardDate";
 import { generateTimeSlots } from "@/lib/dateFormats/generateTimeSlots";
+import { parseToIsoTime } from "@/lib/dateFormats/parseToIsoTime";
+import { validateTime } from "@/lib/dateFormats/validateTime";
 
 import {
   Select,
@@ -25,17 +27,18 @@ export default function WorkTimeCard({
   selectedCardDay: any;
 }) {
   //TIME CHANGE
+  const [selectedTime, setSelectedTime] = useState({
+    from: selectedDay?.startTime,
+    to: selectedDay?.endTime,
+  });
 
-  const [startTime, setStartTime] = useState(selectedDay?.startTime);
-  const [endTime, setEndTime] = useState(selectedDay?.endTime);
-
-  //ACTIVE DATE
+  //ACTIVE DATE CARD
   const [isPending, startTransition] = useTransition();
   const [activeDay, setActiveDay] = useState(selectedDay ? true : false);
+
   const timeSlots = generateTimeSlots();
 
   function handleUpdateActiveDays() {
-    console.log("Updatinggg");
     setActiveDay((prev) => !prev);
 
     startTransition(async () => {
@@ -43,7 +46,30 @@ export default function WorkTimeCard({
     });
   }
 
-  console.log(formatWorkCardDate(endTime!));
+  function handleTimeUpdate(type: string, time: string) {
+    console.log({
+      type,
+      time: parseToIsoTime(time),
+    });
+    setSelectedTime((prev) => {
+      const newTimes = { ...prev, [type]: time };
+
+      //TIME VALIDATION
+      if (newTimes.from && newTimes.to) {
+        if (
+          !validateTime(
+            formatWorkCardDate(newTimes.from),
+            formatWorkCardDate(newTimes.to)
+          )
+        ) {
+          console.error("Please enter valid time");
+          return prev;
+        }
+      }
+
+      return newTimes;
+    });
+  }
 
   return (
     <div className="workTimeCard border-2 p-2 rounded-lg">
@@ -74,7 +100,10 @@ export default function WorkTimeCard({
         </div>
         <div className="workTimeCardSelector">
           <h1 className="flex-1">From</h1>
-          <Select value={formatWorkCardDate(startTime!)}>
+          <Select
+            onValueChange={(v: string) => handleTimeUpdate("from", v)}
+            value={formatWorkCardDate(selectedTime.from!)}
+          >
             <SelectTrigger disabled={!activeDay} className="flex-6">
               <SelectValue />
             </SelectTrigger>
@@ -91,7 +120,10 @@ export default function WorkTimeCard({
         </div>
         <div className="workTimeCardSelector">
           <h1 className="flex-1">To</h1>
-          <Select value={formatWorkCardDate(endTime!)}>
+          <Select
+            onValueChange={(v: string) => handleTimeUpdate("to", v)}
+            value={formatWorkCardDate(selectedTime.to!)}
+          >
             <SelectTrigger disabled={!activeDay} className="flex-6">
               <SelectValue />
             </SelectTrigger>
