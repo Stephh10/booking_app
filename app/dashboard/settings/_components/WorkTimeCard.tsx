@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import { Switch } from "@/components/ui/switch";
-import { Clock } from "lucide-react";
+import { Clock, CloudHail } from "lucide-react";
 import { DoctorAvailability } from "@prisma/client";
 import { updateActiveDays } from "@/app/actions/availability";
 import { useTransition } from "react";
@@ -10,6 +10,7 @@ import { generateTimeSlots } from "@/lib/dateFormats/generateTimeSlots";
 import { validateTime } from "@/lib/dateFormats/validateTime";
 import { updateDayTime } from "@/app/actions/availability";
 import { toast } from "react-toastify";
+import { getDefaultTime } from "@/lib/dateFormats/getDefaultTime";
 
 import {
   Select,
@@ -29,8 +30,10 @@ export default function WorkTimeCard({
 }) {
   //TIME CHANGE
   const [selectedTime, setSelectedTime] = useState({
-    from: formatWorkCardDate(selectedDay?.startTime!),
-    to: formatWorkCardDate(selectedDay?.endTime!),
+    from: selectedDay?.startTime
+      ? formatWorkCardDate(selectedDay.startTime)
+      : "",
+    to: selectedDay?.endTime ? formatWorkCardDate(selectedDay.endTime) : "",
   });
 
   //ACTIVE DATE CARD
@@ -41,6 +44,10 @@ export default function WorkTimeCard({
 
   function handleUpdateActiveDays() {
     setActiveDay((prev) => !prev);
+    setSelectedTime({
+      from: getDefaultTime("from"),
+      to: getDefaultTime("to"),
+    });
 
     startTransition(async () => {
       await updateActiveDays(selectedCardDay.dayOfWeek);
@@ -82,6 +89,11 @@ export default function WorkTimeCard({
           newTimes.from,
           newTimes.to
         );
+
+        setSelectedTime({
+          from: newTimes.from,
+          to: newTimes.to,
+        });
       });
     }
   }

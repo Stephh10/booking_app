@@ -4,6 +4,7 @@ import { getDay } from "date-fns";
 import { prisma as Prisma } from "@/lib/prisma";
 import { DoctorAvailability } from "@prisma/client";
 import { parseToIsoTime } from "@/lib/dateFormats/parseToIsoTime";
+import { revalidatePath } from "next/cache";
 
 interface FreeSlot {
   dayOfWeek: number;
@@ -34,7 +35,6 @@ export const updateDayTime = async (
     return { error: "You are not authenticated" };
   }
 
-  // Pronađi zapis koji treba da update-uješ
   const record = await Prisma.doctorAvailability.findFirst({
     where: {
       doctorId: activeUser.id,
@@ -46,7 +46,6 @@ export const updateDayTime = async (
     return { error: "No availability found for this day" };
   }
 
-  // Update po id-u
   const updated = await Prisma.doctorAvailability.update({
     where: { id: record.id },
     data: {
