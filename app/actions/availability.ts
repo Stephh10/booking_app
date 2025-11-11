@@ -131,7 +131,6 @@ export const getDoctorAvailability = async (selectedDate: Date) => {
   const activeUser = authResult?.user;
   const dayOfWeek = getDay(selectedDate);
 
-  // get available date
   const availability = await Prisma.doctorAvailability.findFirst({
     where: {
       doctorId: activeUser?.id,
@@ -141,10 +140,10 @@ export const getDoctorAvailability = async (selectedDate: Date) => {
 
   if (!availability) return [];
 
-  // get appointments
-
+  // appointments that day
   const startOfDay = new Date(selectedDate);
   startOfDay.setHours(0, 0, 0, 0);
+
   const endOfDay = new Date(selectedDate);
   endOfDay.setHours(23, 59, 59, 999);
 
@@ -162,21 +161,17 @@ export const getDoctorAvailability = async (selectedDate: Date) => {
     return { start, end };
   });
 
+  //format available time that day
+  const startHours = availability.startTime.getUTCHours();
+  const startMinutes = availability.startTime.getUTCMinutes();
+  const endHours = availability.endTime.getUTCHours();
+  const endMinutes = availability.endTime.getUTCMinutes();
+
   const workingDayStart = new Date(selectedDate);
-  workingDayStart.setHours(
-    availability.startTime.getHours(),
-    availability.startTime.getMinutes(),
-    0,
-    0
-  );
+  workingDayStart.setHours(startHours, startMinutes, 0, 0);
 
   const workingDayEnd = new Date(selectedDate);
-  workingDayEnd.setHours(
-    availability.endTime.getHours(),
-    availability.endTime.getMinutes(),
-    0,
-    0
-  );
+  workingDayEnd.setHours(endHours, endMinutes, 0, 0);
 
   const SLOT_DURATION = 30;
   const freeSlots: FreeSlot[] = [];
@@ -186,13 +181,8 @@ export const getDoctorAvailability = async (selectedDate: Date) => {
   while (slotTime < workingDayEnd) {
     const slotEnd = new Date(slotTime.getTime() + SLOT_DURATION * 60000);
 
-    const slotStartTime = slotTime.getTime();
-    const slotEndTime = slotEnd.getTime();
-
     const isFree = !bookedIntervals.some((b) => {
-      const bookedStart = b.start.getTime();
-      const bookedEnd = b.end.getTime();
-      return slotStartTime < bookedEnd && slotEndTime > bookedStart;
+      return slotTime < b.end && slotEnd > b.start;
     });
 
     if (isFree) {
