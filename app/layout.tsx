@@ -3,6 +3,8 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { SessionProvider } from "next-auth/react";
 import "react-big-calendar/lib/css/react-big-calendar.css";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer, toast } from "react-toastify";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -32,6 +34,7 @@ export default function RootLayout({
         <main className="bg-gradient-custom">
           <SessionProvider>{children}</SessionProvider>
         </main>
+        <ToastContainer />
       </body>
     </html>
   );

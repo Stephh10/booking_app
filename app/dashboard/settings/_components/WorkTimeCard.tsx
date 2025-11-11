@@ -9,6 +9,7 @@ import { formatWorkCardDate } from "@/lib/dateFormats/formatWorkCardDate";
 import { generateTimeSlots } from "@/lib/dateFormats/generateTimeSlots";
 import { validateTime } from "@/lib/dateFormats/validateTime";
 import { updateDayTime } from "@/app/actions/availability";
+import { toast } from "react-toastify";
 
 import {
   Select,
@@ -28,8 +29,8 @@ export default function WorkTimeCard({
 }) {
   //TIME CHANGE
   const [selectedTime, setSelectedTime] = useState({
-    from: selectedDay?.startTime,
-    to: selectedDay?.endTime,
+    from: formatWorkCardDate(selectedDay?.startTime!),
+    to: formatWorkCardDate(selectedDay?.endTime!),
   });
 
   //ACTIVE DATE CARD
@@ -48,32 +49,32 @@ export default function WorkTimeCard({
 
   function handleTimeUpdate(type: string, time: string) {
     const newTimes = { ...selectedTime, [type]: time };
-    setSelectedTime((prev) => {
-      //TIME VALIDATION
-      if (newTimes.from && newTimes.to) {
-        if (
-          !validateTime(
-            formatWorkCardDate(newTimes.from),
-            formatWorkCardDate(newTimes.to)
-          )
-        ) {
-          console.error("Please enter valid time");
-          return prev;
-        }
+
+    if (newTimes.from && newTimes.to) {
+      const isValid = validateTime(
+        formatWorkCardDate(newTimes.from),
+        formatWorkCardDate(newTimes.to)
+      );
+
+      if (!isValid) {
+        toast.error("Please enter valid time");
+        return;
       }
 
-      return newTimes;
-    });
-
-    startTransition(async () => {
-      if (typeof newTimes.from !== "string" || typeof newTimes.to !== "string")
-        return;
-      await updateDayTime(
-        selectedCardDay.dayOfWeek,
-        newTimes.from,
-        newTimes.to
-      );
-    });
+      setSelectedTime(newTimes);
+      startTransition(async () => {
+        if (
+          typeof newTimes.from !== "string" ||
+          typeof newTimes.to !== "string"
+        )
+          return;
+        await updateDayTime(
+          selectedCardDay.dayOfWeek,
+          newTimes.from,
+          newTimes.to
+        );
+      });
+    }
   }
 
   return (
