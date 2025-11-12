@@ -1,13 +1,11 @@
 "use client";
 
 import React from "react";
-import { useState } from "react";
 import PageHeader from "@/components/PageHeader";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import GeneralSettings from "./GeneralSettings";
 import PreferencesSettings from "./PreferencesSettings";
 import { useEditSettings } from "@/store/useEditSettings";
-import WorkTimeSettings from "./WorkTimeSettings";
 import { useRouter } from "next/navigation";
 import { useSearchParams } from "next/navigation";
 
@@ -66,15 +64,7 @@ export default function SettingsMain() {
             >
               Preferences
             </TabsTrigger>
-            <TabsTrigger
-              onClick={() => router.push(`/dashboard/settings?view=work-time`)}
-              className="menuTab
-                 data-[state=active]:bg-[var(--btn-primary)] 
-                 data-[state=active]:text-white "
-              value="work-time"
-            >
-              Work Time
-            </TabsTrigger>
+
             <TabsTrigger
               onClick={() => router.push(`/dashboard/settings`)}
               className="menuTab
@@ -100,9 +90,7 @@ export default function SettingsMain() {
           <TabsContent value="preferences">
             <PreferencesSettings />
           </TabsContent>
-          <TabsContent value="work-time">
-            <WorkTimeSettings />
-          </TabsContent>
+
           <TabsContent value="account">
             <h2>Account</h2>
           </TabsContent>

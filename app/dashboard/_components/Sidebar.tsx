@@ -11,12 +11,18 @@ import {
   Settings,
   LayoutPanelLeft,
   LogOut,
+  CalendarClock,
 } from "lucide-react";
 
 const links = [
   { name: "Dashboard", href: "/dashboard", icon: LayoutPanelLeft },
   { name: "Appointments", href: "/dashboard/appointments", icon: Calendar },
   { name: "Patients", href: "/dashboard/patients", icon: Users },
+  {
+    name: "Availability",
+    href: "/dashboard/availability",
+    icon: CalendarClock,
+  },
   { name: "Messages", href: "/dashboard/messages", icon: MessageSquare },
   { name: "Settings", href: "/dashboard/settings", icon: Settings },
 ];
