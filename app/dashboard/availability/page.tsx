@@ -5,6 +5,7 @@ import PageHeader from "@/components/PageHeader";
 import { getAvailableDays } from "@/app/actions/availability";
 import { DoctorAvailability } from "@prisma/client";
 import WorkTimeCard from "./_components/WorkTimeCard";
+import BreakSection from "./_components/BreakSection";
 
 const daysInWeek = [
   { dayName: "Sunday", dayOfWeek: 0 },
@@ -45,7 +46,8 @@ export default async function page() {
             );
           })}
         </div>
-        <div className="line">s</div>
+        <div className="line mt-4"></div>
+        <BreakSection />
       </div>
     </div>
   );
