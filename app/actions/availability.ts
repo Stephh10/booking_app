@@ -4,13 +4,65 @@ import { getDay } from "date-fns";
 import { prisma as Prisma } from "@/lib/prisma";
 import { DoctorAvailability } from "@prisma/client";
 import { parseToIsoTime } from "@/lib/dateFormats/parseToIsoTime";
-import { revalidatePath } from "next/cache";
 
 interface FreeSlot {
   dayOfWeek: number;
   startTime: Date;
   endTime: Date;
 }
+
+//CREATE BREAK TIME
+
+export const updateBreakTime = async () => {
+  const authResult = await auth();
+  const activeUser = authResult?.user;
+
+  if (!activeUser) {
+    return { error: "You are not authenticated" };
+  }
+
+  const doctorDay = await Prisma.doctorAvailability.findFirst({
+    where: {
+      doctorId: activeUser.id,
+    },
+  });
+
+  if (!doctorDay) {
+    return { error: "No availability found for this day" };
+  }
+
+  if (!doctorDay.breakTimeStart || !doctorDay.breakTimeEnd) {
+    const startTime = new Date();
+    startTime.setHours(10, 0, 0, 0);
+
+    const endTime = new Date();
+    endTime.setHours(10, 30, 0, 0);
+
+    await Prisma.doctorAvailability.updateMany({
+      where: {
+        doctorId: activeUser.id,
+      },
+      data: {
+        breakTimeStart: startTime,
+        breakTimeEnd: endTime,
+      },
+    });
+
+    return { success: "Updated work schedule successfully" };
+  } else {
+    await Prisma.doctorAvailability.updateMany({
+      where: {
+        doctorId: activeUser.id,
+      },
+      data: {
+        breakTimeStart: null,
+        breakTimeEnd: null,
+      },
+    });
+
+    return { success: "Updated work schedule successfully" };
+  }
+};
 
 //UPDATE DAY TIME
 

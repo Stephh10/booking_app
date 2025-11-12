@@ -47,7 +47,7 @@ export default async function page() {
           })}
         </div>
         <div className="line mt-4"></div>
-        <BreakSection />
+        <BreakSection availableDay={availabilityData[0]} />
       </div>
     </div>
   );

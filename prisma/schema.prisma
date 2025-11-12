@@ -26,11 +26,13 @@ model User {
 //DOCTOR AVAILABILITY
 
 model DoctorAvailability {
-  id        String   @id @default(cuid())
-  doctorId  String
-  dayOfWeek Int
-  startTime DateTime
-  endTime   DateTime
+  id             String    @id @default(cuid())
+  doctorId       String
+  dayOfWeek      Int
+  startTime      DateTime
+  endTime        DateTime
+  breakTimeStart DateTime?
+  breakTimeEnd   DateTime?
 
   doctor User @relation(fields: [doctorId], references: [id])
 }
