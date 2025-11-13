@@ -68,20 +68,11 @@ export const updateBreakTime = async () => {
 
 export const updateDayTime = async (
   selectedDay: number,
-  startTime: string,
-  endTime: string
+  startTime: string | Date,
+  endTime: string | Date
 ) => {
   const authResult = await auth();
   const activeUser = authResult?.user;
-
-  const formatedDates = {
-    startTime: parseToIsoTime(startTime),
-    endTime: parseToIsoTime(endTime),
-  };
-
-  console.log(formatedDates);
-
-  console.log(startTime, endTime);
 
   if (!activeUser) {
     return { error: "You are not authenticated" };
@@ -101,8 +92,9 @@ export const updateDayTime = async (
   const updated = await Prisma.doctorAvailability.update({
     where: { id: record.id },
     data: {
-      startTime: parseToIsoTime(startTime),
-      endTime: parseToIsoTime(endTime),
+      startTime:
+        startTime instanceof Date ? startTime : parseToIsoTime(startTime),
+      endTime: endTime instanceof Date ? endTime : parseToIsoTime(endTime),
     },
   });
 

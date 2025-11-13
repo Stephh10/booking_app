@@ -30,10 +30,8 @@ export default function WorkTimeCard({
 }) {
   //TIME CHANGE
   const [selectedTime, setSelectedTime] = useState({
-    from: selectedDay?.startTime
-      ? formatWorkCardDate(selectedDay.startTime)
-      : "",
-    to: selectedDay?.endTime ? formatWorkCardDate(selectedDay.endTime) : "",
+    from: selectedDay?.startTime || new Date(),
+    to: selectedDay?.endTime || new Date(),
   });
 
   //ACTIVE DATE CARD
@@ -45,8 +43,8 @@ export default function WorkTimeCard({
   function handleUpdateActiveDays() {
     setActiveDay((prev) => !prev);
     setSelectedTime({
-      from: getDefaultTime("from"),
-      to: getDefaultTime("to"),
+      from: new Date(),
+      to: new Date(),
     });
 
     startTransition(async () => {
@@ -79,11 +77,6 @@ export default function WorkTimeCard({
 
       setSelectedTime(newTimes);
       startTransition(async () => {
-        if (
-          typeof newTimes.from !== "string" ||
-          typeof newTimes.to !== "string"
-        )
-          return;
         await updateDayTime(
           selectedCardDay.dayOfWeek,
           newTimes.from,
@@ -97,6 +90,8 @@ export default function WorkTimeCard({
       });
     }
   }
+
+  console.log(selectedDay?.startTime);
 
   return (
     <div className="workTimeCard border-2 p-2 rounded-lg">
