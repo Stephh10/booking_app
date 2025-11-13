@@ -1,6 +1,6 @@
 "use client";
 
-import React, { use } from "react";
+import React, { use, useEffect } from "react";
 import { Switch } from "@/components/ui/switch";
 import {
   Select,
@@ -10,14 +10,14 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Check } from "lucide-react";
+import { Check, CloudHail } from "lucide-react";
 import { generateTimeSlots } from "@/lib/dateFormats/generateTimeSlots";
 import { useState, useTransition } from "react";
 import { DoctorAvailability } from "@prisma/client";
-import { createBreakTime } from "@/app/actions/availability";
 import { validateTime } from "@/lib/dateFormats/validateTime";
 import { toast } from "react-toastify";
 import { formatWorkCardDate } from "@/lib/dateFormats/formatWorkCardDate";
+import { handleCreateBreakTime } from "@/app/actions/availability";
 import { updateBreakTime } from "@/app/actions/availability";
 
 const breakDescription = [
@@ -46,30 +46,28 @@ export default function BreakSection({
   availableDay: DoctorAvailability;
 }) {
   const timeSlots = generateTimeSlots();
-  const [isPending, startTransition] = useTransition();
   const [breakState, setBreakState] = useState(
-    availableDay?.breakTimeEnd ? true : false
+    availableDay.breakTimeStart ? true : false
   );
-  const [breakValues, setBreakValues] = useState({
-    breakTimeStart: availableDay?.breakTimeStart
-      ? formatWorkCardDate(availableDay.breakTimeStart)
-      : "",
-    breakTimeEnd: availableDay?.breakTimeEnd
-      ? formatWorkCardDate(availableDay.breakTimeEnd)
-      : "",
+  const [selectedTime, setSelectedTime] = useState<any>({
+    breakTimeStart: availableDay.breakTimeStart,
+    breakTimeEnd: availableDay.breakTimeEnd,
   });
+
+  const [isPending, startTransition] = useTransition();
 
   function handleBreakUpdate() {
     setBreakState((prev) => !prev);
-
-    console.log("All good");
-    startTransition(async () => {
-      await createBreakTime();
-    });
+    if (breakState) {
+      setSelectedTime({
+        breakTimeStart: null,
+        breakTimeEnd: null,
+      });
+    }
   }
 
-  function handleTimeUpdate(type: string, time: string) {
-    const newTimes = { ...breakValues, [type]: time };
+  async function handleTimeUpdate(type: string, time: string) {
+    const newTimes = { ...selectedTime, [type]: time };
 
     if (newTimes.breakTimeStart && newTimes.breakTimeEnd) {
       const isValid = validateTime(
@@ -88,17 +86,22 @@ export default function BreakSection({
           progress: undefined,
           theme: "light",
         });
-        return breakState;
+        return;
       }
 
       startTransition(async () => {
         await updateBreakTime(newTimes.breakTimeStart, newTimes.breakTimeEnd);
       });
     }
-    setBreakValues(newTimes);
+    setSelectedTime(newTimes);
   }
 
-  console.log(availableDay.breakTimeStart);
+  useEffect(() => {
+    startTransition(async () => {
+      await handleCreateBreakTime(breakState);
+    });
+  }, [selectedTime]);
+
   return (
     <div className="mb-10">
       <h1 className="text-lg font-bold">Break Time</h1>
@@ -108,11 +111,7 @@ export default function BreakSection({
             I would like to take a break from
           </p>
           <Select
-            value={
-              breakValues.breakTimeStart
-                ? formatWorkCardDate(breakValues.breakTimeStart)
-                : "10:AM"
-            }
+            value={formatWorkCardDate(selectedTime.breakTimeStart)}
             onValueChange={(v) => handleTimeUpdate("breakTimeStart", v)}
           >
             <SelectTrigger disabled={!breakState} className="w-[105px]">
@@ -128,11 +127,7 @@ export default function BreakSection({
           </Select>
           <p className="text-[var(--text-soft)]">to</p>
           <Select
-            value={
-              breakValues.breakTimeEnd
-                ? formatWorkCardDate(breakValues.breakTimeEnd)
-                : "10:00AM"
-            }
+            value={formatWorkCardDate(selectedTime.breakTimeEnd)}
             onValueChange={(v) => handleTimeUpdate("breakTimeEnd", v)}
           >
             <SelectTrigger disabled={!breakState} className="w-[105px]">

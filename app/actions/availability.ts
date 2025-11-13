@@ -34,9 +34,9 @@ export const updateBreakTime = async (startTime: string, endTime: string) => {
   return { success: "Updated work schedule successfully" };
 };
 
-//CREATE BREAK TIME
+// //CREATE BREAK TIME
 
-export const createBreakTime = async () => {
+export const handleCreateBreakTime = async (status: boolean) => {
   const authResult = await auth();
   const activeUser = authResult?.user;
 
@@ -44,35 +44,9 @@ export const createBreakTime = async () => {
     return { error: "You are not authenticated" };
   }
 
-  const doctorDay = await Prisma.doctorAvailability.findFirst({
-    where: {
-      doctorId: activeUser.id,
-    },
-  });
-
-  if (!doctorDay) {
-    return { error: "No availability found for this day" };
-  }
-
-  if (!doctorDay.breakTimeStart || !doctorDay.breakTimeEnd) {
-    const startTime = new Date();
-    startTime.setHours(10, 0, 0, 0);
-
-    const endTime = new Date();
-    endTime.setHours(10, 30, 0, 0);
-
-    await Prisma.doctorAvailability.updateMany({
-      where: {
-        doctorId: activeUser.id,
-      },
-      data: {
-        breakTimeStart: startTime,
-        breakTimeEnd: endTime,
-      },
-    });
-
-    return { success: "Updated work schedule successfully" };
-  } else {
+  console.log(status);
+  if (!status) {
+    console.log("Hitttttttttttt");
     await Prisma.doctorAvailability.updateMany({
       where: {
         doctorId: activeUser.id,
@@ -82,10 +56,61 @@ export const createBreakTime = async () => {
         breakTimeEnd: null,
       },
     });
-
-    return { success: "Updated work schedule successfully" };
   }
+
+  return { success: "Updated work schedule successfully" };
 };
+
+// export const createBreakTime = async () => {
+//   const authResult = await auth();
+//   const activeUser = authResult?.user;
+
+//   if (!activeUser) {
+//     return { error: "You are not authenticated" };
+//   }
+
+//   const doctorDay = await Prisma.doctorAvailability.findFirst({
+//     where: {
+//       doctorId: activeUser.id,
+//     },
+//   });
+
+//   if (!doctorDay) {
+//     return { error: "No availability found for this day" };
+//   }
+
+//   if (!doctorDay.breakTimeStart || !doctorDay.breakTimeEnd) {
+//     const startTime = new Date();
+//     startTime.setHours(10, 0, 0, 0);
+
+//     const endTime = new Date();
+//     endTime.setHours(10, 30, 0, 0);
+
+//     await Prisma.doctorAvailability.updateMany({
+//       where: {
+//         doctorId: activeUser.id,
+//       },
+//       data: {
+//         breakTimeStart: startTime,
+//         breakTimeEnd: endTime,
+//       },
+//     });
+
+//     return { success: "Updated work schedule successfully" };
+//   } else {
+//     await Prisma.doctorAvailability.updateMany({
+//       where: {
+//         doctorId: activeUser.id,
+//       },
+//       data: {
+//         breakTimeStart: null,
+//         breakTimeEnd: null,
+//       },
+//     });
+
+//     return { success: "Updated work schedule successfully" };
+//   }
+// };
 
 //UPDATE DAY TIME
 
