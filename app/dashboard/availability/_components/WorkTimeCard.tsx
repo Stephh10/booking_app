@@ -91,8 +91,6 @@ export default function WorkTimeCard({
     }
   }
 
-  console.log(selectedDay?.startTime);
-
   return (
     <div className="workTimeCard border-2 p-2 rounded-lg">
       <div className="flex  items-center justify-between ">

@@ -61,57 +61,6 @@ export const handleCreateBreakTime = async (status: boolean) => {
   return { success: "Updated work schedule successfully" };
 };
 
-// export const createBreakTime = async () => {
-//   const authResult = await auth();
-//   const activeUser = authResult?.user;
-
-//   if (!activeUser) {
-//     return { error: "You are not authenticated" };
-//   }
-
-//   const doctorDay = await Prisma.doctorAvailability.findFirst({
-//     where: {
-//       doctorId: activeUser.id,
-//     },
-//   });
-
-//   if (!doctorDay) {
-//     return { error: "No availability found for this day" };
-//   }
-
-//   if (!doctorDay.breakTimeStart || !doctorDay.breakTimeEnd) {
-//     const startTime = new Date();
-//     startTime.setHours(10, 0, 0, 0);
-
-//     const endTime = new Date();
-//     endTime.setHours(10, 30, 0, 0);
-
-//     await Prisma.doctorAvailability.updateMany({
-//       where: {
-//         doctorId: activeUser.id,
-//       },
-//       data: {
-//         breakTimeStart: startTime,
-//         breakTimeEnd: endTime,
-//       },
-//     });
-
-//     return { success: "Updated work schedule successfully" };
-//   } else {
-//     await Prisma.doctorAvailability.updateMany({
-//       where: {
-//         doctorId: activeUser.id,
-//       },
-//       data: {
-//         breakTimeStart: null,
-//         breakTimeEnd: null,
-//       },
-//     });
-
-//     return { success: "Updated work schedule successfully" };
-//   }
-// };
-
 //UPDATE DAY TIME
 
 export const updateDayTime = async (
@@ -252,7 +201,7 @@ export const getDoctorAvailability = async (selectedDate: Date) => {
     return { start, end };
   });
 
-  //format available time that day
+  // format available time that day
   const startHours = availability.startTime.getUTCHours();
   const startMinutes = availability.startTime.getUTCMinutes();
   const endHours = availability.endTime.getUTCHours();
@@ -264,6 +213,28 @@ export const getDoctorAvailability = async (selectedDate: Date) => {
   const workingDayEnd = new Date(selectedDate);
   workingDayEnd.setHours(endHours, endMinutes, 0, 0);
 
+  // handle optional break time
+  let breakStart: Date | null = null;
+  let breakEnd: Date | null = null;
+
+  if (availability.breakTimeStart && availability.breakTimeEnd) {
+    breakStart = new Date(selectedDate);
+    breakStart.setHours(
+      availability.breakTimeStart.getUTCHours(),
+      availability.breakTimeStart.getUTCMinutes(),
+      0,
+      0
+    );
+
+    breakEnd = new Date(selectedDate);
+    breakEnd.setHours(
+      availability.breakTimeEnd.getUTCHours(),
+      availability.breakTimeEnd.getUTCMinutes(),
+      0,
+      0
+    );
+  }
+
   const SLOT_DURATION = 30;
   const freeSlots: FreeSlot[] = [];
 
@@ -272,11 +243,16 @@ export const getDoctorAvailability = async (selectedDate: Date) => {
   while (slotTime < workingDayEnd) {
     const slotEnd = new Date(slotTime.getTime() + SLOT_DURATION * 60000);
 
-    const isFree = !bookedIntervals.some((b) => {
+    const overlapsWithAppointment = bookedIntervals.some((b) => {
       return slotTime < b.end && slotEnd > b.start;
     });
 
-    if (isFree) {
+    const overlapsWithBreak =
+      breakStart && breakEnd
+        ? slotTime < breakEnd && slotEnd > breakStart
+        : false;
+
+    if (!overlapsWithAppointment && !overlapsWithBreak) {
       freeSlots.push({
         dayOfWeek,
         startTime: new Date(slotTime),
