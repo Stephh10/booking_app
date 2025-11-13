@@ -1,6 +1,10 @@
 //conve
-export function parseToIsoTime(timeStr: string) {
+export function parseToIsoTime(timeStr: string | Date) {
   if (!timeStr) return "";
+
+  if (timeStr instanceof Date) {
+    return timeStr.toISOString();
+  }
 
   const match = timeStr.match(/^(\d{1,2}):(\d{2})(AM|PM)$/i);
   if (!match) return "";

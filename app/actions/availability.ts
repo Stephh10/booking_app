@@ -11,9 +11,32 @@ interface FreeSlot {
   endTime: Date;
 }
 
+//UPDATE BREAK TIME
+
+export const updateBreakTime = async (startTime: string, endTime: string) => {
+  const authResult = await auth();
+  const activeUser = authResult?.user;
+
+  if (!activeUser) {
+    return { error: "You are not authenticated" };
+  }
+
+  await Prisma.doctorAvailability.updateMany({
+    where: {
+      doctorId: activeUser.id,
+    },
+    data: {
+      breakTimeStart: parseToIsoTime(startTime),
+      breakTimeEnd: parseToIsoTime(endTime),
+    },
+  });
+
+  return { success: "Updated work schedule successfully" };
+};
+
 //CREATE BREAK TIME
 
-export const updateBreakTime = async () => {
+export const createBreakTime = async () => {
   const authResult = await auth();
   const activeUser = authResult?.user;
 

@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { use } from "react";
 import { Switch } from "@/components/ui/switch";
 import {
   Select,
@@ -14,10 +14,12 @@ import { Check } from "lucide-react";
 import { generateTimeSlots } from "@/lib/dateFormats/generateTimeSlots";
 import { useState, useTransition } from "react";
 import { DoctorAvailability } from "@prisma/client";
-import { updateBreakTime } from "@/app/actions/availability";
+import { createBreakTime } from "@/app/actions/availability";
 import { validateTime } from "@/lib/dateFormats/validateTime";
 import { toast } from "react-toastify";
 import { formatWorkCardDate } from "@/lib/dateFormats/formatWorkCardDate";
+import { updateBreakTime } from "@/app/actions/availability";
+
 const breakDescription = [
   {
     id: 1,
@@ -51,17 +53,18 @@ export default function BreakSection({
   const [breakValues, setBreakValues] = useState({
     breakTimeStart: availableDay?.breakTimeStart
       ? formatWorkCardDate(availableDay.breakTimeStart)
-      : "10:00AM",
+      : "",
     breakTimeEnd: availableDay?.breakTimeEnd
       ? formatWorkCardDate(availableDay.breakTimeEnd)
-      : "10:30AM",
+      : "",
   });
 
   function handleBreakUpdate() {
     setBreakState((prev) => !prev);
 
+    console.log("All good");
     startTransition(async () => {
-      await updateBreakTime();
+      await createBreakTime();
     });
   }
 
@@ -86,10 +89,13 @@ export default function BreakSection({
           theme: "light",
         });
         return breakState;
-      } else {
-        setBreakValues(newTimes);
       }
+
+      startTransition(async () => {
+        await updateBreakTime(newTimes.breakTimeStart, newTimes.breakTimeEnd);
+      });
     }
+    setBreakValues(newTimes);
   }
 
   console.log(availableDay.breakTimeStart);
@@ -105,7 +111,7 @@ export default function BreakSection({
             value={
               breakValues.breakTimeStart
                 ? formatWorkCardDate(breakValues.breakTimeStart)
-                : "10:00AM"
+                : "10:AM"
             }
             onValueChange={(v) => handleTimeUpdate("breakTimeStart", v)}
           >
@@ -125,7 +131,7 @@ export default function BreakSection({
             value={
               breakValues.breakTimeEnd
                 ? formatWorkCardDate(breakValues.breakTimeEnd)
-                : "10:30AM"
+                : "10:00AM"
             }
             onValueChange={(v) => handleTimeUpdate("breakTimeEnd", v)}
           >
