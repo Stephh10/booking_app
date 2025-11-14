@@ -16,7 +16,7 @@ import {
 export default function PreferencesSettings() {
   return (
     <div>
-      <h1 className="settingsHeader">Select Theme</h1>
+      <h1 className="settingsHeader mt-2">Select Theme</h1>
       <div className="flex gap-4">
         <div className="settingsModeCard activeModeCard">
           <div className="relative flex-1 w-[250px]">
@@ -109,7 +109,7 @@ export default function PreferencesSettings() {
             </SelectContent>
           </Select>
         </div>
-        <div className="flex justify-between mb-4">
+        <div className="flex justify-between items-center mb-4">
           <h2>Language</h2>
           <Select>
             <SelectTrigger className="w-[60%]">
@@ -128,7 +128,7 @@ export default function PreferencesSettings() {
             </SelectContent>
           </Select>
         </div>
-        <div className="flex justify-between mb-4">
+        <div className="flex justify-between items-center mb-4">
           <h2>Sidebar Size</h2>
           <Select>
             <SelectTrigger className="w-[60%]">

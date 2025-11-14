@@ -10,7 +10,6 @@ import { generateTimeSlots } from "@/lib/dateFormats/generateTimeSlots";
 import { validateTime } from "@/lib/dateFormats/validateTime";
 import { updateDayTime } from "@/app/actions/availability";
 import { toast } from "react-toastify";
-import { getDefaultTime } from "@/lib/dateFormats/getDefaultTime";
 
 import {
   Select,
@@ -81,8 +80,8 @@ export default function WorkTimeCard({
       startTransition(async () => {
         await updateDayTime(
           selectedCardDay.dayOfWeek,
-          newTimes.from,
-          newTimes.to
+          newTimes.from!,
+          newTimes.to!
         );
       });
     }
