@@ -100,6 +100,7 @@ export default function BreakSection({
     startTransition(async () => {
       await handleCreateBreakTime(breakState);
     });
+    startTransition(async () => {});
   }, [selectedTime]);
 
   return (

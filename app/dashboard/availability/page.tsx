@@ -6,6 +6,7 @@ import { getAvailableDays } from "@/app/actions/availability";
 import { DoctorAvailability } from "@prisma/client";
 import WorkTimeCard from "./_components/WorkTimeCard";
 import BreakSection from "./_components/BreakSection";
+import { revalidatePath } from "next/cache";
 
 const daysInWeek = [
   { dayName: "Sunday", dayOfWeek: 0 },
@@ -22,6 +23,9 @@ export default async function page() {
     await getAvailableDays();
 
   if ("error" in availabilityData) return <h1>{availabilityData.error}</h1>;
+
+  console.log(availabilityData[0]);
+
   return (
     <div>
       <DashboardNav />
@@ -47,7 +51,9 @@ export default async function page() {
           })}
         </div>
         <div className="line mt-4"></div>
-        <BreakSection availableDay={availabilityData[0]} />
+        {availabilityData.length ? (
+          <BreakSection availableDay={availabilityData[0]} />
+        ) : null}
       </div>
     </div>
   );

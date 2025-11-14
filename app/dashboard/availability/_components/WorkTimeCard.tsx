@@ -30,9 +30,11 @@ export default function WorkTimeCard({
 }) {
   //TIME CHANGE
   const [selectedTime, setSelectedTime] = useState({
-    from: selectedDay?.startTime || new Date(),
-    to: selectedDay?.endTime || new Date(),
+    from: selectedDay?.startTime || null,
+    to: selectedDay?.endTime || null,
   });
+
+  console.log(selectedTime);
 
   //ACTIVE DATE CARD
   const [isPending, startTransition] = useTransition();
@@ -43,8 +45,8 @@ export default function WorkTimeCard({
   function handleUpdateActiveDays() {
     setActiveDay((prev) => !prev);
     setSelectedTime({
-      from: new Date(),
-      to: new Date(),
+      from: null,
+      to: null,
     });
 
     startTransition(async () => {
@@ -54,6 +56,8 @@ export default function WorkTimeCard({
 
   function handleTimeUpdate(type: string, time: string) {
     const newTimes = { ...selectedTime, [type]: time };
+
+    setSelectedTime(newTimes);
 
     if (newTimes.from && newTimes.to) {
       const isValid = validateTime(
@@ -74,19 +78,12 @@ export default function WorkTimeCard({
         });
         return;
       }
-
-      setSelectedTime(newTimes);
       startTransition(async () => {
         await updateDayTime(
           selectedCardDay.dayOfWeek,
           newTimes.from,
           newTimes.to
         );
-
-        setSelectedTime({
-          from: newTimes.from,
-          to: newTimes.to,
-        });
       });
     }
   }
@@ -122,7 +119,7 @@ export default function WorkTimeCard({
           <h1 className="flex-1">From</h1>
           <Select
             onValueChange={(v: string) => handleTimeUpdate("from", v)}
-            value={formatWorkCardDate(selectedTime.from!)}
+            value={formatWorkCardDate(selectedTime.from)}
           >
             <SelectTrigger disabled={!activeDay} className="flex-6">
               <SelectValue />

@@ -4,6 +4,7 @@ import { getDay } from "date-fns";
 import { prisma as Prisma } from "@/lib/prisma";
 import { DoctorAvailability } from "@prisma/client";
 import { parseToIsoTime } from "@/lib/dateFormats/parseToIsoTime";
+import { revalidatePath } from "next/cache";
 
 interface FreeSlot {
   dayOfWeek: number;
@@ -44,10 +45,8 @@ export const handleCreateBreakTime = async (status: boolean) => {
     return { error: "You are not authenticated" };
   }
 
-  console.log(status);
   if (!status) {
-    console.log("Hitttttttttttt");
-    await Prisma.doctorAvailability.updateMany({
+    const updateData = await Prisma.doctorAvailability.updateMany({
       where: {
         doctorId: activeUser.id,
       },
@@ -56,6 +55,10 @@ export const handleCreateBreakTime = async (status: boolean) => {
         breakTimeEnd: null,
       },
     });
+
+    if (!updateData) {
+      return { error: "Select a day to create a break" };
+    }
   }
 
   return { success: "Updated work schedule successfully" };
@@ -65,8 +68,8 @@ export const handleCreateBreakTime = async (status: boolean) => {
 
 export const updateDayTime = async (
   selectedDay: number,
-  startTime: string | Date,
-  endTime: string | Date
+  startTime?: string | Date,
+  endTime?: string | Date
 ) => {
   const authResult = await auth();
   const activeUser = authResult?.user;
@@ -84,6 +87,10 @@ export const updateDayTime = async (
 
   if (!record) {
     return { error: "No availability found for this day" };
+  }
+
+  if (!startTime || !endTime) {
+    return { error: "Start and end time are required" };
   }
 
   const updated = await Prisma.doctorAvailability.update({
@@ -124,6 +131,17 @@ export const updateActiveDays = async (selectedDay: number) => {
       },
     });
   } else {
+    //finds break time
+    const findBreakTime = await Prisma.doctorAvailability.findFirst({
+      where: {
+        doctorId: activeUser.id,
+        breakTimeStart: {
+          not: null,
+        },
+      },
+    });
+
+    //creates new day
     const startTime = new Date();
     startTime.setHours(9, 0, 0, 0);
 
@@ -136,9 +154,13 @@ export const updateActiveDays = async (selectedDay: number) => {
         dayOfWeek: selectedDay,
         startTime,
         endTime,
+        breakTimeStart: findBreakTime?.breakTimeStart || null,
+        breakTimeEnd: findBreakTime?.breakTimeEnd || null,
       },
     });
   }
+
+  revalidatePath("/dashboard/availability");
 
   return { success: "Updated work schedule successfully" };
 };
