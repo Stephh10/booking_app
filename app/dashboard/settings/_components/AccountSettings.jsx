@@ -1,9 +1,10 @@
 import React from "react";
+
 import GeneralAvatar from "./GeneralAvatar";
 import EditableField from "../../patient/_components/EditableField";
 import { useEditSettings } from "@/store/useEditSettings";
 
-export default function GeneralSettings() {
+export default function AccountSettings() {
   const errors = {};
   const register = () => {};
 
@@ -11,8 +12,7 @@ export default function GeneralSettings() {
 
   return (
     <div className="mt-2">
-      <h1 className="settingsHeader">General Settings</h1>
-      <GeneralAvatar />
+      <h1 className="settingsHeader">Account Settings</h1>
       <form className="w-full">
         <div className="inputSection">
           <EditableField

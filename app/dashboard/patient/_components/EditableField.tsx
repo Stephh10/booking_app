@@ -24,18 +24,20 @@ export default function EditableField({
     <div className="inputControl">
       <label htmlFor={name}>{label}</label>
       {!isEditing ? (
-        <h2 className="formText mt-1">{inputData}</h2>
+        <h2 className="formText pt-[6px]">
+          {inputData !== "None" ? inputData : "Not selected"}
+        </h2>
       ) : (
-        <div className="mt-1">
+        <div className="">
           <input
             id={name}
             name={name}
-            defaultValue={inputData}
+            placeholder={inputData !== "None" ? inputData : "Not selected"}
             type="text"
             {...register(name)}
           />
           {fieldError && (
-            <p className="text-red-500 text-sm">
+            <p className="text-red-500 text-sm ">
               {fieldError && "Place for error message"}
             </p>
           )}

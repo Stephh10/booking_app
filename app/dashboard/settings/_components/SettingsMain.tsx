@@ -8,6 +8,7 @@ import PreferencesSettings from "./PreferencesSettings";
 import { useEditSettings } from "@/store/useEditSettings";
 import { useRouter } from "next/navigation";
 import { useSearchParams } from "next/navigation";
+import AccountSettings from "./AccountSettings";
 
 export default function SettingsMain() {
   const { isEditing, setIsEditing } = useEditSettings();
@@ -92,7 +93,7 @@ export default function SettingsMain() {
           </TabsContent>
 
           <TabsContent value="account">
-            <h2>Account</h2>
+            <AccountSettings />
           </TabsContent>
           <TabsContent value="billings">
             <h2>Billings</h2>

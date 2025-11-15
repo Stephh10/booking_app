@@ -82,14 +82,14 @@ export default function AppDetails({
         />
         <div className="inputSection">
           <div className="flex flex-1 flex-col mb-4">
-            <Label>Date and Time</Label>
+            <Label className="mb-[5px]">Date and Time</Label>
             {isEditing ? (
               <DateSelector
                 selectedDateTime={selectedDate}
                 setSelectedDateTime={setSelectedDate}
               />
             ) : (
-              <h2 className="formText">{formatDate(date)}</h2>
+              <h2 className="formText ">{formatDate(date)}</h2>
             )}
           </div>
           <EditableField
