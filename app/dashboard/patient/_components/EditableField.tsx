@@ -32,6 +32,7 @@ export default function EditableField({
           <input
             id={name}
             name={name}
+            className="border"
             placeholder={inputData !== "None" ? inputData : "Not selected"}
             type="text"
             {...register(name)}

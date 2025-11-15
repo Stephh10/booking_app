@@ -110,7 +110,7 @@
   }
 
   .formText {
-    @apply h-[35px] text-[var(--text-soft)];
+    @apply h-[35px] text-[var(--text-soft)] pt-[6px];
   }
 
   .formBtn {

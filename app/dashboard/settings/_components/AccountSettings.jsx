@@ -1,8 +1,18 @@
 import React from "react";
 
-import GeneralAvatar from "./GeneralAvatar";
 import EditableField from "../../patient/_components/EditableField";
 import { useEditSettings } from "@/store/useEditSettings";
+
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Label } from "@radix-ui/react-dropdown-menu";
+import SecuritySettings from "./SecuritySettings";
 
 export default function AccountSettings() {
   const errors = {};
@@ -15,57 +25,38 @@ export default function AccountSettings() {
       <h1 className="settingsHeader">Account Settings</h1>
       <form className="w-full">
         <div className="inputSection">
+          <div className="flex flex-col flex-1">
+            <Label>Account Role</Label>
+            {isEditing ? (
+              <Select>
+                <SelectTrigger className="w-full bg-[var(--background)] border h-[35px] pl-1 text-md rounded-lg  shadow-none">
+                  <SelectValue placeholder="English" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectGroup>
+                    <SelectItem value="doctor">Doctor</SelectItem>
+                    <SelectItem value="nurse">Nurse</SelectItem>
+                    <SelectItem value="physician-assistant">
+                      Physician Assistant
+                    </SelectItem>
+                    <SelectItem value="medical-assistant">
+                      Medical Assistant
+                    </SelectItem>
+                    <SelectItem value="technician">Technician</SelectItem>
+                    <SelectItem value="therapist">Therapist</SelectItem>
+                    <SelectItem value="pharmacist">Pharmacist</SelectItem>
+                    <SelectItem value="paramedic">Paramedic / EMT</SelectItem>
+                    <SelectItem value="admin">Administrative Staff</SelectItem>
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
+            ) : (
+              <h2 className="formText">Something</h2>
+            )}
+          </div>
           <EditableField
-            label="First Name"
-            name="firstName"
-            inputData={"None"}
-            isEditing={isEditing}
-            register={register}
-            errors={errors}
-          />
-          <EditableField
-            label="Last Name"
-            name="lastName"
-            inputData={"None"}
-            isEditing={isEditing}
-            register={register}
-            errors={errors}
-          />
-        </div>
-        <div className="inputSection">
-          <EditableField
-            label="Phone"
-            name="phone"
-            inputData={"None"}
-            isEditing={isEditing}
-            register={register}
-            errors={errors}
-          />
-          <EditableField
-            label="Email"
-            name="email"
-            inputData={"None"}
-            isEditing={isEditing}
-            register={register}
-            errors={errors}
-          />
-        </div>
-        <div className="line"></div>
-        <h1 className="text-lg font-bold mb-2 text-[var(--btn-primary)] ">
-          Address
-        </h1>
-        <div className="inputSection">
-          <EditableField
-            label="Country"
-            name="country"
-            inputData={"None"}
-            isEditing={isEditing}
-            register={register}
-            errors={errors}
-          />
-          <EditableField
-            label="City"
-            name="city"
+            label="Speciality"
+            name="speciality"
             inputData={"None"}
             isEditing={isEditing}
             register={register}
@@ -73,24 +64,25 @@ export default function AccountSettings() {
           />
         </div>
         <div className="inputSection">
-          <EditableField
-            label="Address"
-            name="address"
-            inputData={"None"}
-            isEditing={isEditing}
-            register={register}
-            errors={errors}
-          />
-          <EditableField
-            label="Postal Code"
-            name="postalCode"
-            inputData={"None"}
-            isEditing={isEditing}
-            register={register}
-            errors={errors}
-          />
+          <div className="flex-1">
+            <Label>Account Status</Label>
+            <div className="flex flex-1">
+              <h2 className="formText">Active</h2>
+            </div>
+          </div>
+          <div className="flex-1">
+            <Label>Account ID</Label>
+            <div className="flex flex-1">
+              <h2 className="formText">#3242342345342312</h2>
+            </div>
+          </div>
         </div>
       </form>
+      <div className="line"></div>
+      <h1 className="text-lg font-bold mb-2 text-[var(--btn-primary)] ">
+        Security
+      </h1>
+      <SecuritySettings />
     </div>
   );
 }
