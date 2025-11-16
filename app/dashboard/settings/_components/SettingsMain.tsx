@@ -9,7 +9,7 @@ import { useEditSettings } from "@/store/useEditSettings";
 import { useRouter } from "next/navigation";
 import { useSearchParams } from "next/navigation";
 import AccountSettings from "./AccountSettings";
-
+import BillingsSettings from "./BillingsSettings";
 export default function SettingsMain() {
   const { isEditing, setIsEditing } = useEditSettings();
   const router = useRouter();
@@ -96,7 +96,7 @@ export default function SettingsMain() {
             <AccountSettings />
           </TabsContent>
           <TabsContent value="billings">
-            <h2>Billings</h2>
+            <BillingsSettings />
           </TabsContent>
         </Tabs>
       </div>
