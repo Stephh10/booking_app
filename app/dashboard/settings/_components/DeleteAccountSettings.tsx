@@ -1,0 +1,32 @@
+import React from "react";
+
+export default function DeleteAccountSettings() {
+  return (
+    <div>
+      <h1 className="settingsHeader">Delete Account</h1>
+      <div className="flex items-center justify-between gap-7 lg:gap-20">
+        <div className="flex-1">
+          <p className="text-[var(--text-soft)]">
+            By deleting your account, all your personal data, preferences, and
+            history will be permanently removed from our system. This action
+            cannot be undone immediately. Once your account deletion is
+            requested,{" "}
+            <span className="text-[var(--btn-primary)] font-bold">
+              you will have 15 days
+            </span>{" "}
+            to reverse this action before all content, subscriptions, and
+            associated services are permanently removed.
+          </p>
+        </div>
+        <div className="flex gap-2">
+          <button className="bg-[#FF3670] text-[var(--text)] w-[120px] border-2 py-2 rounded-lg cursor-pointer">
+            Delete Account
+          </button>
+          <button className="bg-inherit text-[var(--dark)] w-[120px] border-2 py-2 rounded-lg cursor-pointer">
+            Learn More
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}

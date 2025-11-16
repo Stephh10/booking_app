@@ -2,6 +2,7 @@ import React from "react";
 import GeneralAvatar from "./GeneralAvatar";
 import EditableField from "../../patient/_components/EditableField";
 import { useEditSettings } from "@/store/useEditSettings";
+import UpgradeAccount from "./UpgradeAccount";
 
 export default function GeneralSettings() {
   const errors = {};
@@ -91,6 +92,8 @@ export default function GeneralSettings() {
           />
         </div>
       </form>
+      <div className="line mt-5"></div>
+      <UpgradeAccount />
     </div>
   );
 }

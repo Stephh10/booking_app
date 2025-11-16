@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/select";
 import { Label } from "@radix-ui/react-dropdown-menu";
 import SecuritySettings from "./SecuritySettings";
+import DeleteAccountSettings from "./DeleteAccountSettings";
 
 export default function AccountSettings() {
   const errors = {};
@@ -30,7 +31,7 @@ export default function AccountSettings() {
             {isEditing ? (
               <Select>
                 <SelectTrigger className="w-full bg-[var(--background)] border h-[35px] pl-1 text-md rounded-lg  shadow-none">
-                  <SelectValue placeholder="English" />
+                  <SelectValue placeholder="Doctor" />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectGroup>
@@ -83,6 +84,8 @@ export default function AccountSettings() {
         Security
       </h1>
       <SecuritySettings />
+      <div className="line mt-5"></div>
+      <DeleteAccountSettings />
     </div>
   );
 }
