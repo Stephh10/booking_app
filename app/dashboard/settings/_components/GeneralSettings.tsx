@@ -1,20 +1,37 @@
-import React from "react";
+import React, { useEffect } from "react";
 import GeneralAvatar from "./GeneralAvatar";
 import EditableField from "../../patient/_components/EditableField";
 import { useEditSettings } from "@/store/useEditSettings";
 import UpgradeAccount from "./UpgradeAccount";
+import { useForm } from "react-hook-form";
+import { useTransition } from "react";
 
 export default function GeneralSettings() {
-  const errors = {};
-  const register = () => {};
+  const { isEditing, submit } = useEditSettings();
+  const [isPending, startTransition] = useTransition();
+  const {
+    register,
+    handleSubmit,
+    control,
+    formState: { errors },
+  } = useForm();
 
-  const { isEditing } = useEditSettings();
+  function onSubmit(data: any) {
+    console.log("Sumiting data");
+    console.log(data);
+  }
+
+  useEffect(() => {
+    if (submit) {
+      handleSubmit(onSubmit)();
+    }
+  }, [submit]);
 
   return (
     <div className="mt-2">
       <h1 className="settingsHeader">General Settings</h1>
       <GeneralAvatar />
-      <form className="w-full">
+      <form className="w-full" onSubmit={handleSubmit(onSubmit)}>
         <div className="inputSection">
           <EditableField
             label="First Name"

@@ -11,7 +11,7 @@ import { useSearchParams } from "next/navigation";
 import AccountSettings from "./AccountSettings";
 import BillingsSettings from "./BillingsSettings";
 export default function SettingsMain() {
-  const { isEditing, setIsEditing } = useEditSettings();
+  const { isEditing, setIsEditing, handleSubmit } = useEditSettings();
   const router = useRouter();
 
   const searchParams = useSearchParams();
@@ -29,7 +29,10 @@ export default function SettingsMain() {
               >
                 Cancel
               </button>
-              <button className="bg-[var(--btn-primary)]  text-[var(--text)] w-[120px] border-2 py-1 rounded-lg cursor-pointer">
+              <button
+                onClick={() => handleSubmit()}
+                className="bg-[var(--btn-primary)]  text-[var(--text)] w-[120px] border-2 py-1 rounded-lg cursor-pointer"
+              >
                 Save
               </button>
             </div>
