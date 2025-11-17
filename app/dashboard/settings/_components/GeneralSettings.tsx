@@ -5,6 +5,7 @@ import { useEditSettings } from "@/store/useEditSettings";
 import UpgradeAccount from "./UpgradeAccount";
 import { useForm } from "react-hook-form";
 import { useTransition } from "react";
+import { updateUser } from "@/app/actions/user";
 
 export default function GeneralSettings() {
   const { isEditing, submit } = useEditSettings();
@@ -17,8 +18,9 @@ export default function GeneralSettings() {
   } = useForm();
 
   function onSubmit(data: any) {
-    console.log("Sumiting data");
-    console.log(data);
+    startTransition(async () => {
+      await updateUser(data);
+    });
   }
 
   useEffect(() => {

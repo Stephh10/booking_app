@@ -10,14 +10,19 @@ datasource db {
 //DOCTOR-USER MODEL
 
 model User {
-  id        String   @id @default(cuid())
-  firstName String
-  lastName  String
-  email     String   @unique
-  password  String
-  role      String   @default("DOCTOR")
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id         String   @id @default(cuid())
+  firstName  String
+  lastName   String
+  email      String   @unique
+  phone      Int?
+  password   String
+  role       String   @default("DOCTOR")
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  country    String?
+  city       String?
+  address    String?
+  postalCode Int?
 
   appointments   Appointment[]
   availabilities DoctorAvailability[]
