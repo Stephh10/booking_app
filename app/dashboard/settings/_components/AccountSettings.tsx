@@ -1,4 +1,4 @@
-import React from "react";
+import React, { use } from "react";
 
 import EditableField from "../../patient/_components/EditableField";
 import { useEditSettings } from "@/store/useEditSettings";
@@ -14,22 +14,47 @@ import {
 import { Label } from "@radix-ui/react-dropdown-menu";
 import SecuritySettings from "./SecuritySettings";
 import DeleteAccountSettings from "./DeleteAccountSettings";
+import { User } from "@prisma/client";
+import { useTransition } from "react";
+import { useForm } from "react-hook-form";
+import { useEffect } from "react";
+import { updateUser } from "@/app/actions/user";
 
-export default function AccountSettings() {
-  const errors = {};
-  const register = () => {};
+export default function AccountSettings({ userData }: { userData: User }) {
+  const [isPending, startTransition] = useTransition();
+  const [accountRole, setAccountRole] = React.useState(userData.role);
+  const { isEditing, setIsEditing, submit } = useEditSettings();
 
-  const { isEditing } = useEditSettings();
+  const {
+    register,
+    handleSubmit,
+    control,
+    formState: { errors },
+  } = useForm();
+
+  function onSubmit(data: any) {
+    const formatedData = { ...data, role: accountRole };
+    startTransition(async () => {
+      await updateUser(formatedData);
+      setIsEditing(false);
+    });
+  }
+
+  useEffect(() => {
+    if (submit) {
+      handleSubmit(onSubmit)();
+    }
+  }, [submit]);
 
   return (
     <div className="mt-2">
       <h1 className="settingsHeader">Account Settings</h1>
-      <form className="w-full">
+      <form className="w-full" onSubmit={handleSubmit(onSubmit)}>
         <div className="inputSection">
           <div className="flex flex-col flex-1">
             <Label>Account Role</Label>
             {isEditing ? (
-              <Select>
+              <Select onValueChange={(value) => setAccountRole(value)}>
                 <SelectTrigger className="w-full bg-[var(--background)] border h-[35px] pl-1 text-md rounded-lg  shadow-none">
                   <SelectValue placeholder="Doctor" />
                 </SelectTrigger>
@@ -52,13 +77,13 @@ export default function AccountSettings() {
                 </SelectContent>
               </Select>
             ) : (
-              <h2 className="formText">Something</h2>
+              <h2 className="formText">{accountRole}</h2>
             )}
           </div>
           <EditableField
             label="Speciality"
             name="speciality"
-            inputData={"None"}
+            inputData={userData.speciality}
             isEditing={isEditing}
             register={register}
             errors={errors}

@@ -97,7 +97,7 @@ export default function SettingsMain({ userData }: { userData: User }) {
           </TabsContent>
 
           <TabsContent value="account">
-            <AccountSettings />
+            <AccountSettings userData={userData} />
           </TabsContent>
           <TabsContent value="billings">
             <BillingsSettings />

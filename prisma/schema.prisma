@@ -16,7 +16,8 @@ model User {
   email      String   @unique
   phone      Int?
   password   String
-  role       String   @default("DOCTOR")
+  role       String   @default("doctor")
+  speciality String?
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
   country    String?
