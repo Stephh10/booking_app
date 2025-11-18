@@ -9,7 +9,7 @@ import { updateUser } from "@/app/actions/user";
 import { User } from "@prisma/client";
 
 export default function GeneralSettings({ userData }: { userData: User }) {
-  const { isEditing, submit } = useEditSettings();
+  const { isEditing, submit, setIsEditing } = useEditSettings();
   const [isPending, startTransition] = useTransition();
   const {
     firstName,
@@ -29,8 +29,14 @@ export default function GeneralSettings({ userData }: { userData: User }) {
   } = useForm();
 
   function onSubmit(data: any) {
+    const formatedData = {
+      ...data,
+      phone: Number(data.phone),
+      postalCode: Number(data.postalCode),
+    };
     startTransition(async () => {
-      await updateUser(data);
+      await updateUser(formatedData);
+      setIsEditing(false);
     });
   }
 
@@ -68,6 +74,7 @@ export default function GeneralSettings({ userData }: { userData: User }) {
             label="Phone"
             name="phone"
             inputData={phone}
+            inputType={"number"}
             isEditing={isEditing}
             register={register}
             errors={errors}

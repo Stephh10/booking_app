@@ -8,6 +8,7 @@ type FieldProps = {
   inputData: string | number | null;
   isEditing: boolean;
   register?: any;
+  inputType?: string | null;
   errors?: FieldErrors<PatientDataForm>;
 };
 
@@ -17,6 +18,7 @@ export default function EditableField({
   inputData,
   isEditing,
   register,
+  inputType,
   errors,
 }: FieldProps) {
   const fieldError = false;
@@ -33,8 +35,9 @@ export default function EditableField({
             id={name}
             name={name}
             className="border"
+            defaultValue={inputData || ""}
             placeholder={inputData ? inputData : "Not selected"}
-            type="text"
+            type={inputType ? inputType : "text"}
             {...register(name)}
           />
           {fieldError && (
