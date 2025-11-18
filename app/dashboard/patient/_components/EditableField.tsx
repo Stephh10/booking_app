@@ -25,7 +25,7 @@ export default function EditableField({
       <label htmlFor={name}>{label}</label>
       {!isEditing ? (
         <h2 className="formText pt-[6px]">
-          {inputData !== "None" ? inputData : "Not selected"}
+          {inputData ? inputData : "Not selected"}
         </h2>
       ) : (
         <div className="">
@@ -33,7 +33,7 @@ export default function EditableField({
             id={name}
             name={name}
             className="border"
-            placeholder={inputData !== "None" ? inputData : "Not selected"}
+            placeholder={inputData ? inputData : "Not selected"}
             type="text"
             {...register(name)}
           />

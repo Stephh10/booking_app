@@ -10,7 +10,8 @@ import { useRouter } from "next/navigation";
 import { useSearchParams } from "next/navigation";
 import AccountSettings from "./AccountSettings";
 import BillingsSettings from "./BillingsSettings";
-export default function SettingsMain() {
+import { User } from "@prisma/client";
+export default function SettingsMain({ userData }: { userData: User }) {
   const { isEditing, setIsEditing, handleSubmit } = useEditSettings();
   const router = useRouter();
 
@@ -89,7 +90,7 @@ export default function SettingsMain() {
             </TabsTrigger>
           </TabsList>
           <TabsContent value="general">
-            <GeneralSettings />
+            <GeneralSettings userData={userData} />
           </TabsContent>
           <TabsContent value="preferences">
             <PreferencesSettings />

@@ -6,10 +6,21 @@ import UpgradeAccount from "./UpgradeAccount";
 import { useForm } from "react-hook-form";
 import { useTransition } from "react";
 import { updateUser } from "@/app/actions/user";
+import { User } from "@prisma/client";
 
-export default function GeneralSettings() {
+export default function GeneralSettings({ userData }: { userData: User }) {
   const { isEditing, submit } = useEditSettings();
   const [isPending, startTransition] = useTransition();
+  const {
+    firstName,
+    lastName,
+    email,
+    phone,
+    city,
+    postalCode,
+    country,
+    address,
+  } = userData;
   const {
     register,
     handleSubmit,
@@ -38,7 +49,7 @@ export default function GeneralSettings() {
           <EditableField
             label="First Name"
             name="firstName"
-            inputData={"None"}
+            inputData={firstName}
             isEditing={isEditing}
             register={register}
             errors={errors}
@@ -46,7 +57,7 @@ export default function GeneralSettings() {
           <EditableField
             label="Last Name"
             name="lastName"
-            inputData={"None"}
+            inputData={lastName}
             isEditing={isEditing}
             register={register}
             errors={errors}
@@ -56,7 +67,7 @@ export default function GeneralSettings() {
           <EditableField
             label="Phone"
             name="phone"
-            inputData={"None"}
+            inputData={phone}
             isEditing={isEditing}
             register={register}
             errors={errors}
@@ -64,7 +75,7 @@ export default function GeneralSettings() {
           <EditableField
             label="Email"
             name="email"
-            inputData={"None"}
+            inputData={email}
             isEditing={isEditing}
             register={register}
             errors={errors}
@@ -78,7 +89,7 @@ export default function GeneralSettings() {
           <EditableField
             label="Country"
             name="country"
-            inputData={"None"}
+            inputData={country}
             isEditing={isEditing}
             register={register}
             errors={errors}
@@ -86,7 +97,7 @@ export default function GeneralSettings() {
           <EditableField
             label="City"
             name="city"
-            inputData={"None"}
+            inputData={city}
             isEditing={isEditing}
             register={register}
             errors={errors}
@@ -96,7 +107,7 @@ export default function GeneralSettings() {
           <EditableField
             label="Address"
             name="address"
-            inputData={"None"}
+            inputData={address}
             isEditing={isEditing}
             register={register}
             errors={errors}
@@ -104,7 +115,7 @@ export default function GeneralSettings() {
           <EditableField
             label="Postal Code"
             name="postalCode"
-            inputData={"None"}
+            inputData={postalCode}
             isEditing={isEditing}
             register={register}
             errors={errors}

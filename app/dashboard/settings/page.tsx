@@ -1,13 +1,20 @@
 import React from "react";
 import DashboardNav from "../_components/DashboardNav";
 import SettingsMain from "./_components/SettingsMain";
+import { getUser } from "@/app/actions/user";
 
-export default function page() {
+export default async function page() {
+  const userData = await getUser();
+
   return (
     <div>
       <DashboardNav />
       <div className="mt-4 bg-[var(--bg)] rounded-lg p-4">
-        <SettingsMain />
+        {"error" in userData ? (
+          <h1>{userData.error}</h1>
+        ) : (
+          <SettingsMain userData={userData} />
+        )}
       </div>
     </div>
   );
