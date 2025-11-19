@@ -36,7 +36,13 @@ export default function EditableField({
             name={name}
             className="border"
             defaultValue={inputData || ""}
-            placeholder={inputData ? inputData : "Not selected"}
+            placeholder={
+              inputData
+                ? inputData
+                : inputType === "password"
+                ? ""
+                : "Not selected"
+            }
             type={inputType ? inputType : "text"}
             {...register(name)}
           />
