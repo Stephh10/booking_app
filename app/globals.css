@@ -5,15 +5,54 @@
 @tailwind base;
 
 .bg-gradient-custom {
-  background: #8e9eab;
+  background: #8e9eab; /* fallback */
   background: -webkit-linear-gradient(to right, #eef2f3, #8e9eab);
   background: linear-gradient(to right, #eef2f3, #8e9eab);
 }
 
+/* Dark theme gradient */
+.dark .bg-gradient-custom {
+  background: #0a0a0a; /* fallback, skoro crno */
+  background: -webkit-linear-gradient(
+    135deg,
+    #0a0a0a 0%,
+    #1a1a1a 40%,
+    #0f0f0f 70%,
+    #1c1c1c 100%
+  );
+  background: linear-gradient(
+    135deg,
+    #0a0a0a 0%,
+    #1a1a1a 40%,
+    #0f0f0f 70%,
+    #1c1c1c 100%
+  );
+}
+
+/* Light theme hover */
 .activeHover {
-  background: #0575e6;
+  background: #0575e6; /* fallback */
   background: -webkit-linear-gradient(to right, #021b79, #0575e6);
   background: linear-gradient(to right, #021b79, #0575e6);
+}
+
+/* Dark theme hover */
+.dark .activeHover {
+  background: #0a0a0a; /* fallback */
+  background: -webkit-linear-gradient(
+    135deg,
+    #0a0a0a 0%,
+    #1c1c1c 30%,
+    #121212 60%,
+    #1f1f1f 100%
+  );
+  background: linear-gradient(
+    135deg,
+    #0a0a0a 0%,
+    #1c1c1c 30%,
+    #121212 60%,
+    #1f1f1f 100%
+  );
 }
 
 :root {
@@ -119,7 +158,7 @@
   }
 
   .dashboardStats {
-    @apply flex-1 p-2 rounded-lg text-lg shadow-lg bg-[var(--bg)] cursor-pointer transform transition duration-150 ease-in-out hover:scale-105 shadow-md;
+    @apply flex-1 p-2 rounded-lg text-lg shadow-lg bg-[var(--card)] cursor-pointer transform transition duration-150 ease-in-out hover:scale-105 shadow-md;
   }
 
   .activeLink {
@@ -218,6 +257,7 @@
 .dark {
   --background: oklch(0.145 0 0);
   --foreground: oklch(0.985 0 0);
+  --btn-primary: #3e7eb6;
   --card: oklch(0.205 0 0);
   --card-foreground: oklch(0.985 0 0);
   --popover: oklch(0.205 0 0);

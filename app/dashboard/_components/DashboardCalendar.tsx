@@ -72,6 +72,27 @@ export default function DashboardCalendar({ appointments }: any) {
             border: "1px solid rgba(0,0,0,0.1)",
           },
         })}
+        dayPropGetter={(day) => {
+          const today = new Date();
+          const isToday =
+            day.getDate() === today.getDate() &&
+            day.getMonth() === today.getMonth() &&
+            day.getFullYear() === today.getFullYear();
+
+          const isOtherMonth = day.getMonth() !== date.getMonth();
+
+          return {
+            style: {
+              backgroundColor: isToday
+                ? "#3e7eb6"
+                : isOtherMonth
+                ? "var(--card)"
+                : "var(--background)",
+              color: isOtherMonth ? "#9CA3AF" : "black",
+              borderRadius: "4px",
+            },
+          };
+        }}
       />
     </div>
   );

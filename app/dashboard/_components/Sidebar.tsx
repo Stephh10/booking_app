@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -27,7 +27,14 @@ const links = [
   { name: "Settings", href: "/dashboard/settings", icon: Settings },
 ];
 
+import { useTheme } from "@/hooks/useTheme";
+
 export default function Sidebar() {
+  const { theme } = useTheme();
+
+  useEffect(() => {
+    document.documentElement.classList.toggle("dark", theme === "dark");
+  }, [theme]);
   const pathname = usePathname();
   return (
     <div className="hidden md:block bg-[var(--secondary)] h-[500px] lg:h-[852px] w-60 rounded-lg py-2 text-[var(--text)] overflow-hidden">
@@ -48,7 +55,7 @@ export default function Sidebar() {
               className={`flex items-center gap-3 px-3 py-2 transition-colors
                 ${
                   isActive
-                    ? "text-[var(--btn-primary)] font-medium border-l-10 border-[var(--btn-primary)] bg-[var(--background)] rounded-tl-[16px] rounded-bl-[16px] overflow-hidden shadow-sm"
+                    ? "text-[var(--btn-primary)] font-medium border-l-10 border-[var(--btn-primary)] bg-[var(--card)] rounded-tl-[16px] rounded-bl-[16px] overflow-hidden shadow-sm"
                     : "text-gray-600 hover:bg-[var(--text)]"
                 }
               `}
