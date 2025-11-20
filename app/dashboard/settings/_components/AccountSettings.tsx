@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/select";
 import { Label } from "@radix-ui/react-dropdown-menu";
 import SecuritySettings from "./SecuritySettings";
-import DeleteAccountSettings from "./DeleteAccountSettings";
+import DeleteAccountSettings from "./DeleteAccount/DeleteAccountSettings";
 import { User } from "@prisma/client";
 import { useTransition } from "react";
 import { useForm } from "react-hook-form";

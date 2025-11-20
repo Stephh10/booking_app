@@ -1,6 +1,12 @@
+"use client";
+
 import React from "react";
+import { DialogDeleteAccount } from "./DialogDeleteAccount";
+import { useState } from "react";
 
 export default function DeleteAccountSettings() {
+  const [isOpen, setIsOpen] = useState(false);
+
   return (
     <div>
       <h1 className="settingsHeader">Delete Account</h1>
@@ -19,7 +25,10 @@ export default function DeleteAccountSettings() {
           </p>
         </div>
         <div className="flex gap-2">
-          <button className="bg-[#FF3670] text-[var(--text)] w-[120px] border-2 py-2 rounded-lg cursor-pointer">
+          <button
+            onClick={() => setIsOpen(true)}
+            className="bg-[#FF3670] text-[var(--text)] w-[120px] border-2 py-2 rounded-lg cursor-pointer"
+          >
             Delete Account
           </button>
           <button className="bg-inherit text-[var(--dark)] w-[120px] border-2 py-2 rounded-lg cursor-pointer">
@@ -27,6 +36,7 @@ export default function DeleteAccountSettings() {
           </button>
         </div>
       </div>
+      <DialogDeleteAccount isOpen={isOpen} setIsOpen={setIsOpen} />
     </div>
   );
 }

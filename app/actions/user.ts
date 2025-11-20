@@ -5,6 +5,33 @@ import { prisma as Prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 import { User } from "@prisma/client";
 import bcrypt from "bcryptjs";
+import { redirect } from "next/navigation";
+//DELETE ACCOUNT
+
+export const deleteAccount = async () => {
+  const authResult = await auth();
+  const activeUser = authResult?.user;
+
+  if (!activeUser) {
+    return { error: "You are not authenticated" };
+  }
+
+  const userData = await Prisma.user.findUnique({
+    where: {
+      id: activeUser.id,
+    },
+  });
+
+  if (!userData) {
+    return { error: "User not found" };
+  }
+
+  await Prisma.user.delete({
+    where: { id: userData.id },
+  });
+
+  return { success: true };
+};
 
 //CHANGE PASSWORD
 

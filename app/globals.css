@@ -27,6 +27,7 @@
   --secondary-hover: #3e7eb6;
   --btn-primary: #3e7eb6;
   --btn-hover: #2563eb;
+  --btn-danger: #ff3670;
   --border: oklch(0.922 0 0);
   --radius: 0.625rem;
   --background: oklch(1 0 0);

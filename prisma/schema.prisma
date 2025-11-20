@@ -27,6 +27,7 @@ model User {
 
   appointments   Appointment[]
   availabilities DoctorAvailability[]
+  patients       Patient[]
 }
 
 //DOCTOR AVAILABILITY
@@ -40,7 +41,7 @@ model DoctorAvailability {
   breakTimeStart DateTime?
   breakTimeEnd   DateTime?
 
-  doctor User @relation(fields: [doctorId], references: [id])
+  doctor User @relation(fields: [doctorId], references: [id], onDelete: Cascade)
 }
 
 //PATIENT MODEL
@@ -61,6 +62,7 @@ model Patient {
 
   doctorId String
 
+  doctor         User            @relation(fields: [doctorId], references: [id], onDelete: Cascade)
   appointments   Appointment[]
   medicalDetails MedicalDetails?
 
@@ -105,7 +107,7 @@ model Appointment {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  doctor  User     @relation(fields: [doctorId], references: [id])
+  doctor  User     @relation(fields: [doctorId], references: [id], onDelete: Cascade)
   patient Patient? @relation(fields: [patientId], references: [id])
   Note    Note[]
 }
