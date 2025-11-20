@@ -9,7 +9,7 @@ export default async function page() {
   return (
     <div>
       <DashboardNav />
-      <div className="mt-4 bg-[var(--bg)] rounded-lg p-4">
+      <div className="mt-4 bg-[var(--secondary)] rounded-lg p-4">
         {"error" in userData ? (
           <h1>{userData.error}</h1>
         ) : (

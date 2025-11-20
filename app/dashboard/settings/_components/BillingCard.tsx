@@ -4,7 +4,7 @@ import { SquareCheck } from "lucide-react";
 export default function BillingCard({ plan }: any) {
   return (
     <div
-      className={`relative border flex-1 rounded-md p-2 lg:p-4 flex flex-col justify-between ${
+      className={`relative border flex-1 rounded-md p-2 lg:p-4 flex flex-col justify-between overflow-hidden ${
         plan.active ? "bg-[var(--btn-primary)] text-[var(--text)]" : ""
       }`}
     >

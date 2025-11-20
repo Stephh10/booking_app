@@ -31,7 +31,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <main className="bg-gradient-custom">
+        <main className="bg[var(--background)]">
           <SessionProvider>{children}</SessionProvider>
         </main>
         <ToastContainer />
@@ -39,3 +39,5 @@ export default function RootLayout({
     </html>
   );
 }
+
+//bg-gradient-custom
