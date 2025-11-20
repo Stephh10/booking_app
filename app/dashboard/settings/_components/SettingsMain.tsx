@@ -47,7 +47,15 @@ export default function SettingsMain({ userData }: { userData: User }) {
           ))}
       </PageHeader>
       <div className="mt-4 2 bg-[var(--secondary)] p-4 rounded-2xl">
-        <Tabs className="w-full" defaultValue={"general"}>
+        <Tabs
+          className="w-full"
+          value={view || "general"}
+          onValueChange={(val) => {
+            router.push(
+              `/dashboard/settings${val === "general" ? "" : `?view=${val}`}`
+            );
+          }}
+        >
           <TabsList className="w-full flex border-1 p-0">
             <TabsTrigger
               onClick={() => router.push(`/dashboard/settings`)}
@@ -57,6 +65,15 @@ export default function SettingsMain({ userData }: { userData: User }) {
               value="general"
             >
               General
+            </TabsTrigger>
+            <TabsTrigger
+              onClick={() => router.push(`/dashboard/settings?view=account`)}
+              className="menuTab
+                 data-[state=active]:bg-[var(--btn-primary)] 
+                 data-[state=active]:text-white "
+              value="account"
+            >
+              Account
             </TabsTrigger>
             <TabsTrigger
               onClick={() =>
@@ -69,18 +86,8 @@ export default function SettingsMain({ userData }: { userData: User }) {
             >
               Preferences
             </TabsTrigger>
-
             <TabsTrigger
-              onClick={() => router.push(`/dashboard/settings`)}
-              className="menuTab
-                 data-[state=active]:bg-[var(--btn-primary)] 
-                 data-[state=active]:text-white "
-              value="account"
-            >
-              Account
-            </TabsTrigger>
-            <TabsTrigger
-              onClick={() => router.push(`/dashboard/settings`)}
+              onClick={() => router.push(`/dashboard/settings?view=billings`)}
               className="menuTab
                  data-[state=active]:bg-[var(--btn-primary)] 
                  data-[state=active]:text-white "

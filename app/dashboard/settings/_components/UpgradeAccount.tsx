@@ -1,6 +1,8 @@
 import React from "react";
+import { useRouter } from "next/navigation";
 
 export default function UpgradeAccount() {
+  const router = useRouter();
   return (
     <div>
       <h1 className="settingsHeader">Upgrade to Premium</h1>
@@ -20,7 +22,10 @@ export default function UpgradeAccount() {
           </p>
         </div>
         <div className="flex gap-2">
-          <button className="bg-[var(--btn-primary)] text-[var(--text)] w-[120px] border-2 py-2 rounded-lg cursor-pointer">
+          <button
+            onClick={() => router.push(`/dashboard/settings?view=billings`)}
+            className="bg-[var(--btn-primary)] text-[var(--text)] w-[120px] border-2 py-2 rounded-lg cursor-pointer"
+          >
             Upgrade Now
           </button>
           <button className="bg-inherit text-[var(--dark)] w-[120px] border-2 py-2 rounded-lg cursor-pointer">
