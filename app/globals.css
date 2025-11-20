@@ -5,14 +5,14 @@
 @tailwind base;
 
 .bg-gradient-custom {
-  background: #8e9eab; /* fallback */
+  background: #8e9eab;
   background: -webkit-linear-gradient(to right, #eef2f3, #8e9eab);
   background: linear-gradient(to right, #eef2f3, #8e9eab);
 }
 
 /* Dark theme gradient */
 .dark .bg-gradient-custom {
-  background: #0a0a0a; /* fallback, skoro crno */
+  background: #0a0a0a;
   background: -webkit-linear-gradient(
     135deg,
     #0a0a0a 0%,
@@ -31,14 +31,14 @@
 
 /* Light theme hover */
 .activeHover {
-  background: #0575e6; /* fallback */
+  background: #0575e6;
   background: -webkit-linear-gradient(to right, #021b79, #0575e6);
   background: linear-gradient(to right, #021b79, #0575e6);
 }
 
 /* Dark theme hover */
 .dark .activeHover {
-  background: #0a0a0a; /* fallback */
+  background: #0a0a0a;
   background: -webkit-linear-gradient(
     135deg,
     #0a0a0a 0%,
