@@ -21,7 +21,7 @@ export default function SettingsMain({ userData }: { userData: User }) {
   return (
     <>
       <PageHeader title="Settings" description="Manage your account settings.">
-        {!view &&
+        {(!view || view === "account") &&
           (isEditing ? (
             <div className="flex gap-2">
               <button
@@ -32,7 +32,7 @@ export default function SettingsMain({ userData }: { userData: User }) {
               </button>
               <button
                 onClick={() => handleSubmit()}
-                className="bg-[var(--btn-primary)]  text-[var(--text)] w-[120px] border-2 py-1 rounded-lg cursor-pointer"
+                className="bg-[var(--btn-primary)] text-[var(--text)] w-[120px] border-2 py-1 rounded-lg cursor-pointer"
               >
                 Save
               </button>
@@ -40,7 +40,7 @@ export default function SettingsMain({ userData }: { userData: User }) {
           ) : (
             <button
               onClick={() => setIsEditing(true)}
-              className="bg-[var(--btn-primary)]  text-[var(--text)] w-[120px] border-2 py-1 rounded-lg cursor-pointer"
+              className="bg-[var(--btn-primary)] text-[var(--text)] w-[120px] border-2 py-1 rounded-lg cursor-pointer"
             >
               Edit
             </button>

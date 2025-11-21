@@ -190,7 +190,7 @@
   }
 
   .inputControl input {
-    @apply h-[35px] pl-[5px] bg-[var(--background)] rounded-lg w-full;
+    @apply h-[35px] pl-[5px] bg-[var(--card)] rounded-sm w-full;
   }
 
   .inputControl textarea {
