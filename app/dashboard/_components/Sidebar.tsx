@@ -14,6 +14,8 @@ import {
   CalendarClock,
 } from "lucide-react";
 
+import { signOut } from "next-auth/react";
+
 const links = [
   { name: "Dashboard", href: "/dashboard", icon: LayoutPanelLeft },
   { name: "Appointments", href: "/dashboard/appointments", icon: Calendar },
@@ -31,11 +33,16 @@ import { useTheme } from "@/hooks/useTheme";
 
 export default function Sidebar() {
   const { theme } = useTheme();
+  const pathname = usePathname();
+
+  function handleLogout() {
+    signOut({ callbackUrl: "/login" });
+  }
 
   useEffect(() => {
     document.documentElement.classList.toggle("dark", theme === "dark");
   }, [theme]);
-  const pathname = usePathname();
+
   return (
     <div className="hidden md:block bg-[var(--secondary)] h-[500px] lg:h-[852px] w-60 rounded-lg py-2 text-[var(--text)] overflow-hidden">
       <Link
@@ -56,7 +63,7 @@ export default function Sidebar() {
                 ${
                   isActive
                     ? "text-[var(--btn-primary)] font-medium border-l-10 border-[var(--btn-primary)] bg-[var(--card)] rounded-tl-[16px] rounded-bl-[16px] overflow-hidden shadow-sm"
-                    : "text-gray-600 hover:bg-[var(--text)]"
+                    : "text-gray-600 hover:bg-[var(--card)]"
                 }
               `}
             >
@@ -78,7 +85,8 @@ export default function Sidebar() {
             </Link>
           </div>
           <Link
-            className="flex items-center gap-3 px-3 py-2 transition-colors text-gray-600 hover:bg-[var(--text)]"
+            onClick={handleLogout}
+            className="flex items-center gap-3 px-3 py-2 transition-colors text-gray-600 hover:bg-[var(--card)]"
             href={"/"}
           >
             <LogOut size={20} />
