@@ -1,13 +1,14 @@
 import Navigation from "@/components/Navigation";
 import MainNotification from "@/components/hero/MainNotification";
+import Hero from "@/components/hero/Hero";
 
 export default function Home() {
   return (
     <>
       <MainNotification />
       <Navigation />
-      <main>
-        <h2>Hello World</h2>
+      <main className="container px-10">
+        <Hero />
       </main>
     </>
   );

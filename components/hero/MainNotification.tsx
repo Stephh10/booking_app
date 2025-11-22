@@ -9,19 +9,19 @@ export default function MainNotification() {
   return (
     <div
       className={
-        !isOpen
-          ? "hidden"
-          : "bg-[var(--lp-primary)] text-[var(--text)] h-[35px] w-full px-2 flex items-center justify-between"
+        !isOpen ? "hidden" : "bg-[var(--lp-primary)] text-[var(--text)] "
       }
     >
-      <div className="flex items-center gap-1">
-        <Info size={18} />
-        <h1>Send your link, simplify scheduling, and save time!</h1>
-      </div>
-      <div className="actions">
-        <button className="cursor-pointer" onClick={() => setIsOpen(false)}>
-          <X size={18} />
-        </button>
+      <div className="lp-container h-[35px] w-full flex items-center justify-between">
+        <div className="flex items-center gap-1">
+          <Info size={18} />
+          <h1>Send your link, simplify scheduling, and save time!</h1>
+        </div>
+        <div className="actions">
+          <button className="cursor-pointer" onClick={() => setIsOpen(false)}>
+            <X size={18} />
+          </button>
+        </div>
       </div>
     </div>
   );
