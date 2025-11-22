@@ -256,6 +256,14 @@
   .workTimeCardSelector {
     @apply flex items-center justify-between gap-2 mb-3;
   }
+
+  .lp-link {
+    @apply font-bold text-[var(--lp-primary)];
+  }
+
+  .lp-navBtn {
+    @apply bg-[var(--lp-primary)] text-[var(--text)] p-2 rounded-lg cursor-pointer;
+  }
 }
 
 .dark {

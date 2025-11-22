@@ -7,7 +7,7 @@ export default function LogoutBtn() {
     signOut({ callbackUrl: "/login" });
   };
   return (
-    <button className="cursor-pointer" onClick={handleLogout}>
+    <button className="lp-navBtn" onClick={handleLogout}>
       Logout
     </button>
   );
