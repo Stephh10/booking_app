@@ -56,6 +56,10 @@
 }
 
 :root {
+  --lp-background: #ddeaf7;
+  --lp-primary: #0c3a66;
+  --lp-secondary: #1f5f99;
+  --lp-light: #3e7eb6;
   --bg: #f9fbfb;
   --text: #ededed;
   --text-dark: #171717;
