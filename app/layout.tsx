@@ -31,7 +31,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <main className="bg-[var(--lp-background)] h-[100vh]">
+        <main className="bg-[var(--lp-background)] min-h-[100vh]">
           <SessionProvider>{children}</SessionProvider>
         </main>
         <ToastContainer />
