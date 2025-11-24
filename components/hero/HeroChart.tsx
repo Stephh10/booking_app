@@ -13,10 +13,11 @@ import {
 } from "recharts";
 
 const data = [
-  { day: "Mon", patients: 10 },
-  { day: "Tue", patients: 14 },
+  { day: "Sun", patients: 5 },
+  { day: "Mon", patients: 11 },
+  { day: "Tue", patients: 10 },
   { day: "Wed", patients: 12 },
-  { day: "Thu", patients: 16 },
+  { day: "Thu", patients: 17 },
   { day: "Fri", patients: 15 },
   { day: "Sat", patients: 22 },
 ];
@@ -24,7 +25,7 @@ const data = [
 export default function HeroChart() {
   return (
     <div
-      className="max-w-[580px] bg-[var(--lp-card)]"
+      className="relative max-w-[580px] bg-[var(--lp-card)]"
       style={{
         height: "300px",
         width: "100%",
@@ -32,36 +33,15 @@ export default function HeroChart() {
         padding: "12px",
       }}
     >
+      <div className="absolute top-4 left-20">
+        <h2 className="text-2xl">New patients - this week</h2>
+        <p className="text-4xl">92</p>
+      </div>
       <ResponsiveContainer width="100%" height="100%">
-        {/* <LineChart
-          data={data}
-          margin={{ top: 10, right: 10, left: -20, bottom: 0 }}
-        >
-          <CartesianGrid strokeDasharray="3 3" stroke="#C9D8E6" />
-          <XAxis dataKey="day" stroke="#3E7EB6" tickMargin={10} />
-          <YAxis hide />
-          <Tooltip
-            contentStyle={{
-              background: "white",
-              border: "1px solid #C9D8E6",
-              borderRadius: 8,
-              color: "#3E7EB6",
-            }}
-          />
-          <Line
-            type="monotone"
-            dataKey="value"
-            stroke="#3E7EB6"
-            strokeWidth={3}
-            dot={{ r: 4, strokeWidth: 2, stroke: "#3E7EB6", fill: "white" }}
-            activeDot={{ r: 6 }}
-          />
-        </LineChart> */}
         <AreaChart
           data={data}
           margin={{ top: 10, right: 10, left: -20, bottom: 0 }}
         >
-          <CartesianGrid strokeDasharray="3 3" />
           <XAxis dataKey="day" />
           <YAxis />
           <Tooltip />
@@ -69,7 +49,7 @@ export default function HeroChart() {
             type="monotone"
             dataKey="patients"
             stroke="#1f5f99"
-            strokeWidth={3}
+            strokeWidth={4}
             fill="#ddeaf7"
           />
         </AreaChart>
