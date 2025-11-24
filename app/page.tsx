@@ -7,7 +7,7 @@ export default function Home() {
     <>
       <MainNotification />
       <Navigation />
-      <main className="container px-10">
+      <main className="lp-container">
         <Hero />
       </main>
     </>
