@@ -39,7 +39,7 @@ export default async function Navigation() {
                 Login
               </Link>
               <Link className="lp-navBtn" href={"/register"}>
-                Register
+                Explore
               </Link>
             </div>
           )}
