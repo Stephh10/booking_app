@@ -14,8 +14,10 @@ export function AccordionMain() {
       defaultValue="item-1"
     >
       <AccordionItem value="item-1">
-        <AccordionTrigger>Patient Records</AccordionTrigger>
-        <AccordionContent className="flex flex-col gap-4 text-balance text-lg">
+        <AccordionTrigger className="accordionHeader">
+          Patient Records
+        </AccordionTrigger>
+        <AccordionContent className="flex flex-col gap-4 text-balance text-lg lp-dotlist">
           <p>
             View complete patient history including medical conditions,
             medications, allergies, and previous visits.
@@ -29,8 +31,10 @@ export function AccordionMain() {
         </AccordionContent>
       </AccordionItem>
       <AccordionItem value="item-2">
-        <AccordionTrigger>Appointments & Schedule</AccordionTrigger>
-        <AccordionContent className="flex flex-col gap-4 text-balance">
+        <AccordionTrigger className="accordionHeader">
+          Appointments & Schedule
+        </AccordionTrigger>
+        <AccordionContent className="flex flex-col gap-4 text-balance text-lg lp-dotlist">
           <p>
             View all upcoming appointments in a daily, weekly, or monthly
             calendar view.
@@ -43,8 +47,10 @@ export function AccordionMain() {
         </AccordionContent>
       </AccordionItem>
       <AccordionItem value="item-3">
-        <AccordionTrigger>Booking Links</AccordionTrigger>
-        <AccordionContent className="flex flex-col gap-4 text-balance">
+        <AccordionTrigger className="accordionHeader">
+          Booking Links
+        </AccordionTrigger>
+        <AccordionContent className="flex flex-col gap-4 text-balance text-lg lp-dotlist ">
           <p>Generate a personalized booking link to send to patients.</p>
           <p>
             Patients can select from available time slots directly, reducing
@@ -55,8 +61,10 @@ export function AccordionMain() {
         </AccordionContent>
       </AccordionItem>
       <AccordionItem value="item-4">
-        <AccordionTrigger>Reports & Analytics</AccordionTrigger>
-        <AccordionContent className="flex flex-col gap-4 text-balance">
+        <AccordionTrigger className="accordionHeader">
+          Reports & Analytics
+        </AccordionTrigger>
+        <AccordionContent className="flex flex-col gap-4 text-balance text-lg lp-dotlist">
           <p>
             View visual summaries of patient visits, treatment outcomes, and
             appointment trends.

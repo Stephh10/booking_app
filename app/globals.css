@@ -55,6 +55,24 @@
   );
 }
 
+/* accordion dots */
+
+.lp-dotlist p {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+}
+
+.lp-dotlist p::before {
+  content: "";
+  margin-top: 0.55rem;
+  width: 0.45rem;
+  height: 0.45rem;
+  background: var(--lp-primary);
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
 :root {
   --lp-background: #ddeaf7;
   --lp-primary: #0c3a66;
@@ -268,6 +286,10 @@
 
   .lp-navBtn {
     @apply bg-[var(--lp-primary)] text-[var(--text)] p-2 rounded-lg cursor-pointer;
+  }
+
+  .accordionHeader {
+    @apply text-lg! font-bold! text-[var(--lp-primary)]! cursor-pointer!;
   }
 }
 
