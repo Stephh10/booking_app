@@ -169,7 +169,7 @@
   }
 
   .form-input {
-    @apply border border-gray-300 rounded px-4 py-2 w-full mb-2 rounded-lg;
+    @apply border border-gray-300 rounded px-4 py-2 w-full mb-5 rounded-lg;
   }
 
   .formText {
