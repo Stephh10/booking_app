@@ -1,18 +1,36 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import { registerAction } from "@/app/actions/auth";
 import { useActionState } from "react";
 import AuthError from "../_components/AuthError";
 import Image from "next/image";
 import { ShieldCheck } from "lucide-react";
+import { useForm } from "react-hook-form";
+import EditableField from "@/app/dashboard/patient/_components/EditableField";
+import { useTransition } from "react";
 
 export default function page() {
-  const [state, formAction] = useActionState(registerAction, {
-    error: false,
-    success: false,
-  });
+  const [isPending, startTransition] = useTransition();
+  const [isEditing, setIsEditing] = useState(true);
+
+  const {
+    register,
+    handleSubmit,
+    control,
+    formState: { errors },
+  } = useForm();
+
+  function handleFormSubmit(data: any) {
+    startTransition(async () => {
+      const response = await registerAction(data);
+      if ("error" in response) {
+        console.log(response);
+        return;
+      }
+    });
+  }
 
   return (
     <div className="h-[90vh] w-full flex items-center justify-center">
@@ -46,32 +64,63 @@ export default function page() {
           <p className="text-xl text-left my-5 ">
             Join thousands of users and stay organized
           </p>
-          <form className="authForm flex flex-col" action={formAction}>
-            <input
-              className="form-input"
+          <form
+            className="authForm flex flex-col text-left"
+            onSubmit={handleSubmit(handleFormSubmit)}
+          >
+            <EditableField
+              label="First Name"
               name="firstName"
-              type="text"
-              placeholder="First Name"
+              inputData={""}
+              isEditing={isEditing}
+              register={register}
+              errors={errors}
+              validation={{ required: "First name is required" }}
             />
-            <input
-              className="form-input"
+            <EditableField
+              label="Last Name"
               name="lastName"
-              type="text"
-              placeholder="Last Name"
+              inputData={null}
+              isEditing={isEditing}
+              register={register}
+              errors={errors}
+              validation={{ required: "Last name is required" }}
             />
-            <input
-              className="form-input"
+            <EditableField
+              label="Email"
               name="email"
-              type="text"
-              placeholder="Email"
+              inputData={null}
+              isEditing={isEditing}
+              register={register}
+              errors={errors}
+              validation={{
+                required: "Email is required",
+                pattern: {
+                  value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                  message: "Invalid email address",
+                },
+              }}
             />
-            <input
-              className="form-input"
+            <EditableField
+              label="Password"
               name="password"
-              type="text"
-              placeholder="Password"
+              inputData={""}
+              inputType={"password"}
+              isEditing={isEditing}
+              register={register}
+              errors={errors}
+              validation={{
+                required: "Password is required",
+                minLength: {
+                  value: 5,
+                  message: "Password must be at least 5 characters",
+                },
+              }}
             />
-            <button className="formBtn bg-[var(--lp-primary)]">Register</button>
+
+            <button className="formBtn bg-[var(--lp-primary)] mt-5">
+              {isPending ? "Registering..." : "Register"}
+            </button>
           </form>
           <p className="pt-2 text-lg text-gray-400">
             Already have an account?

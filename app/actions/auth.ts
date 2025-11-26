@@ -46,26 +46,20 @@ export async function loginAction(
   return { success: true };
 }
 
-export async function registerAction(
-  prevState: LoginState,
-  formData: FormData
-): Promise<LoginState> {
-  const email = formData.get("email");
-  const password = formData.get("password");
-  const firstName = formData.get("firstName");
-  const lastName = formData.get("lastName");
+export async function registerAction(formData: any) {
+  const { firstName, lastName, email, password } = formData;
 
   if (
-    typeof email !== "string" ||
-    typeof password !== "string" ||
     typeof firstName !== "string" ||
     typeof lastName !== "string" ||
-    !email ||
-    !password ||
+    typeof email !== "string" ||
+    typeof password !== "string" ||
     !firstName ||
-    !lastName
+    !lastName ||
+    !email ||
+    !password
   ) {
-    return { error: "Please provide all required fields." };
+    return { error: "Please provide valid email and password" };
   }
 
   //EXISTING USER
@@ -102,7 +96,5 @@ export async function registerAction(
 
   await signIn("credentials", { email, password, redirect: false });
 
-  redirect("/");
-
-  return { success: true };
+  redirect("/dashboard");
 }
