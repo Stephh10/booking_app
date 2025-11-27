@@ -20,13 +20,19 @@ export default function page() {
     handleSubmit,
     control,
     formState: { errors },
+    setError,
   } = useForm();
 
   function handleFormSubmit(data: any) {
     startTransition(async () => {
       const response = await registerAction(data);
-      if ("error" in response) {
-        console.log(response);
+      if (response?.error) {
+        if (response.error === "User already exists.") {
+          setError("email", {
+            type: "manual",
+            message: "User with this email already exists.",
+          });
+        }
         return;
       }
     });
