@@ -3,8 +3,6 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { registerAction } from "@/app/actions/auth";
-import { useActionState } from "react";
-import AuthError from "../_components/AuthError";
 import Image from "next/image";
 import { ShieldCheck } from "lucide-react";
 import { useForm } from "react-hook-form";
@@ -18,7 +16,6 @@ export default function page() {
   const {
     register,
     handleSubmit,
-    control,
     formState: { errors },
     setError,
   } = useForm();

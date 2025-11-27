@@ -9,12 +9,11 @@ type LoginState = {
   success?: boolean;
 };
 
-export async function loginAction(
-  prevState: LoginState,
-  formData: FormData
-): Promise<LoginState> {
-  const email = formData.get("email");
-  const password = formData.get("password");
+export async function loginAction(formData: {
+  email: string;
+  password: string;
+}): Promise<LoginState> {
+  const { email, password } = formData;
 
   if (
     typeof email !== "string" ||
