@@ -7,10 +7,18 @@ import { useForm } from "react-hook-form";
 import EditableField from "@/app/dashboard/patient/_components/EditableField";
 import Image from "next/image";
 import { ShieldCheck } from "lucide-react";
+import { changePasswordLogin } from "@/app/actions/user";
 
-export default function page() {
+interface SearchParams {
+  token?: string;
+}
+
+export default function page({ searchParams }: any) {
   const [isPending, startTransition] = useTransition();
   const isEditing = true;
+  const params = React.use(searchParams) as SearchParams;
+
+  const token = params.token;
 
   const {
     register,
@@ -18,6 +26,20 @@ export default function page() {
     formState: { errors },
     setError,
   } = useForm();
+
+  function handleFormSubmit(data: any) {
+    startTransition(async () => {
+      const response = await changePasswordLogin(data, token);
+      if (response?.error) {
+        setError("password", {
+          type: "manual",
+          message: response.error,
+        });
+      }
+
+      console.log(response);
+    });
+  }
 
   return (
     <div className="h-[90vh] w-full flex items-center justify-center">
@@ -48,7 +70,10 @@ export default function page() {
           <p className="text-xl mb-4 ">
             Please create a new password for your account.
           </p>
-          <form className="authForm relative h-full text-left">
+          <form
+            onSubmit={handleSubmit(handleFormSubmit)}
+            className="authForm relative h-full text-left"
+          >
             <EditableField
               label="New Password"
               name="newPassword"
@@ -61,8 +86,8 @@ export default function page() {
               }}
             />
             <EditableField
-              label="Repeat Password"
-              name="repeatPassword"
+              label="Confirm Password"
+              name="confirmPassword"
               inputData={""}
               isEditing={isEditing}
               register={register}

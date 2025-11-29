@@ -36,8 +36,14 @@ export default function ChangePassword({ email }: ChangePasswordProps) {
           return;
         }
 
+        console.log(response);
+
         setSentOnce(true);
-        console.log("Reset link:", response.resetLink);
+
+        setTimeout(() => setSentOnce(false), 10000);
+
+        setSentOnce(true);
+        return router.push(response.resetLink);
       } catch (err) {
         console.error(err);
         setError("Failed to send email. Try again later.");

@@ -7,6 +7,9 @@ import { User } from "@prisma/client";
 import bcrypt from "bcryptjs";
 import nodemailer from "nodemailer";
 import crypto from "crypto";
+import { redirect } from "next/navigation";
+import { loginAction } from "./auth";
+
 //SENT FORGOT PASSWORD EMAIL
 
 export const sendForgotPasswordEmail = async (email: string) => {
@@ -48,13 +51,11 @@ export const sendForgotPasswordEmail = async (email: string) => {
     subject: "Reset your password",
     html: `
       <h2>Password Reset</h2>
-      <p>Klikni na link ispod kako bi resetovao password:</p>
+      <p>Click the link below to reset your password:</p>
       <a href="${resetLink}" target="_blank">Reset Password</a>
-      <p>Ovaj link važi 15 minuta.</p>
+      <p>This link will expire in 15 minutes.</p>
     `,
   });
-
-  console.log(resetLink);
 
   return { success: true, message: "Reset email sent.", resetLink };
 };
@@ -84,6 +85,54 @@ export const deleteAccount = async () => {
   });
 
   return { success: true };
+};
+
+//CHANGE PASSWORD LOGIN
+
+export const changePasswordLogin = async (passwordDetails: any, token: any) => {
+  const tokenData = await Prisma.passwordResetToken.findUnique({
+    where: {
+      token,
+    },
+  });
+
+  if (!tokenData) {
+    return { error: "Invalid token" };
+  }
+
+  if (!passwordDetails.newPassword || !passwordDetails.confirmPassword) {
+    return { error: "All fields are required" };
+  }
+
+  if (passwordDetails.newPassword !== passwordDetails.confirmPassword) {
+    return { error: "Passwords do not match" };
+  }
+
+  const userData = await Prisma.user.findUnique({
+    where: {
+      id: tokenData.userId,
+    },
+  });
+
+  if (!userData) {
+    return { error: "User not found" };
+  }
+
+  const hashedPassword = await bcrypt.hash(passwordDetails.newPassword, 10);
+
+  await Prisma.user.update({
+    where: {
+      id: tokenData.userId,
+    },
+    data: {
+      password: hashedPassword,
+    },
+  });
+
+  return loginAction({
+    email: userData.email,
+    password: passwordDetails.newPassword,
+  });
 };
 
 //CHANGE PASSWORD
