@@ -25,9 +25,21 @@ model User {
   address    String?
   postalCode Int?
 
-  appointments   Appointment[]
-  availabilities DoctorAvailability[]
-  patients       Patient[]
+  appointments        Appointment[]
+  availabilities      DoctorAvailability[]
+  patients            Patient[]
+  passwordResetTokens PasswordResetToken[]
+}
+
+//PASSWORD RESET MODEL
+
+model PasswordResetToken {
+  id        String   @id @default(cuid())
+  token     String   @unique
+  userId    String
+  expiresAt DateTime
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 //DOCTOR AVAILABILITY

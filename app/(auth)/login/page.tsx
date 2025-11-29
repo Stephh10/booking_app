@@ -22,7 +22,10 @@ export default function page() {
     handleSubmit,
     formState: { errors },
     setError,
+    watch,
   } = useForm();
+
+  const email = watch("email", "");
 
   function handleUserLogin(data: any) {
     startTransition(async () => {
@@ -116,7 +119,7 @@ export default function page() {
               </div>
             </form>
           ) : (
-            <ChangePassword />
+            <ChangePassword email={email} />
           )}
         </div>
       </div>

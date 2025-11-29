@@ -5,7 +5,60 @@ import { prisma as Prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 import { User } from "@prisma/client";
 import bcrypt from "bcryptjs";
-import { redirect } from "next/navigation";
+import nodemailer from "nodemailer";
+import crypto from "crypto";
+//SENT FORGOT PASSWORD EMAIL
+
+export const sendForgotPasswordEmail = async (email: string) => {
+  const user = await Prisma.user.findUnique({
+    where: {
+      email,
+    },
+  });
+
+  if (!user) {
+    return { error: "User not found" };
+  }
+
+  const token = crypto.randomBytes(32).toString("hex");
+
+  await Prisma.passwordResetToken.create({
+    data: {
+      token,
+      userId: user.id,
+      expiresAt: new Date(Date.now() + 1000 * 60 * 15),
+    },
+  });
+
+  const resetLink = `${process.env.FRONTEND_URL}/reset-password?token=${token}`;
+
+  const transporter = nodemailer.createTransport({
+    host: process.env.SMTP_HOST,
+    port: Number(process.env.SMTP_PORT),
+    secure: false,
+    auth: {
+      user: process.env.SMTP_USER,
+      pass: process.env.SMTP_PASS,
+    },
+  });
+
+  await transporter.sendMail({
+    from: `"Password Reset" <${process.env.SMTP_USER}>`,
+    to: email,
+    subject: "Reset your password",
+    html: `
+      <h2>Password Reset</h2>
+      <p>Klikni na link ispod kako bi resetovao password:</p>
+      <a href="${resetLink}" target="_blank">Reset Password</a>
+      <p>Ovaj link važi 15 minuta.</p>
+    `,
+  });
+
+  console.log(resetLink);
+
+  return { success: true, message: "Reset email sent.", resetLink };
+};
+
 //DELETE ACCOUNT
 
 export const deleteAccount = async () => {
