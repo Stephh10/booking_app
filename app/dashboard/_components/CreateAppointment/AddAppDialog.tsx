@@ -1,24 +1,37 @@
 "use client";
 
+import {
+  Stepper,
+  StepperContent,
+  StepperIndicator,
+  StepperItem,
+  StepperNav,
+  StepperPanel,
+  StepperSeparator,
+  StepperTitle,
+  StepperTrigger,
+} from "@/components/ui/stepper";
+import CreatePatientApp from "./CreatePatientApp";
+import { Check, LoaderCircleIcon } from "lucide-react";
+
 import React, { useState } from "react";
-import { Button } from "@/components/ui/button";
 import {
   Dialog,
-  DialogClose,
   DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { DatePicker } from "@/components/DatePicker";
 import { useTransition } from "react";
 import { createAppointment } from "@/app/actions/appointments";
-import { Textarea } from "@/components/ui/textarea";
+import AppointmentDetDialog from "./AppointmentDetDialog";
+import ConfirmationDialog from "./ConfirmationDialog";
 import { useSession } from "next-auth/react";
+
+const steps = [
+  <CreatePatientApp />,
+  <AppointmentDetDialog />,
+  <ConfirmationDialog />,
+];
 
 export default function AddAppDialog() {
   const [isPending, startTransition] = useTransition();
@@ -60,7 +73,44 @@ export default function AddAppDialog() {
       <DialogTrigger asChild>
         <button className="primaryBtn">+ Create Appointment</button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px] max-h-[90vh] overflow-y-auto rounded-scrollbar">
+
+      <DialogContent>
+        <DialogTitle>{""}</DialogTitle>
+        <Stepper
+          defaultValue={1}
+          indicators={{
+            completed: <Check className="size-4" />,
+            loading: <LoaderCircleIcon className="size-4 animate-spin" />,
+          }}
+          className="space-y-8"
+        >
+          <StepperNav>
+            {steps.map((step, index) => (
+              <StepperItem
+                key={index}
+                step={index + 1}
+                className="relative flex-1 items-start "
+              >
+                <StepperTrigger className="flex flex-col gap-2.5">
+                  <StepperIndicator>{index + 1}</StepperIndicator>
+                </StepperTrigger>
+                {steps.length > index + 1 && (
+                  <StepperSeparator className="absolute top-3 inset-x-0 left-[calc(50%+0.875rem)] m-0 group-data-[orientation=horizontal]/stepper-nav:w-[calc(100%-2rem+0.225rem)] group-data-[orientation=horizontal]/stepper-nav:flex-none group-data-[state=completed]/step:bg-primary " />
+                )}
+              </StepperItem>
+            ))}
+          </StepperNav>
+          <StepperPanel className="text-sm">
+            {steps.map((step, index) => (
+              <StepperContent key={index} value={index + 1} className="w-full">
+                {step}
+              </StepperContent>
+            ))}
+          </StepperPanel>
+        </Stepper>
+      </DialogContent>
+
+      {/* <DialogContent className="sm:max-w-[425px] max-h-[90vh] overflow-y-auto rounded-scrollbar">
         <DialogHeader>
           <DialogTitle>Create Appointment</DialogTitle>
           <DialogDescription>
@@ -112,7 +162,7 @@ export default function AddAppDialog() {
             </button>
           </DialogFooter>
         </form>
-      </DialogContent>
+      </DialogContent> */}
     </Dialog>
   );
 }

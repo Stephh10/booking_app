@@ -181,7 +181,7 @@ export const getSelectedPatient = async (patientId: string) => {
 
 //CREATE PATIENT
 
-export const createPatient = async (data: Patient) => {
+export const createPatient = async (data: any) => {
   const authResult = await auth();
   const activeUser = authResult?.user;
 

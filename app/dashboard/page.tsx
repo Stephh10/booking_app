@@ -3,7 +3,7 @@ import DashboardNav from "./_components/DashboardNav";
 import DashboardStats from "./_components/DashboardStats";
 import Link from "next/link";
 import DashboardCalendar from "./_components/DashboardCalendar";
-import AddAppDialog from "./_components/AddAppDialog";
+import AddAppDialog from "./_components/CreateAppointment/AddAppDialog";
 import PageHeader from "@/components/PageHeader";
 import { getAllAppointments } from "../actions/appointments";
 import { auth } from "@/auth";
