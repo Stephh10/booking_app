@@ -10,7 +10,7 @@ import { ShieldCheck } from "lucide-react";
 import { changePasswordLogin } from "@/app/actions/user";
 
 interface SearchParams {
-  token?: string;
+  token: string;
 }
 
 export default function page({ searchParams }: any) {
@@ -36,8 +36,6 @@ export default function page({ searchParams }: any) {
           message: response.error,
         });
       }
-
-      console.log(response);
     });
   }
 
