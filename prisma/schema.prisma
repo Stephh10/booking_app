@@ -25,17 +25,6 @@ model User {
   address    String?
   postalCode Int?
 
-  isSmoker              Boolean? @default(false)
-  usesDrugs             Boolean? @default(false)
-  dietType              String?
-  exerciseFrequency     String?
-  maritalStatus         String?
-  occupation            String?
-  emergencyContactName  String?
-  emergencyContactPhone String?
-  ethnicity             String?
-  preferredLanguage     String?
-
   appointments        Appointment[]
   availabilities      DoctorAvailability[]
   patients            Patient[]
@@ -84,6 +73,17 @@ model Patient {
   postalCode String?
 
   doctorId String
+
+  isSmoker              Boolean? @default(false)
+  usesDrugs             Boolean? @default(false)
+  dietType              String?
+  exerciseFrequency     String?
+  maritalStatus         String?
+  occupation            String?
+  emergencyContactName  String?
+  emergencyContactPhone String?
+  ethnicity             String?
+  preferredLanguage     String?
 
   doctor         User            @relation(fields: [doctorId], references: [id], onDelete: Cascade)
   appointments   Appointment[]

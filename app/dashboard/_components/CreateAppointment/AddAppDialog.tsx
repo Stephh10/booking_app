@@ -27,6 +27,8 @@ import AppointmentDetDialog from "./AppointmentDetDialog";
 import ConfirmationDialog from "./ConfirmationDialog";
 import { useSession } from "next-auth/react";
 
+import { useAddAppointment } from "@/store/useAddAppointment";
+
 const steps = [
   <CreatePatientApp />,
   <AppointmentDetDialog />,
@@ -38,6 +40,10 @@ export default function AddAppDialog() {
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined);
   const [openDialog, setOpenDialog] = useState(false);
   const activeUser = useSession().data?.user;
+
+  const { step, changeStep } = useAddAppointment();
+
+  console.log(step);
 
   function handleAppSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -69,7 +75,15 @@ export default function AddAppDialog() {
   }
 
   return (
-    <Dialog open={openDialog} onOpenChange={setOpenDialog}>
+    <Dialog
+      open={openDialog}
+      onOpenChange={(isOpen) => {
+        setOpenDialog(isOpen);
+        if (!isOpen) {
+          changeStep(1);
+        }
+      }}
+    >
       <DialogTrigger asChild>
         <button className="primaryBtn">+ Create Appointment</button>
       </DialogTrigger>
@@ -77,6 +91,7 @@ export default function AddAppDialog() {
       <DialogContent>
         <DialogTitle>{""}</DialogTitle>
         <Stepper
+          value={step}
           defaultValue={1}
           indicators={{
             completed: <Check className="size-4" />,
@@ -85,13 +100,16 @@ export default function AddAppDialog() {
           className="space-y-8"
         >
           <StepperNav>
-            {steps.map((step, index) => (
+            {steps.map((stepData, index) => (
               <StepperItem
                 key={index}
                 step={index + 1}
                 className="relative flex-1 items-start "
               >
-                <StepperTrigger className="flex flex-col gap-2.5">
+                <StepperTrigger
+                  onClick={() => changeStep(index + 1)}
+                  className="flex flex-col gap-2.5"
+                >
                   <StepperIndicator>{index + 1}</StepperIndicator>
                 </StepperTrigger>
                 {steps.length > index + 1 && (
@@ -101,13 +119,28 @@ export default function AddAppDialog() {
             ))}
           </StepperNav>
           <StepperPanel className="text-sm">
-            {steps.map((step, index) => (
+            {steps.map((stepData, index) => (
               <StepperContent key={index} value={index + 1} className="w-full">
-                {step}
+                {stepData}
               </StepperContent>
             ))}
           </StepperPanel>
         </Stepper>
+        <div className="flex items-center">
+          {step !== 1 && (
+            <button onClick={() => changeStep(step - 1)}>Back</button>
+          )}
+          {step <= 2 ? (
+            <button
+              className="primaryBtn px-7"
+              onClick={() => changeStep(step + 1)}
+            >
+              Next
+            </button>
+          ) : (
+            <button>Confirm</button>
+          )}
+        </div>
       </DialogContent>
 
       {/* <DialogContent className="sm:max-w-[425px] max-h-[90vh] overflow-y-auto rounded-scrollbar">
