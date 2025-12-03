@@ -23,7 +23,7 @@ import {
 } from "@/components/ui/dialog";
 import { useTransition } from "react";
 import { createAppointment } from "@/app/actions/appointments";
-import AppointmentDetDialog from "./AppointmentDetDialog";
+import CreateAppointmentApp from "./CreateAppointmentApp";
 import ConfirmationDialog from "./ConfirmationDialog";
 import { useSession } from "next-auth/react";
 
@@ -32,7 +32,7 @@ import { useAddPatient } from "@/store/appointmentModal/useAddPatient";
 
 const steps = [
   <CreatePatientApp />,
-  <AppointmentDetDialog />,
+  <CreateAppointmentApp />,
   <ConfirmationDialog />,
 ];
 
