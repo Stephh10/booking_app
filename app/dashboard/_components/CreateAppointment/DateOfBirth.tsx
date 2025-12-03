@@ -35,7 +35,7 @@ export function DateOfBirth({ onDateChange, value }: Calendar22Props) {
 
   return (
     <div className="flex flex-col gap-1 ">
-      <Label htmlFor="date" className="px-1 mt-0.5">
+      <Label htmlFor="date" className=" mt-0.5 !font-normal">
         Date of birth
       </Label>
       <Popover open={open} onOpenChange={setOpen}>

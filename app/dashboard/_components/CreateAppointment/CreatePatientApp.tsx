@@ -1,6 +1,5 @@
 import React from "react";
 
-import { DialogClose, DialogFooter } from "@/components/ui/dialog";
 import EditableField from "../../patient/_components/EditableField";
 import { Controller, useForm } from "react-hook-form";
 import { useAddAppointment } from "@/store/appointmentModal/useAddAppointment";
