@@ -27,7 +27,8 @@ import AppointmentDetDialog from "./AppointmentDetDialog";
 import ConfirmationDialog from "./ConfirmationDialog";
 import { useSession } from "next-auth/react";
 
-import { useAddAppointment } from "@/store/useAddAppointment";
+import { useAddAppointment } from "@/store/appointmentModal/useAddAppointment";
+import { useAddPatient } from "@/store/appointmentModal/useAddPatient";
 
 const steps = [
   <CreatePatientApp />,
@@ -42,8 +43,7 @@ export default function AddAppDialog() {
   const activeUser = useSession().data?.user;
 
   const { step, changeStep } = useAddAppointment();
-
-  console.log(step);
+  const { patientData, clearPatientData } = useAddPatient();
 
   function handleAppSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -74,6 +74,8 @@ export default function AddAppDialog() {
     setOpenDialog(false);
   }
 
+  console.log(patientData);
+
   return (
     <Dialog
       open={openDialog}
@@ -81,6 +83,7 @@ export default function AddAppDialog() {
         setOpenDialog(isOpen);
         if (!isOpen) {
           changeStep(1);
+          clearPatientData();
         }
       }}
     >
@@ -97,7 +100,6 @@ export default function AddAppDialog() {
             completed: <Check className="size-4" />,
             loading: <LoaderCircleIcon className="size-4 animate-spin" />,
           }}
-          className="space-y-8"
         >
           <StepperNav>
             {steps.map((stepData, index) => (
@@ -130,16 +132,7 @@ export default function AddAppDialog() {
           {step !== 1 && (
             <button onClick={() => changeStep(step - 1)}>Back</button>
           )}
-          {step <= 2 ? (
-            <button
-              className="primaryBtn px-7"
-              onClick={() => changeStep(step + 1)}
-            >
-              Next
-            </button>
-          ) : (
-            <button>Confirm</button>
-          )}
+          {step > 2 && <button>Confirm</button>}
         </div>
       </DialogContent>
 
