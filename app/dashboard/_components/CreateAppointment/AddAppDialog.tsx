@@ -74,8 +74,6 @@ export default function AddAppDialog() {
     setOpenDialog(false);
   }
 
-  console.log(patientData);
-
   return (
     <Dialog
       open={openDialog}
@@ -95,7 +93,7 @@ export default function AddAppDialog() {
         <DialogTitle>{""}</DialogTitle>
         <Stepper
           value={step}
-          defaultValue={1}
+          defaultValue={2}
           indicators={{
             completed: <Check className="size-4" />,
             loading: <LoaderCircleIcon className="size-4 animate-spin" />,

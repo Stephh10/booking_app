@@ -42,8 +42,8 @@ export default function page() {
   }
 
   return (
-    <div className="h-full w-full flex items-center justify-center">
-      <div className="text-center p-7 flex items-center gap-5 w-[1200px] h-[90vh]">
+    <div className="h-[90vh] w-full flex items-center  justify-center ">
+      <div className="text-center p-7 flex gap-5 w-[1200px] h-[570px]">
         <div className="relative flex-4 h-full rounded-lg overflow-hidden">
           <Image src="/login-image.jpg" alt="register-image" fill />
           <div className="absolute top-10 left-10 right-10 flex justify-between items-center text-[var(--lp-card)] z-10">

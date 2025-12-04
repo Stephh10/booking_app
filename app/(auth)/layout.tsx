@@ -7,7 +7,7 @@ export default function AuthLayout({
   return (
     <div className="h-screen overflow-hidden">
       <Navigation />
-      <main>{children}</main>
+      <main className="h-full">{children}</main>
     </div>
   );
 }
