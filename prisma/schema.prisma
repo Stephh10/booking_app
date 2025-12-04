@@ -98,7 +98,7 @@ model Patient {
 model MedicalDetails {
   id        String  @id @default(cuid())
   patientId String  @unique
-  patient   Patient @relation(fields: [patientId], references: [id])
+  patient   Patient @relation(fields: [patientId], references: [id], onDelete: Cascade)
 
   diagnosis       String?
   bloodType       String?
