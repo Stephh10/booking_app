@@ -1,32 +1,35 @@
-import React from "react";
+import React, { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { Appointment } from "@prisma/client";
 import EditableField from "../../patient/_components/EditableField";
-import { generateTimeSlots } from "@/lib/dateFormats/generateTimeSlots";
-import { AppointmentDateSelector } from "../AppointmentDateSelector";
 
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { Label } from "@radix-ui/react-dropdown-menu";
+import { AppointmentDateSelector } from "./AppointmentDateSelector";
+import TimeSelector from "./TimeSelector";
+import combineDateWithTime from "@/lib/dateFormats/BindDateAndTime";
 
 export default function CreateAppointmentApp() {
-  const timeSlots = generateTimeSlots();
-
   const {
     register,
     handleSubmit,
     control,
+    watch,
+    setError,
     formState: { errors },
   } = useForm<Appointment>();
   const isEditing = true;
+  const [timeValue, setTimeValue] = useState("6:00AM");
+  const dateValue = watch("date");
 
   function handleDataSubmit(data: Appointment) {
+    if (!data.date && !timeValue) {
+      return setError("date", {
+        type: "manual",
+        message: "Please select a date and time",
+      });
+    }
+
+    data.date = combineDateWithTime(data.date, timeValue);
+
     console.log(data);
   }
 
@@ -47,23 +50,11 @@ export default function CreateAppointmentApp() {
               </div>
             )}
           />
-          <div className="flex-1">
-            <Label>Time</Label>
-            <Select value={"6:00AM"}>
-              <SelectTrigger className="w-full shadow-none bg-[var(--card)]">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectGroup>
-                  {timeSlots.map((t) => (
-                    <SelectItem key={t} value={t}>
-                      {t}
-                    </SelectItem>
-                  ))}
-                </SelectGroup>
-              </SelectContent>
-            </Select>
-          </div>
+          <TimeSelector
+            disabled={!dateValue}
+            value={timeValue}
+            onValueChange={setTimeValue}
+          />
         </div>
         <EditableField
           label="Reason"
