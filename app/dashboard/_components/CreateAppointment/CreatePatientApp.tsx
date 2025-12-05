@@ -2,13 +2,13 @@ import React from "react";
 
 import EditableField from "../../patient/_components/EditableField";
 import { Controller, useForm } from "react-hook-form";
-import { useAddAppointment } from "@/store/appointmentModal/useAddAppointment";
+import { useAppointmentStep } from "@/store/appointmentModal/useAppointmentStep";
 import { useAddPatient } from "@/store/appointmentModal/useAddPatient";
 import { Patient } from "@prisma/client";
 import { DateOfBirth } from "./DateOfBirth";
 
 export default function CreatePatientApp() {
-  const { step, changeStep } = useAddAppointment();
+  const { step, changeStep } = useAppointmentStep();
   const { patientData, savePatientData } = useAddPatient();
   const isEditing = true;
 
@@ -66,7 +66,7 @@ export default function CreatePatientApp() {
           register={register}
           errors={errors}
         />
-        <div className="inputSection">
+        <div className="inputSection mb-0.5">
           <Controller
             name="dateOfBirth"
             control={control}

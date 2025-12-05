@@ -19,7 +19,7 @@ export default function TimeSelector({ value, onValueChange, disabled }: any) {
       <Select onValueChange={onValueChange} value={value}>
         <SelectTrigger
           disabled={disabled}
-          className="w-full shadow-none bg-[var(--card)]"
+          className="w-full shadow-none bg-[var(--card)] border-neutral-400"
         >
           <SelectValue />
         </SelectTrigger>

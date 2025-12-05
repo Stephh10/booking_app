@@ -129,12 +129,6 @@ export default function AddAppDialog() {
             ))}
           </StepperPanel>
         </Stepper>
-        <div className="flex items-center">
-          {step !== 1 && (
-            <button onClick={() => changeStep(step - 1)}>Back</button>
-          )}
-          {step > 2 && <button>Confirm</button>}
-        </div>
       </DialogContent>
 
       {/* <DialogContent className="sm:max-w-[425px] max-h-[90vh] overflow-y-auto rounded-scrollbar">

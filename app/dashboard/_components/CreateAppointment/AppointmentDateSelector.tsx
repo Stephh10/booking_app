@@ -45,7 +45,7 @@ export function AppointmentDateSelector({
           <Button
             variant="outline"
             id="date"
-            className="w-full border-1 shadow-none justify-between font-normal bg-[var(--card)] hover:bg-[var(--card)]"
+            className="w-full border-1 border-neutral-400 shadow-none justify-between font-normal bg-[var(--card)] hover:bg-[var(--card)]"
           >
             {date ? date.toLocaleDateString() : "Select date"}
             <ChevronDownIcon />

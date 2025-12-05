@@ -26,7 +26,9 @@ export default function EditableField({
   const fieldError = errors?.[name];
   return (
     <div className="inputControl">
-      <label htmlFor={name}>{label}</label>
+      <label className="!mb-0.5" htmlFor={name}>
+        {label}
+      </label>
       {!isEditing ? (
         <h2 className="formText pt-[6px]">{inputData ? inputData : ""}</h2>
       ) : (
@@ -34,7 +36,7 @@ export default function EditableField({
           <input
             id={name}
             name={name}
-            className="border border-gray-300 rounded"
+            className="border border-neutral-400 rounded"
             defaultValue={inputData || ""}
             placeholder={
               inputData ? inputData : inputType === "password" ? "" : ""
