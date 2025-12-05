@@ -1,12 +1,12 @@
 import { create } from "zustand";
+import { Appointment } from "@prisma/client";
 
 export const useAddAppointment = create<{
-  step: number;
-  changeStep: (value: number) => void;
-  resetStep: () => void;
+  appointmentData: Appointment | null;
+  saveAppointmentData: (data: Appointment) => void;
+  clearAppointmentData: () => void;
 }>((set) => ({
-  step: 2,
-  patientData: null,
-  changeStep: (step: number) => set({ step }),
-  resetStep: () => set({ step: 1 }),
+  appointmentData: null,
+  saveAppointmentData: (data: Appointment) => set({ appointmentData: data }),
+  clearAppointmentData: () => set({ appointmentData: null }),
 }));

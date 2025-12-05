@@ -6,8 +6,13 @@ import EditableField from "../../patient/_components/EditableField";
 import { AppointmentDateSelector } from "./AppointmentDateSelector";
 import TimeSelector from "./TimeSelector";
 import combineDateWithTime from "@/lib/dateFormats/BindDateAndTime";
+import { useAddAppointment } from "@/store/appointmentModal/useAddAppointment";
+import { useAppointmentStep } from "@/store/appointmentModal/useAppointmentStep";
 
 export default function CreateAppointmentApp() {
+  const { appointmentData, saveAppointmentData } = useAddAppointment();
+  const { step, changeStep } = useAppointmentStep();
+
   const {
     register,
     handleSubmit,
@@ -21,7 +26,7 @@ export default function CreateAppointmentApp() {
   const dateValue = watch("date");
 
   function handleDataSubmit(data: Appointment) {
-    if (!data.date && !timeValue) {
+    if (!data.date || !timeValue) {
       return setError("date", {
         type: "manual",
         message: "Please select a date and time",
@@ -30,7 +35,7 @@ export default function CreateAppointmentApp() {
 
     data.date = combineDateWithTime(data.date, timeValue);
 
-    console.log(data);
+    return saveAppointmentData(data);
   }
 
   return (
@@ -47,6 +52,11 @@ export default function CreateAppointmentApp() {
                   value={field.value || null}
                   onDateChange={field.onChange}
                 />
+                {errors.date && (
+                  <p className="text-red-500 text-sm mb-1">
+                    {errors.date.message}
+                  </p>
+                )}
               </div>
             )}
           />
@@ -65,9 +75,14 @@ export default function CreateAppointmentApp() {
           errors={errors}
         />
 
-        <div className=" flex-centermt-3">
-          <button>Back</button>
-          <button type="submit" className="primaryBtn px-7 ">
+        <div className=" flex-centermt-3 flex gap-2 justify-end mt-4">
+          <button
+            onClick={() => changeStep(step - 1)}
+            className="outlineBtn w-[100px]"
+          >
+            Back
+          </button>
+          <button type="submit" className="primaryBtn w-[100px]">
             Next
           </button>
         </div>

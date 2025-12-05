@@ -37,7 +37,7 @@ export default function page() {
 
   return (
     <div className="h-[90vh] w-full flex items-center justify-center">
-      <div className="text-center p-7 flex items-center gap-5 w-[1200px] h-[640px]">
+      <div className="text-center p-7 flex items-center gap-5 w-[1200px] h-[540px]">
         <div className="relative flex-4 h-full rounded-lg overflow-hidden">
           <Image src="/register-image.jpg" alt="register-image" fill />
           <div className="absolute top-10 left-10 right-10 flex justify-between items-center text-[var(--lp-card)] z-10">
@@ -58,13 +58,9 @@ export default function page() {
           </div>
         </div>
         <div className="flex-2 bg-[var(--bg)] h-full px-5 py-10 rounded-lg">
-          <h1 className="text-3xl font-bold  text-left text-[var(--lp-primary)]">
+          <h1 className="text-3xl font-bold  text-left text-[var(--lp-primary)] mb-1">
             Start using your dashboard in minutes.
           </h1>
-
-          <p className="text-xl text-left my-5 ">
-            Join thousands of users and stay organized
-          </p>
           <form
             className="authForm flex flex-col text-left"
             onSubmit={handleSubmit(handleFormSubmit)}

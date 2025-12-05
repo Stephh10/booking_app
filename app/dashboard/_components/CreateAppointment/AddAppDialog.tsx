@@ -27,8 +27,9 @@ import CreateAppointmentApp from "./CreateAppointmentApp";
 import ConfirmationDialog from "./ConfirmationDialog";
 import { useSession } from "next-auth/react";
 
-import { useAddAppointment } from "@/store/appointmentModal/useAddAppointment";
+import { useAppointmentStep } from "@/store/appointmentModal/useAppointmentStep";
 import { useAddPatient } from "@/store/appointmentModal/useAddPatient";
+import { useAddAppointment } from "@/store/appointmentModal/useAddAppointment";
 
 const steps = [
   <CreatePatientApp />,
@@ -42,8 +43,9 @@ export default function AddAppDialog() {
   const [openDialog, setOpenDialog] = useState(false);
   const activeUser = useSession().data?.user;
 
-  const { step, changeStep } = useAddAppointment();
-  const { patientData, clearPatientData } = useAddPatient();
+  const { step, changeStep } = useAppointmentStep();
+  const { clearPatientData } = useAddPatient();
+  const { clearAppointmentData } = useAddAppointment();
 
   function handleAppSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -82,6 +84,7 @@ export default function AddAppDialog() {
         if (!isOpen) {
           changeStep(1);
           clearPatientData();
+          clearAppointmentData();
         }
       }}
     >
