@@ -10,6 +10,7 @@ import EditableField from "@/app/dashboard/patient/_components/EditableField";
 import Image from "next/image";
 import { ShieldCheck } from "lucide-react";
 import ChangePassword from "../_components/ChangePassword";
+import { User } from "@prisma/client";
 
 export default function page() {
   const [isPending, startTransition] = useTransition();
@@ -23,11 +24,11 @@ export default function page() {
     formState: { errors },
     setError,
     watch,
-  } = useForm();
+  } = useForm<{ email: string; password: string }>();
 
   const email = watch("email", "");
 
-  function handleUserLogin(data: any) {
+  function handleUserLogin(data: { email: string; password: string }) {
     startTransition(async () => {
       if (!data.email || !data.password) return;
       const response = await loginAction(data);

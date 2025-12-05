@@ -361,24 +361,51 @@ export async function createAppointment(data: any, doctorId?: string) {
     }
 
     if (!activeUser?.id) {
-      return { error: "You are not authentificated" };
+      return { error: "You are not authenticated" };
     }
 
-    const existingPatient =
-      (await Prisma.patient.findFirst({
+    console.log("Podaci za appointment:", data); // DEBUG
+
+    if (!data.firstName || !data.lastName) {
+      return { error: "First name and last name are required" };
+    }
+
+    let existingPatient = null;
+
+    //EMAIL CHECK
+    if (data.patientEmail) {
+      existingPatient = await Prisma.patient.findFirst({
         where: {
-          OR: [
-            { email: data.patientEmail },
-            { phone: data.patientPhone },
-            {
-              firstName: data.firstName,
-              lastName: data.lastName,
-            },
-          ],
+          email: data.patientEmail,
           doctorId: activeUser.id,
         },
-      })) ??
-      (await Prisma.patient.create({
+      });
+    }
+
+    //PHONE CHECK
+    if (!existingPatient && data.patientPhone) {
+      existingPatient = await Prisma.patient.findFirst({
+        where: {
+          phone: data.patientPhone,
+          doctorId: activeUser.id,
+        },
+      });
+    }
+
+    //FIRST NAME AND LAST NAME CHECK
+    if (!existingPatient) {
+      existingPatient = await Prisma.patient.findFirst({
+        where: {
+          firstName: data.firstName,
+          lastName: data.lastName,
+          doctorId: activeUser.id,
+        },
+      });
+    }
+
+    //CREATE NEW PATIENT
+    if (!existingPatient) {
+      existingPatient = await Prisma.patient.create({
         data: {
           firstName: data.firstName,
           lastName: data.lastName,
@@ -386,13 +413,17 @@ export async function createAppointment(data: any, doctorId?: string) {
           phone: data.patientPhone || null,
           doctorId: activeUser.id,
         },
-      }));
+      });
+      console.log("New patient created:", existingPatient.id);
+    } else {
+      console.log("Existing patient:", existingPatient.id);
+    }
 
+    //CREATE APPOINTMENT
     const appointment = await Prisma.$transaction(async (tx) => {
       const createdAppointment = await tx.appointment.create({
         data: {
-          reason: data.reason,
-          duration: data.duration,
+          reason: data.reason || "Appointment",
           date: data.date,
           diagnose: data.diagnose || null,
           patientId: existingPatient.id,
@@ -400,6 +431,7 @@ export async function createAppointment(data: any, doctorId?: string) {
         },
       });
 
+      // CREATE MEDICAL DETAILS
       const existingMedical = await tx.medicalDetails.findUnique({
         where: { patientId: existingPatient.id },
       });
@@ -410,12 +442,13 @@ export async function createAppointment(data: any, doctorId?: string) {
         });
       }
 
-      revalidatePath("/dashboard");
       return createdAppointment;
     });
+
     revalidatePath("/dashboard");
     return appointment;
   } catch (error) {
-    return { error: "Something is wrong" };
+    console.error("An error occurred:", error);
+    return { error: error instanceof Error ? error.message : "Unknown error" };
   }
 }

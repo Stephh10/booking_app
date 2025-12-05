@@ -8,6 +8,7 @@ import { ShieldCheck } from "lucide-react";
 import { useForm } from "react-hook-form";
 import EditableField from "@/app/dashboard/patient/_components/EditableField";
 import { useTransition } from "react";
+import { User } from "@prisma/client";
 
 export default function page() {
   const [isPending, startTransition] = useTransition();
@@ -18,9 +19,9 @@ export default function page() {
     handleSubmit,
     formState: { errors },
     setError,
-  } = useForm();
+  } = useForm<User>();
 
-  function handleFormSubmit(data: any) {
+  function handleFormSubmit(data: User) {
     startTransition(async () => {
       const response = await registerAction(data);
       if (response?.error) {

@@ -21,6 +21,7 @@ export default function CreateAppointmentApp() {
     setError,
     formState: { errors },
   } = useForm<Appointment>();
+
   const isEditing = true;
   const [timeValue, setTimeValue] = useState("6:00AM");
   const dateValue = watch("date");
@@ -35,6 +36,7 @@ export default function CreateAppointmentApp() {
 
     data.date = combineDateWithTime(data.date, timeValue);
 
+    changeStep(step + 1);
     return saveAppointmentData(data);
   }
 
@@ -74,7 +76,6 @@ export default function CreateAppointmentApp() {
           register={register}
           errors={errors}
         />
-
         <div className=" flex-centermt-3 flex gap-2 justify-end mt-4">
           <button
             onClick={() => changeStep(step - 1)}

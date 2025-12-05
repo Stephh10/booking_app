@@ -31,50 +31,22 @@ import { useAppointmentStep } from "@/store/appointmentModal/useAppointmentStep"
 import { useAddPatient } from "@/store/appointmentModal/useAddPatient";
 import { useAddAppointment } from "@/store/appointmentModal/useAddAppointment";
 
-const steps = [
-  <CreatePatientApp />,
-  <CreateAppointmentApp />,
-  <ConfirmationDialog />,
-];
-
 export default function AddAppDialog() {
   const [isPending, startTransition] = useTransition();
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined);
   const [openDialog, setOpenDialog] = useState(false);
   const activeUser = useSession().data?.user;
 
+  const closeModal = () => setOpenDialog(false);
+  const steps = [
+    <CreatePatientApp />,
+    <CreateAppointmentApp />,
+    <ConfirmationDialog closeModal={closeModal} />,
+  ];
+
   const { step, changeStep } = useAppointmentStep();
   const { clearPatientData } = useAddPatient();
   const { clearAppointmentData } = useAddAppointment();
-
-  function handleAppSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    const fd = new FormData(e.target as HTMLFormElement);
-    const formData = Object.fromEntries(fd.entries());
-
-    const appointmentData = {
-      ...formData,
-      doctorId: activeUser?.id,
-      date: selectedDate ? selectedDate.toISOString() : undefined,
-      duration: formData.duration
-        ? parseInt(formData.duration as string, 10)
-        : undefined,
-    };
-
-    if (
-      !appointmentData ||
-      !appointmentData.doctorId ||
-      !appointmentData.date
-    ) {
-      console.error("Appointment data is incomplete");
-      return;
-    }
-
-    startTransition(() => {
-      createAppointment(appointmentData);
-    });
-    setOpenDialog(false);
-  }
 
   return (
     <Dialog

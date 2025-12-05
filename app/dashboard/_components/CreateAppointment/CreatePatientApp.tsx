@@ -107,10 +107,11 @@ export default function CreatePatientApp() {
             errors={errors}
           />
         </div>
-
-        <button type="submit" className="primaryBtn px-7 mt-3">
-          Next
-        </button>
+        <div className=" flex-centermt-3 flex gap-2 justify-end mt-4">
+          <button type="submit" className="primaryBtn w-[100px]">
+            Next
+          </button>
+        </div>
       </form>
     </section>
   );
