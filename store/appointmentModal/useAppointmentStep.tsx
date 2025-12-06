@@ -5,7 +5,7 @@ export const useAppointmentStep = create<{
   changeStep: (value: number) => void;
   resetStep: () => void;
 }>((set) => ({
-  step: 2,
+  step: 1,
   patientData: null,
   changeStep: (step: number) => set({ step }),
   resetStep: () => set({ step: 1 }),

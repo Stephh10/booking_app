@@ -11,6 +11,7 @@ import { useAppointmentStep } from "@/store/appointmentModal/useAppointmentStep"
 
 export default function CreateAppointmentApp() {
   const { appointmentData, saveAppointmentData } = useAddAppointment();
+  const [availableDates, setAvailableDates] = useState<string[] | null>(null);
   const { step, changeStep } = useAppointmentStep();
 
   const {
@@ -23,7 +24,7 @@ export default function CreateAppointmentApp() {
   } = useForm<Appointment>();
 
   const isEditing = true;
-  const [timeValue, setTimeValue] = useState("6:00AM");
+  const [timeValue, setTimeValue] = useState<string | null>(null);
   const dateValue = watch("date");
 
   function handleDataSubmit(data: Appointment) {
@@ -53,6 +54,7 @@ export default function CreateAppointmentApp() {
                 <AppointmentDateSelector
                   value={field.value || null}
                   onDateChange={field.onChange}
+                  setAvailableDates={setAvailableDates}
                 />
                 {errors.date && (
                   <p className="text-red-500 text-sm mb-1">
@@ -66,6 +68,7 @@ export default function CreateAppointmentApp() {
             disabled={!dateValue}
             value={timeValue}
             onValueChange={setTimeValue}
+            availableDates={availableDates}
           />
         </div>
         <EditableField

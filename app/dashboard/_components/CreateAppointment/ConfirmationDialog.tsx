@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 import { useAddAppointment } from "@/store/appointmentModal/useAddAppointment";
 import { useAddPatient } from "@/store/appointmentModal/useAddPatient";
@@ -15,6 +15,12 @@ export default function ConfirmationDialog({
   const { patientData } = useAddPatient();
   const { step, changeStep } = useAppointmentStep();
   const [isPending, startTransition] = useTransition();
+
+  useEffect(() => {
+    if (!patientData?.firstName || !patientData?.lastName || !appointmentData) {
+      changeStep(1);
+    }
+  }, []);
 
   function handleCreateAppointment() {
     const data = { ...patientData, ...appointmentData };

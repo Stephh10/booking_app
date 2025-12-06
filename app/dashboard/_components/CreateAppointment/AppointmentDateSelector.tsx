@@ -12,22 +12,36 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { useEffect } from "react";
+import { useTransition } from "react";
+import { getDoctorAvailability } from "@/app/actions/availability";
+import getAvailableTimes from "./getAvailableTimes";
 
-interface Calendar22Props {
+interface CalendarProps {
+  setAvailableDates: React.Dispatch<React.SetStateAction<string[] | null>>;
   onDateChange?: (date: Date | undefined) => void;
   value?: Date | null;
 }
 
 export function AppointmentDateSelector({
+  setAvailableDates,
   onDateChange,
   value,
-}: Calendar22Props) {
+}: CalendarProps) {
   const [open, setOpen] = React.useState(false);
   const [date, setDate] = React.useState<Date | undefined>(value || undefined);
 
+  const [isPending, startTransition] = useTransition();
+
   useEffect(() => {
     setDate(value || undefined);
-  }, [value]);
+    if (date) {
+      startTransition(async () => {
+        const response = await getDoctorAvailability(date);
+        const data = getAvailableTimes(response);
+        setAvailableDates(data);
+      });
+    }
+  }, [date]);
 
   const handleDateSelect = (selectedDate: Date | undefined) => {
     setDate(selectedDate);

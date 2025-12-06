@@ -22,20 +22,15 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { useTransition } from "react";
-import { createAppointment } from "@/app/actions/appointments";
 import CreateAppointmentApp from "./CreateAppointmentApp";
 import ConfirmationDialog from "./ConfirmationDialog";
-import { useSession } from "next-auth/react";
 
 import { useAppointmentStep } from "@/store/appointmentModal/useAppointmentStep";
 import { useAddPatient } from "@/store/appointmentModal/useAddPatient";
 import { useAddAppointment } from "@/store/appointmentModal/useAddAppointment";
 
 export default function AddAppDialog() {
-  const [isPending, startTransition] = useTransition();
-  const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined);
   const [openDialog, setOpenDialog] = useState(false);
-  const activeUser = useSession().data?.user;
 
   const closeModal = () => setOpenDialog(false);
   const steps = [

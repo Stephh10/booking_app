@@ -9,14 +9,24 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Label } from "@radix-ui/react-dropdown-menu";
-import { generateTimeSlots } from "@/lib/dateFormats/generateTimeSlots";
 
-export default function TimeSelector({ value, onValueChange, disabled }: any) {
-  const timeSlots = generateTimeSlots();
+type TimeSelectorProps = {
+  value: string | null;
+  onValueChange: (newTime: string) => void;
+  disabled: boolean;
+  availableDates: string[] | null;
+};
+
+export default function TimeSelector({
+  value,
+  onValueChange,
+  disabled,
+  availableDates,
+}: TimeSelectorProps) {
   return (
     <div className="flex-1">
       <Label>Time</Label>
-      <Select onValueChange={onValueChange} value={value}>
+      <Select onValueChange={onValueChange} value={value ?? undefined}>
         <SelectTrigger
           disabled={disabled}
           className="w-full shadow-none bg-[var(--card)] border-neutral-400"
@@ -25,11 +35,12 @@ export default function TimeSelector({ value, onValueChange, disabled }: any) {
         </SelectTrigger>
         <SelectContent>
           <SelectGroup>
-            {timeSlots.map((t) => (
-              <SelectItem key={t} value={t}>
-                {t}
-              </SelectItem>
-            ))}
+            {availableDates &&
+              availableDates.map((t) => (
+                <SelectItem key={t} value={t}>
+                  {t}
+                </SelectItem>
+              ))}
           </SelectGroup>
         </SelectContent>
       </Select>
