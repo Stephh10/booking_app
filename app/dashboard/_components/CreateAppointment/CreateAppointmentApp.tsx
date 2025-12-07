@@ -19,22 +19,29 @@ export default function CreateAppointmentApp() {
     register,
     handleSubmit,
     control,
+    watch,
     setError,
     formState: { errors },
   } = useForm<Appointment>();
 
+  const date = watch("date");
+
   function handleDataSubmit(data: Appointment) {
-    if (!data.date || !data.time) {
-      return setError("date", {
-        type: "manual",
-        message: "Please select a date and time",
-      });
+    if (appointmentData?.date && appointmentData.time) {
+      return changeStep(step + 1);
+    } else {
+      if (!data.date || !data.time) {
+        return setError("date", {
+          type: "manual",
+          message: "Please select a date and time",
+        });
+      }
+
+      data.date = combineDateWithTime(data.date, formatWorkCardDate(data.time));
+      saveAppointmentData(data);
+
+      return changeStep(step + 1);
     }
-
-    data.date = combineDateWithTime(data.date, formatWorkCardDate(data.time));
-
-    changeStep(step + 1);
-    return saveAppointmentData(data);
   }
 
   return (
@@ -48,7 +55,7 @@ export default function CreateAppointmentApp() {
             render={({ field }) => (
               <div className="flex-1">
                 <AppointmentDateSelector
-                  value={field.value || appointmentData?.date || null}
+                  value={field.value || appointmentData?.date}
                   onDateChange={field.onChange}
                   setAvailableDates={setAvailableDates}
                 />
@@ -65,12 +72,12 @@ export default function CreateAppointmentApp() {
             control={control}
             render={({ field }) => (
               <TimeSelector
-                disabled={!appointmentData?.date}
+                disabled={!date && !appointmentData?.date}
                 value={
-                  field.value
+                  appointmentData?.time
+                    ? formatWorkCardDate(appointmentData?.time)
+                    : field.value
                     ? formatWorkCardDate(field.value)
-                    : appointmentData?.time
-                    ? formatWorkCardDate(appointmentData.time)
                     : null
                 }
                 onValueChange={field.onChange}
