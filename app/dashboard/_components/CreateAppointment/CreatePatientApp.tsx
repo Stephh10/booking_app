@@ -8,9 +8,8 @@ import { Patient } from "@prisma/client";
 import { DateOfBirth } from "./DateOfBirth";
 
 export default function CreatePatientApp() {
-  const { step, changeStep } = useAppointmentStep();
+  const { step, changeStep, isEditing } = useAppointmentStep();
   const { patientData, savePatientData } = useAddPatient();
-  const isEditing = true;
 
   const {
     register,
@@ -79,7 +78,6 @@ export default function CreatePatientApp() {
               </div>
             )}
           />
-
           <EditableField
             label="Gender"
             name="gender"

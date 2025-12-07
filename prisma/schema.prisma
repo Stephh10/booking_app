@@ -119,16 +119,17 @@ model MedicalDetails {
 //APPOINTMENT MODEL
 
 model Appointment {
-  id        String   @id @default(cuid())
+  id        String    @id @default(cuid())
   date      DateTime
-  duration  Int      @default(30)
+  time      DateTime?
+  duration  Int       @default(30)
   reason    String?
-  status    String   @default("scheduled")
+  status    String    @default("scheduled")
   doctorId  String
   patientId String?
   diagnose  String?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
 
   doctor  User     @relation(fields: [doctorId], references: [id], onDelete: Cascade)
   patient Patient? @relation(fields: [patientId], references: [id])

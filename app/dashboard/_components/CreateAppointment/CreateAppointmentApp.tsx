@@ -8,34 +8,30 @@ import TimeSelector from "./TimeSelector";
 import combineDateWithTime from "@/lib/dateFormats/BindDateAndTime";
 import { useAddAppointment } from "@/store/appointmentModal/useAddAppointment";
 import { useAppointmentStep } from "@/store/appointmentModal/useAppointmentStep";
+import { formatWorkCardDate } from "@/lib/dateFormats/formatWorkCardDate";
 
 export default function CreateAppointmentApp() {
   const { appointmentData, saveAppointmentData } = useAddAppointment();
   const [availableDates, setAvailableDates] = useState<string[] | null>(null);
-  const { step, changeStep } = useAppointmentStep();
+  const { step, changeStep, isEditing } = useAppointmentStep();
 
   const {
     register,
     handleSubmit,
     control,
-    watch,
     setError,
     formState: { errors },
   } = useForm<Appointment>();
 
-  const isEditing = true;
-  const [timeValue, setTimeValue] = useState<string | null>(null);
-  const dateValue = watch("date");
-
   function handleDataSubmit(data: Appointment) {
-    if (!data.date || !timeValue) {
+    if (!data.date || !data.time) {
       return setError("date", {
         type: "manual",
         message: "Please select a date and time",
       });
     }
 
-    data.date = combineDateWithTime(data.date, timeValue);
+    data.date = combineDateWithTime(data.date, formatWorkCardDate(data.time));
 
     changeStep(step + 1);
     return saveAppointmentData(data);
@@ -52,7 +48,7 @@ export default function CreateAppointmentApp() {
             render={({ field }) => (
               <div className="flex-1">
                 <AppointmentDateSelector
-                  value={field.value || null}
+                  value={field.value || appointmentData?.date || null}
                   onDateChange={field.onChange}
                   setAvailableDates={setAvailableDates}
                 />
@@ -64,17 +60,29 @@ export default function CreateAppointmentApp() {
               </div>
             )}
           />
-          <TimeSelector
-            disabled={!dateValue}
-            value={timeValue}
-            onValueChange={setTimeValue}
-            availableDates={availableDates}
+          <Controller
+            name="time"
+            control={control}
+            render={({ field }) => (
+              <TimeSelector
+                disabled={!appointmentData?.date}
+                value={
+                  field.value
+                    ? formatWorkCardDate(field.value)
+                    : appointmentData?.time
+                    ? formatWorkCardDate(appointmentData.time)
+                    : null
+                }
+                onValueChange={field.onChange}
+                availableDates={availableDates}
+              />
+            )}
           />
         </div>
         <EditableField
           label="Reason"
           name="reason"
-          inputData={null}
+          inputData={appointmentData?.reason || null}
           isEditing={isEditing}
           register={register}
           errors={errors}
