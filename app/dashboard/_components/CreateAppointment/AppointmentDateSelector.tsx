@@ -14,7 +14,7 @@ import {
 import { useEffect } from "react";
 import { useTransition } from "react";
 import { getDoctorAvailability } from "@/app/actions/availability";
-import getAvailableTimes from "./getAvailableTimes";
+import getAvailableTimes from "../../_lib/getAvailableTimes";
 
 interface CalendarProps {
   setAvailableDates: React.Dispatch<React.SetStateAction<string[] | null>>;

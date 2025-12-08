@@ -7,6 +7,8 @@ import { useTransition } from "react";
 import { createAppointment } from "@/app/actions/appointments";
 import { FileClock } from "lucide-react";
 import ConfirmationDialogItem from "./ConfirmationDialogItem";
+import { formatWorkCardDate } from "@/lib/dateFormats/formatWorkCardDate";
+import { getSelectedDate } from "../../_lib/getSelectedDate";
 
 export default function ConfirmationDialog({
   closeModal,
@@ -63,18 +65,19 @@ export default function ConfirmationDialog({
         <ConfirmationDialogItem label="Gender" value={patientData?.gender!} />
         <div className="line"></div>
         <div>
-          <p className="font-bold flex items-center gap-1">
-            <FileClock size={22} /> Appointment scheduled for: 11/11/2023 at
-            10:00am
+          <p className="font-bold flex items-center gap-2">
+            <FileClock size={22} /> Appointment scheduled on{" "}
+            {appointmentData && getSelectedDate(appointmentData?.date)} at{" "}
+            {appointmentData && formatWorkCardDate(appointmentData?.time)}
           </p>
         </div>
         <div className="mt-2">
           <h2 className="font-bold">Reason</h2>
-          <p>Something here</p>
+          <p>{appointmentData?.reason || "Not Selected"}</p>
         </div>
         <div className="mt-2">
           <h2 className="font-bold">Diagnosis</h2>
-          <p>Something here</p>
+          <p>{appointmentData?.diagnose || "Not Selected"}</p>
         </div>
       </div>
       <div className=" flex-centermt-3 flex gap-2 justify-end mt-4">
