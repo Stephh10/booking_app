@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { Appointment } from "@prisma/client";
 import EditableField from "../../patient/_components/EditableField";
-
 import { AppointmentDateSelector } from "./AppointmentDateSelector";
 import TimeSelector from "./TimeSelector";
 import combineDateWithTime from "@/lib/dateFormats/BindDateAndTime";
@@ -90,6 +89,14 @@ export default function CreateAppointmentApp() {
           label="Reason"
           name="reason"
           inputData={appointmentData?.reason || null}
+          isEditing={isEditing}
+          register={register}
+          errors={errors}
+        />
+        <EditableField
+          label="Diagnosis"
+          name="diagnose"
+          inputData={appointmentData?.diagnose || null}
           isEditing={isEditing}
           register={register}
           errors={errors}

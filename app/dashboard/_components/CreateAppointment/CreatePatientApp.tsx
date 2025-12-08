@@ -87,6 +87,14 @@ export default function CreatePatientApp() {
             errors={errors}
           />
         </div>
+        <EditableField
+          label="National ID"
+          name="nationalId"
+          inputData={patientData?.nationalId || null}
+          isEditing={isEditing}
+          register={register}
+          errors={errors}
+        />
         <div className="inputSection">
           <EditableField
             label="City"

@@ -1,22 +1,12 @@
 import { create } from "zustand";
-
-interface PatientData {
-  firstName: string;
-  lastName: string;
-  email: string | null;
-  phone?: string | null;
-  dateOfBirth?: Date | null;
-  gender?: string | null;
-  city?: string | null;
-  postalCode?: string | null;
-}
+import { Patient } from "@prisma/client";
 
 export const useAddPatient = create<{
-  patientData: PatientData | null;
-  savePatientData: (data: PatientData) => void;
+  patientData: Patient | null;
+  savePatientData: (data: Patient) => void;
   clearPatientData: () => void;
 }>((set) => ({
   patientData: null,
-  savePatientData: (data: PatientData) => set({ patientData: data }),
+  savePatientData: (data: Patient) => set({ patientData: data }),
   clearPatientData: () => set({ patientData: null }),
 }));
