@@ -3,6 +3,7 @@ import MainNotification from "@/components/hero/MainNotification";
 import Hero from "@/components/hero/Hero";
 import Footer from "@/components/Footer";
 import { AccordionMain } from "@/components/LandingPage/AccordionMain";
+import About from "@/components/LandingPage/About";
 export default function Home() {
   return (
     <>
@@ -10,6 +11,7 @@ export default function Home() {
       <Navigation />
       <main className="lp-container">
         <Hero />
+        <About />
         <AccordionMain />
       </main>
       <Footer />

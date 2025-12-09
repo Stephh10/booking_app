@@ -17,7 +17,7 @@ export default async function Navigation() {
             <Link className="lp-link" href={"/"}>
               Home
             </Link>
-            <Link className="lp-link" href={"/"}>
+            <Link className="lp-link" href={"#about"}>
               About
             </Link>
             <Link className="lp-link" href={"/"}>
