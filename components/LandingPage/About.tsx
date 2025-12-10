@@ -17,14 +17,14 @@ export default function About() {
             integration, we reduce no-shows and save valuable time.
           </p>
         </div>
-        <div className="flex-1 h-full rounded-lg overflow-hidden">
-          <img src="/login-image.jpg" alt="About Us" />
+        <div className="flex-1 h-full rounded-lg overflow-hidden ">
+          <img className="h-full" src="/login-image.jpg" alt="About Us" />
         </div>
       </div>
 
       <div className="flex items-center h-[350px] gap-4">
         <div className="flex-1 rounded-lg overflow-hidden h-full">
-          <img src="/login-image.jpg" alt="Our Mission" />
+          <img className="h-full" src="/login-image.jpg" alt="Our Mission" />
         </div>
         <div className="flex-1">
           <h1 className="text-3xl font-bold mb-2 text-[var(--lp-primary)]">

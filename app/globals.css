@@ -292,6 +292,10 @@ html {
     @apply bg-[var(--lp-primary)] text-[var(--text)] p-2 rounded-lg cursor-pointer;
   }
 
+  .lp-text {
+    @apply font-serif italic text-[var(--lp-primary)];
+  }
+
   .accordionHeader {
     @apply text-lg! font-bold! text-[var(--lp-primary)]! cursor-pointer!;
   }

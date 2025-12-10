@@ -14,13 +14,13 @@ export default async function Navigation() {
             AppointDoc
           </Link>
           <div className="flex items-center gap-3">
-            <Link className="lp-link" href={"/"}>
+            <Link className="lp-link" href={"#hero"}>
               Home
             </Link>
             <Link className="lp-link" href={"#about"}>
               About
             </Link>
-            <Link className="lp-link" href={"/"}>
+            <Link className="lp-link" href={"#contact"}>
               Contact
             </Link>
           </div>
