@@ -33,17 +33,28 @@ export default function EditableField({
         <h2 className="formText pt-[6px]">{inputData ? inputData : ""}</h2>
       ) : (
         <div className="">
-          <input
-            id={name}
-            name={name}
-            className="border border-neutral-400 rounded"
-            defaultValue={inputData || ""}
-            placeholder={
-              inputData ? inputData : inputType === "password" ? "" : ""
-            }
-            type={inputType ? inputType : "text"}
-            {...register(name, validation)}
-          />
+          {inputType !== "textarea" ? (
+            <input
+              id={name}
+              name={name}
+              className="border-2 border-neutral-200 rounded"
+              defaultValue={inputData || ""}
+              placeholder={
+                inputData ? inputData : inputType === "password" ? "" : ""
+              }
+              type={inputType ? inputType : "text"}
+              {...register(name, validation)}
+            />
+          ) : (
+            <textarea
+              id={name}
+              name={name}
+              className="border-2 border-neutral-200 rounded"
+              defaultValue={inputData || ""}
+              {...register(name, validation)}
+            />
+          )}
+
           {fieldError && (
             <p className="text-red-500 text-sm">
               {fieldError.message as string}

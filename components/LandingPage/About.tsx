@@ -18,13 +18,21 @@ export default function About() {
           </p>
         </div>
         <div className="flex-1 h-full rounded-lg overflow-hidden ">
-          <img className="h-full" src="/login-image.jpg" alt="About Us" />
+          <img
+            className="h-full w-full"
+            src="/login-image.jpg"
+            alt="About Us"
+          />
         </div>
       </div>
 
       <div className="flex items-center h-[350px] gap-4">
         <div className="flex-1 rounded-lg overflow-hidden h-full">
-          <img className="h-full" src="/login-image.jpg" alt="Our Mission" />
+          <img
+            className="h-full w-full"
+            src="/login-image.jpg"
+            alt="Our Mission"
+          />
         </div>
         <div className="flex-1">
           <h1 className="text-3xl font-bold mb-2 text-[var(--lp-primary)]">
@@ -38,16 +46,6 @@ export default function About() {
             doctors and patients
           </p>
         </div>
-      </div>
-      <div>
-        <p className="font-serif italic text-[var(--lp-primary)] text-lg my-4 text-center">
-          "Imagine a world where every appointment is perfectly organized, every
-          patient feels cared for, and your day runs smoothly without the stress
-          of no-shows, double bookings, or endless administrative tasks. With
-          AppointDoc, you can manage your schedule effortlessly, communicate
-          with patients seamlessly, and focus on what truly matters — providing
-          exceptional care"
-        </p>
       </div>
     </section>
   );

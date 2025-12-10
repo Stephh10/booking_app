@@ -5,6 +5,7 @@ import Footer from "@/components/Footer";
 import { AccordionMain } from "@/components/LandingPage/AccordionMain";
 import About from "@/components/LandingPage/About";
 import Contact from "@/components/LandingPage/Contact";
+import Message from "@/components/LandingPage/Message";
 
 export default function Home() {
   return (
@@ -16,6 +17,7 @@ export default function Home() {
         <About />
         <Contact />
         <AccordionMain />
+        <Message />
       </main>
       <Footer />
     </>
