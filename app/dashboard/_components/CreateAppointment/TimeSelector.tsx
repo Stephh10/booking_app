@@ -35,12 +35,17 @@ export default function TimeSelector({
         </SelectTrigger>
         <SelectContent>
           <SelectGroup>
-            {availableDates &&
+            {availableDates && availableDates.length ? (
               availableDates.map((t) => (
                 <SelectItem key={t} value={t}>
                   {t}
                 </SelectItem>
-              ))}
+              ))
+            ) : (
+              <p className="text-[var(--text-soft)] text-sm text-center">
+                No available time
+              </p>
+            )}
           </SelectGroup>
         </SelectContent>
       </Select>

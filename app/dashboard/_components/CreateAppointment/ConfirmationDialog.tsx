@@ -9,6 +9,8 @@ import { FileClock } from "lucide-react";
 import ConfirmationDialogItem from "./ConfirmationDialogItem";
 import { formatWorkCardDate } from "@/lib/dateFormats/formatWorkCardDate";
 import { getSelectedDate } from "../../_lib/getSelectedDate";
+import { Spinner } from "@/components/ui/spinner";
+import clsx from "clsx";
 
 export default function ConfirmationDialog({
   closeModal,
@@ -20,11 +22,13 @@ export default function ConfirmationDialog({
   const { step, changeStep } = useAppointmentStep();
   const [isPending, startTransition] = useTransition();
 
-  // useEffect(() => {
-  //   if (!patientData?.firstName || !patientData?.lastName || !appointmentData) {
-  //     changeStep(1);
-  //   }
-  // }, []);
+  const isPendingText = true;
+
+  useEffect(() => {
+    if (!patientData?.firstName || !patientData?.lastName || !appointmentData) {
+      changeStep(1);
+    }
+  }, []);
 
   function handleCreateAppointment() {
     const data = { ...patientData, ...appointmentData };
@@ -91,9 +95,16 @@ export default function ConfirmationDialog({
           disabled={isPending}
           onClick={handleCreateAppointment}
           type="submit"
-          className="primaryBtn w-[100px]"
+          className={clsx(
+            "primaryBtn w-[100px]",
+            isPending && "bg-[var(--disabled)] cursor-not-allowed"
+          )}
         >
-          {isPending ? "Creating..." : "Create"}
+          {isPending ? (
+            <Spinner className="size-6 mx-auto text-[var(--text-soft)]" />
+          ) : (
+            "Create"
+          )}
         </button>
       </div>
     </div>

@@ -364,8 +364,6 @@ export async function createAppointment(data: any, doctorId?: string) {
       return { error: "You are not authenticated" };
     }
 
-    console.log("Podaci za appointment:", data); // DEBUG
-
     if (!data.firstName || !data.lastName) {
       return { error: "First name and last name are required" };
     }
