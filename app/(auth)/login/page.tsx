@@ -10,12 +10,12 @@ import EditableField from "@/app/dashboard/patient/_components/EditableField";
 import Image from "next/image";
 import { ShieldCheck } from "lucide-react";
 import ChangePassword from "../_components/ChangePassword";
-import { User } from "@prisma/client";
+import { Spinner } from "@/components/ui/spinner";
+import clsx from "clsx";
 
 export default function page() {
   const [isPending, startTransition] = useTransition();
   const [changePassword, setChangePassword] = useState(false);
-
   const isEditing = true;
 
   const {
@@ -100,8 +100,18 @@ export default function page() {
                 validation={{ required: "Password is required" }}
               />
               <div className="absolute left-0 bottom-30 w-full text-center">
-                <button className="formBtn bg-[var(--lp-primary)] mt-5 justify-self-end w-full">
-                  {isPending ? "Logging in..." : "Login"}
+                <button
+                  disabled={isPending}
+                  className={clsx(
+                    "formBtn bg-[var(--lp-primary)] mt-5 justify-self-end w-full",
+                    isPending && "cursor-not-allowed"
+                  )}
+                >
+                  {isPending ? (
+                    <Spinner className="size-6 mx-auto text-[var(--text-soft)]" />
+                  ) : (
+                    "Login"
+                  )}
                 </button>
                 <button
                   onClick={() => setChangePassword(true)}

@@ -9,6 +9,8 @@ import { useForm } from "react-hook-form";
 import EditableField from "@/app/dashboard/patient/_components/EditableField";
 import { useTransition } from "react";
 import { User } from "@prisma/client";
+import clsx from "clsx";
+import { Spinner } from "@/components/ui/spinner";
 
 export default function page() {
   const [isPending, startTransition] = useTransition();
@@ -116,8 +118,18 @@ export default function page() {
               }}
             />
 
-            <button className="formBtn bg-[var(--lp-primary)] mt-5">
-              {isPending ? "Registering..." : "Register"}
+            <button
+              disabled={isPending}
+              className={clsx(
+                "formBtn bg-[var(--lp-primary)] mt-5 justify-self-end w-full",
+                isPending && "cursor-not-allowed"
+              )}
+            >
+              {isPending ? (
+                <Spinner className="size-6 mx-auto text-[var(--text-soft)]" />
+              ) : (
+                "Register"
+              )}
             </button>
           </form>
           <p className="pt-2 text-lg text-gray-400">
