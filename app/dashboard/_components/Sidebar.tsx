@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -12,7 +12,12 @@ import {
   LayoutPanelLeft,
   LogOut,
   CalendarClock,
+  ArrowLeftToLine as ArrowLeft,
+  ArrowRightToLine as ArrowRight,
 } from "lucide-react";
+import LargeScreenLink from "./LargeScreenLink";
+import MobileScreenLink from "./MobileScreenLink";
+import clsx from "clsx";
 
 import { signOut } from "next-auth/react";
 
@@ -34,6 +39,7 @@ import { useTheme } from "@/hooks/useTheme";
 export default function Sidebar() {
   const { theme } = useTheme();
   const pathname = usePathname();
+  const [expanded, setExpanded] = useState(true);
 
   function handleLogout() {
     signOut({ callbackUrl: "/login" });
@@ -44,46 +50,69 @@ export default function Sidebar() {
   }, [theme]);
 
   return (
-    <div className="hidden md:block bg-[var(--secondary)] h-[500px] lg:h-[852px] w-60 rounded-lg py-2 text-[var(--text)] overflow-hidden">
-      <Link
-        className="text-2xl text-[var(--text-dark)] cursor-pointer"
-        href={"/"}
+    <div
+      className={clsx(
+        "bg-[var(--secondary)] h-[500px] lg:min-h-[450px] w-60 rounded-lg py-2 text-[var(--text)] overflow-hidden",
+        !expanded && "!w-13 !h-max"
+      )}
+    >
+      <div className="flex items-center justify-between">
+        {expanded && (
+          <Link
+            className="text-2xl text-[var(--text-dark)] cursor-pointer"
+            href={"/"}
+          >
+            BookingSite
+          </Link>
+        )}
+        <div className="w-full">
+          {expanded ? (
+            <button
+              className="bg-inherit text-gray-500 p-2 cursor-pointer flex justify-self-end"
+              onClick={() => setExpanded(false)}
+            >
+              <ArrowLeft size={20} />
+            </button>
+          ) : (
+            <button
+              className="bg-inherit text-gray-500 p-2 cursor-pointer w-full flex justify-center"
+              onClick={() => setExpanded(true)}
+            >
+              <ArrowRight size={20} />
+            </button>
+          )}
+        </div>
+      </div>
+
+      <nav
+        className={clsx(
+          "flex flex-col gap-2 mt-2 h-[93.5%] overflow-hidden",
+          !expanded && "!h-max"
+        )}
       >
-        BookingSite
-      </Link>
-      <nav className="flex flex-col gap-2 mt-2 h-[93.5%] overflow-hidden ">
         {links.map((link) => {
           const isActive = pathname === link.href;
 
-          return (
-            <Link
-              key={link.name}
-              href={link.href}
-              className={`flex items-center gap-3 px-3 py-2 transition-colors
-                ${
-                  isActive
-                    ? "text-[var(--btn-primary)] font-medium border-l-10 border-[var(--btn-primary)] bg-[var(--card)] rounded-tl-[16px] rounded-bl-[16px] overflow-hidden shadow-sm"
-                    : "text-gray-600 hover:bg-[var(--card)]"
-                }
-              `}
-            >
-              <link.icon size={20} />
-              {link.name}
-            </Link>
+          return expanded ? (
+            <LargeScreenLink key={link.name} link={link} isActive={isActive} />
+          ) : (
+            <MobileScreenLink key={link.name} link={link} isActive={isActive} />
           );
         })}
         <div className="mt-auto navFooter">
-          <div className="text-center">
-            <Link className="sidebarLink" href={"/"}>
-              Support
-            </Link>
-            <Link className="sidebarLink" href={"/"}>
-              Privacy Policy
-            </Link>
-            <Link className="sidebarLink" href={"/"}>
-              Terms & Conditions
-            </Link>
-          </div>
+          {expanded && (
+            <div className="text-center">
+              <Link className="sidebarLink" href={"/"}>
+                Support
+              </Link>
+              <Link className="sidebarLink" href={"/"}>
+                Privacy Policy
+              </Link>
+              <Link className="sidebarLink" href={"/"}>
+                Terms & Conditions
+              </Link>
+            </div>
+          )}
           <Link
             onClick={handleLogout}
             className="flex items-center gap-3 px-3 py-2 transition-colors text-gray-600 hover:bg-[var(--card)]"
