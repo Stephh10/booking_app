@@ -49,10 +49,24 @@ export default function Sidebar() {
     document.documentElement.classList.toggle("dark", theme === "dark");
   }, [theme]);
 
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    const handleResize = () => {
+      setExpanded(window.innerWidth >= 700);
+    };
+
+    // inicijalno
+    handleResize();
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   return (
     <div
       className={clsx(
-        "bg-[var(--secondary)] h-[500px] lg:min-h-[450px] w-60 rounded-lg py-2 text-[var(--text)] overflow-hidden",
+        "flex-none bg-[var(--secondary)] h-[500px] lg:min-h-[450px] w-60 rounded-lg py-2 text-[var(--text)] overflow-hidden",
         !expanded && "!w-13 !h-max"
       )}
     >
@@ -74,12 +88,14 @@ export default function Sidebar() {
               <ArrowLeft size={20} />
             </button>
           ) : (
-            <button
-              className="bg-inherit text-gray-500 p-2 cursor-pointer w-full flex justify-center"
-              onClick={() => setExpanded(true)}
-            >
-              <ArrowRight size={20} />
-            </button>
+            window.innerWidth > 700 && (
+              <button
+                className="bg-inherit text-gray-500 p-2 cursor-pointer w-full flex justify-center"
+                onClick={() => setExpanded(true)}
+              >
+                <ArrowRight size={20} />
+              </button>
+            )
           )}
         </div>
       </div>
@@ -115,11 +131,11 @@ export default function Sidebar() {
           )}
           <Link
             onClick={handleLogout}
-            className="flex items-center gap-3 px-3 py-2 transition-colors text-gray-600 hover:bg-[var(--card)]"
+            className="flex items-center gap-3 px-3 py-2 transition-colors text-gray-600 hover:bg-[var(--card)] "
             href={"/"}
           >
-            <LogOut size={20} />
-            Logout
+            <LogOut className={clsx(!expanded && "ml-0.5")} size={20} />
+            {expanded && "Logout"}
           </Link>
         </div>
       </nav>
