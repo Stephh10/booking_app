@@ -25,10 +25,25 @@ model User {
   address    String?
   postalCode Int?
 
+  profileImage ProfileImage? @relation("UserProfileImage")
+
   appointments        Appointment[]
   availabilities      DoctorAvailability[]
   patients            Patient[]
   passwordResetTokens PasswordResetToken[]
+}
+
+model ProfileImage {
+  id       String @id @default(cuid())
+  publicId String @unique
+  url      String
+  format   String
+  size     Int
+
+  userId String @unique
+  user   User   @relation("UserProfileImage", fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
 }
 
 //PASSWORD RESET MODEL

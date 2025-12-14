@@ -4,12 +4,16 @@ import React, { useRef, useState } from "react";
 import Avatar from "@/components/Avatar";
 import { useTransition } from "react";
 import { uploadImage } from "@/app/actions/upload";
+import { Spinner } from "@/components/ui/spinner";
+import clsx from "clsx";
 
 export default function GeneralAvatar() {
   const [file, setFile] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
   const uploadRef = useRef<HTMLInputElement | null>(null);
   const [isPending, startTransition] = useTransition();
+
+  const isPendingUpload = true;
 
   function handleImageUpload() {
     startTransition(async () => {
@@ -19,7 +23,8 @@ export default function GeneralAvatar() {
         console.log(response.error);
       }
 
-      console.log(response);
+      setPreview(null);
+      setFile(null);
     });
   }
 
@@ -46,15 +51,22 @@ export default function GeneralAvatar() {
         {preview ? (
           <div className="flex gap-2">
             <button
+              disabled={isPending}
               onClick={() => {
                 setPreview(null);
               }}
-              className="middleBtn bg-[var(--card)] border-1 border-neutral-600 text-neutral-600"
+              className={clsx(
+                "middleBtn bg-[var(--card)] border-1 border-neutral-600 text-neutral-600",
+                isPending && "pointer-events-none"
+              )}
             >
               Cancel
             </button>
-            <button onClick={handleImageUpload} className="middleBtn">
-              {isPending ? "Uploading..." : "Save"}
+            <button
+              onClick={handleImageUpload}
+              className={clsx("middleBtn", isPending && "pointer-events-none")}
+            >
+              {isPending ? <Spinner className="size-6 mx-auto" /> : "Confirm"}
             </button>
           </div>
         ) : (
