@@ -7,8 +7,13 @@ import { User } from "@prisma/client";
 import bcrypt from "bcryptjs";
 import nodemailer from "nodemailer";
 import crypto from "crypto";
-import { redirect } from "next/navigation";
 import { loginAction } from "./auth";
+
+//UPDATE USER IMAGE
+
+const updateUserImage = async (imageUrl: string) => {
+  console.log("updating Imagee");
+};
 
 //SENT FORGOT PASSWORD EMAIL
 

@@ -1,9 +1,18 @@
 "use server";
 
 import cloudinary from "@/lib/cloudinary";
+import { prisma as Prisma } from "@/lib/prisma";
+import { auth } from "@/auth";
 
 export async function uploadImage(file: File) {
   try {
+    const authResult = await auth();
+    const activeUser = authResult?.user;
+
+    if (!activeUser) {
+      return { success: false, message: "You are not authenticated" };
+    }
+
     if (!file) {
       return { success: false, message: "No file provided" };
     }
@@ -32,6 +41,23 @@ export async function uploadImage(file: File) {
         { quality: "auto" },
         { fetch_format: "auto" },
       ],
+    });
+
+    if (result.error) {
+      return {
+        success: false,
+        message: result.error.message,
+      };
+    }
+
+    await Prisma.profileImage.create({
+      data: {
+        userId: activeUser.id,
+        publicId: result.public_id,
+        url: result.secure_url,
+        format: result.format,
+        size: result.bytes,
+      },
     });
 
     return {
