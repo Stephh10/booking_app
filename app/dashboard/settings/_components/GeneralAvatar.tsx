@@ -2,16 +2,33 @@
 
 import React, { useRef, useState } from "react";
 import Avatar from "@/components/Avatar";
+import { useTransition } from "react";
+import { uploadImage } from "@/app/actions/upload";
 
 export default function GeneralAvatar() {
+  const [file, setFile] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
   const uploadRef = useRef<HTMLInputElement | null>(null);
+  const [isPending, startTransition] = useTransition();
+
+  function handleImageUpload() {
+    startTransition(async () => {
+      const response = file && (await uploadImage(file));
+
+      if (response && "error" in response) {
+        console.log(response.error);
+      }
+
+      console.log(response);
+    });
+  }
 
   function handleImageChange(e: React.ChangeEvent<HTMLInputElement>) {
     const selectedFile = e.target.files?.[0];
     if (!selectedFile) return;
 
     const previewUrl = URL.createObjectURL(selectedFile);
+    setFile(selectedFile);
     setPreview(previewUrl);
   }
   return (
@@ -36,7 +53,9 @@ export default function GeneralAvatar() {
             >
               Cancel
             </button>
-            <button className="middleBtn">Save</button>
+            <button onClick={handleImageUpload} className="middleBtn">
+              {isPending ? "Uploading..." : "Save"}
+            </button>
           </div>
         ) : (
           <button
