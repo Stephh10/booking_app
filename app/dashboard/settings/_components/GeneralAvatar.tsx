@@ -7,6 +7,8 @@ import { uploadImage } from "@/app/actions/upload";
 import { Spinner } from "@/components/ui/spinner";
 import clsx from "clsx";
 import { ProfileImage } from "@prisma/client";
+import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
 
 export default function GeneralAvatar({
   profileImage,
@@ -17,17 +19,19 @@ export default function GeneralAvatar({
   const [preview, setPreview] = useState<string | null>(null);
   const uploadRef = useRef<HTMLInputElement | null>(null);
   const [isPending, startTransition] = useTransition();
+  const router = useRouter();
 
   function handleImageUpload() {
     startTransition(async () => {
       const response = file && (await uploadImage(file));
 
-      if (response && "error" in response) {
-        console.log(response.error);
+      if (response && response.success === false) {
+        toast.error(response.message);
       }
 
       setPreview(null);
       setFile(null);
+      return router.refresh();
     });
   }
 

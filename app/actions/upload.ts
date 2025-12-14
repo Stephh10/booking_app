@@ -32,6 +32,17 @@ export async function uploadImage(file: File) {
       "base64"
     )}`;
 
+    const userData = await Prisma.user.findUnique({
+      where: { id: activeUser.id },
+      include: { profileImage: true },
+    });
+
+    if (userData?.profileImage?.publicId) {
+      await cloudinary.uploader.destroy(userData.profileImage.publicId, {
+        invalidate: true,
+      });
+    }
+
     const result = await cloudinary.uploader.upload(base64String, {
       folder: "nextjs-uploads",
       upload_preset: process.env.CLOUDINARY_UPLOAD_PRESET,
@@ -50,15 +61,29 @@ export async function uploadImage(file: File) {
       };
     }
 
-    await Prisma.profileImage.create({
-      data: {
-        userId: activeUser.id,
-        publicId: result.public_id,
-        url: result.secure_url,
-        format: result.format,
-        size: result.bytes,
-      },
-    });
+    if (userData?.profileImage) {
+      //update existing image
+      await Prisma.profileImage.update({
+        where: { userId: activeUser.id },
+        data: {
+          publicId: result.public_id,
+          url: result.secure_url,
+          format: result.format,
+          size: result.bytes,
+        },
+      });
+    } else {
+      //create new image
+      await Prisma.profileImage.create({
+        data: {
+          userId: activeUser.id,
+          publicId: result.public_id,
+          url: result.secure_url,
+          format: result.format,
+          size: result.bytes,
+        },
+      });
+    }
 
     return {
       success: true,
@@ -70,7 +95,7 @@ export async function uploadImage(file: File) {
   } catch (error) {
     return {
       success: false,
-      message: error instanceof Error ? error.message : "Upload failed",
+      message: "Upload failed",
     };
   }
 }

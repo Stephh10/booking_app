@@ -8,12 +8,7 @@ import bcrypt from "bcryptjs";
 import nodemailer from "nodemailer";
 import crypto from "crypto";
 import { loginAction } from "./auth";
-
-//UPDATE USER IMAGE
-
-const updateUserImage = async (imageUrl: string) => {
-  console.log("updating Imagee");
-};
+import cloudinary from "@/lib/cloudinary";
 
 //SENT FORGOT PASSWORD EMAIL
 
@@ -79,10 +74,17 @@ export const deleteAccount = async () => {
     where: {
       id: activeUser.id,
     },
+    include: {
+      profileImage: true,
+    },
   });
 
   if (!userData) {
     return { error: "User not found" };
+  }
+
+  if (userData.profileImage?.publicId) {
+    cloudinary.uploader.destroy(userData.profileImage?.publicId);
   }
 
   await Prisma.user.delete({
