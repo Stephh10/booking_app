@@ -13,7 +13,7 @@ export default async function page() {
         {"error" in userData ? (
           <h1>{userData.error}</h1>
         ) : (
-          <SettingsMain userData={userData} />
+          <SettingsMain userData={userData as any} />
         )}
       </div>
     </div>

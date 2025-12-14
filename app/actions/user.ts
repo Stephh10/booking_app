@@ -198,7 +198,11 @@ export const changePassword = async (passwordDetails: any) => {
 
 //GET USER DATA
 
-export const getUser = async (): Promise<User | { error: string }> => {
+export const getUser = async (): Promise<
+  | (User & { profileImage?: { url: string } | null })
+  | { error: string }
+  | { error: string }
+> => {
   const authResult = await auth();
   const activeUser = authResult?.user;
 
@@ -209,6 +213,9 @@ export const getUser = async (): Promise<User | { error: string }> => {
   const userData = await Prisma.user.findUnique({
     where: {
       id: activeUser.id,
+    },
+    include: {
+      profileImage: true,
     },
   });
 

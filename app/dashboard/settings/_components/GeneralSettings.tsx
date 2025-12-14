@@ -6,9 +6,13 @@ import UpgradeAccount from "./UpgradeAccount";
 import { useForm } from "react-hook-form";
 import { useTransition } from "react";
 import { updateUser } from "@/app/actions/user";
-import { User } from "@prisma/client";
+import { User, ProfileImage } from "@prisma/client";
 
-export default function GeneralSettings({ userData }: { userData: User }) {
+export default function GeneralSettings({
+  userData,
+}: {
+  userData: User & { profileImage?: ProfileImage | null };
+}) {
   const { isEditing, submit, setIsEditing } = useEditSettings();
   const [isPending, startTransition] = useTransition();
   const {
@@ -20,6 +24,7 @@ export default function GeneralSettings({ userData }: { userData: User }) {
     postalCode,
     country,
     address,
+    profileImage,
   } = userData;
   const {
     register,
@@ -49,7 +54,7 @@ export default function GeneralSettings({ userData }: { userData: User }) {
   return (
     <div className="mt-2">
       <h1 className="settingsHeader">General Settings</h1>
-      <GeneralAvatar />
+      <GeneralAvatar profileImage={profileImage || null} />
       <form className="w-full" onSubmit={handleSubmit(onSubmit)}>
         <div className="inputSection">
           <EditableField

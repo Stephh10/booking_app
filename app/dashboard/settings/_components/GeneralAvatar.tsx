@@ -6,14 +6,17 @@ import { useTransition } from "react";
 import { uploadImage } from "@/app/actions/upload";
 import { Spinner } from "@/components/ui/spinner";
 import clsx from "clsx";
+import { ProfileImage } from "@prisma/client";
 
-export default function GeneralAvatar() {
+export default function GeneralAvatar({
+  profileImage,
+}: {
+  profileImage: ProfileImage | null;
+}) {
   const [file, setFile] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
   const uploadRef = useRef<HTMLInputElement | null>(null);
   const [isPending, startTransition] = useTransition();
-
-  const isPendingUpload = true;
 
   function handleImageUpload() {
     startTransition(async () => {
@@ -38,7 +41,9 @@ export default function GeneralAvatar() {
   }
   return (
     <div className="flex gap-2 items-center my-3">
-      <Avatar src={preview ? preview : "/default-profile.png"} />
+      <Avatar
+        src={preview ? preview : profileImage?.url || "/default-profile.png"}
+      />
       <div>
         <input
           ref={uploadRef}

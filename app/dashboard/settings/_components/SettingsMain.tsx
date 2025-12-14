@@ -10,8 +10,13 @@ import { useRouter } from "next/navigation";
 import { useSearchParams } from "next/navigation";
 import AccountSettings from "./AccountSettings";
 import BillingsSettings from "./BillingsSettings";
-import { User } from "@prisma/client";
-export default function SettingsMain({ userData }: { userData: User }) {
+import { User, ProfileImage } from "@prisma/client";
+
+export default function SettingsMain({
+  userData,
+}: {
+  userData: User & { profileImage?: ProfileImage | null };
+}) {
   const { isEditing, setIsEditing, handleSubmit } = useEditSettings();
   const router = useRouter();
 
