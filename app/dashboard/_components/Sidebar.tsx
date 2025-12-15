@@ -18,6 +18,7 @@ import {
 import LargeScreenLink from "./LargeScreenLink";
 import MobileScreenLink from "./MobileScreenLink";
 import clsx from "clsx";
+import Image from "next/image";
 
 import { signOut } from "next-auth/react";
 
@@ -56,7 +57,6 @@ export default function Sidebar() {
       setExpanded(window.innerWidth >= 700);
     };
 
-    // inicijalno
     handleResize();
 
     window.addEventListener("resize", handleResize);
@@ -66,17 +66,14 @@ export default function Sidebar() {
   return (
     <div
       className={clsx(
-        "flex-none bg-[var(--secondary)] h-[500px] lg:min-h-[450px] w-60 rounded-lg py-2 text-[var(--text)] overflow-hidden",
+        "flex-none bg-[var(--secondary)] h-[600px] lg:h-[500px] w-60 rounded-lg sm:p-0 md:py-2 text-[var(--text)] overflow-hidden",
         !expanded && "!w-13 !h-max"
       )}
     >
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between sm:none md:h-[50px] overflow-hidden ">
         {expanded && (
-          <Link
-            className="text-2xl text-[var(--text-dark)] cursor-pointer"
-            href={"/"}
-          >
-            BookingSite
+          <Link href={"/"} className="cursor-pointer">
+            <img className="w-90 h-auto" src="/logo.png" alt="logo" />
           </Link>
         )}
         <div className="w-full">
@@ -102,7 +99,7 @@ export default function Sidebar() {
 
       <nav
         className={clsx(
-          "flex flex-col gap-2 mt-2 h-[93.5%] overflow-hidden",
+          "flex flex-col gap-2 m-0 md:mt-2 h-[93.5%] overflow-hidden",
           !expanded && "!h-max"
         )}
       >
@@ -131,7 +128,7 @@ export default function Sidebar() {
           )}
           <Link
             onClick={handleLogout}
-            className="flex items-center gap-3 px-3 py-2 transition-colors text-gray-600 hover:bg-[var(--card)] "
+            className="flex items-center gap-3 px-3 py-2 transition-colors text-gray-600 hover:bg-[var(--card)]  mb-0 md:mb-4"
             href={"/"}
           >
             <LogOut className={clsx(!expanded && "ml-0.5")} size={20} />

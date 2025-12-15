@@ -10,8 +10,8 @@ export default async function Navigation() {
     <div className="bg-[var(--secondary)]">
       <div className="lp-container h-[65px] flex items-center justify-between">
         <div className="flex items-center gap-5">
-          <Link className="font-bold text-lg font-lg" href={"/"}>
-            AppointDoc
+          <Link className="font-bold text-lg font-lg w-[140px]" href={"/"}>
+            <img src="/logo.png" alt="logo" />
           </Link>
           <div className="flex items-center gap-3">
             <Link className="lp-link" href={"#hero"}>

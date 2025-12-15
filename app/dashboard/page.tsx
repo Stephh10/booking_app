@@ -8,6 +8,7 @@ import PageHeader from "@/components/PageHeader";
 import { getAllAppointments } from "../actions/appointments";
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
+import ShareLink from "./_components/CreateAppointment/ShareLink";
 
 export default async function page() {
   const appointmentsData = await getAllAppointments("scheduled");
@@ -26,9 +27,7 @@ export default async function page() {
           description="Plan, prioritize and accomplisch yor appointments with ease."
         >
           <AddAppDialog />
-          <Link className="outlineBtn" href={`/schedule/${activeUser.user.id}`}>
-            Share appointment link
-          </Link>
+          <ShareLink activeUser={activeUser} />
         </PageHeader>
         <DashboardStats />
         <DashboardCalendar appointments={appointmentsData} />

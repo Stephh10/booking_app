@@ -8,7 +8,6 @@ import {
   StepperNav,
   StepperPanel,
   StepperSeparator,
-  StepperTitle,
   StepperTrigger,
 } from "@/components/ui/stepper";
 import CreatePatientApp from "./CreatePatientApp";
@@ -21,13 +20,13 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { useTransition } from "react";
 import CreateAppointmentApp from "./CreateAppointmentApp";
 import ConfirmationDialog from "./ConfirmationDialog";
 
 import { useAppointmentStep } from "@/store/appointmentModal/useAppointmentStep";
 import { useAddPatient } from "@/store/appointmentModal/useAddPatient";
 import { useAddAppointment } from "@/store/appointmentModal/useAddAppointment";
+import { Plus } from "lucide-react";
 
 export default function AddAppDialog() {
   const [openDialog, setOpenDialog] = useState(false);
@@ -56,7 +55,9 @@ export default function AddAppDialog() {
       }}
     >
       <DialogTrigger asChild>
-        <button className="primaryBtn">+ Create Appointment</button>
+        <button className="primaryBtn flex items-center gap-0">
+          <Plus size={18} /> Add Appointment
+        </button>
       </DialogTrigger>
 
       <DialogContent>
@@ -97,60 +98,6 @@ export default function AddAppDialog() {
           </StepperPanel>
         </Stepper>
       </DialogContent>
-
-      {/* <DialogContent className="sm:max-w-[425px] max-h-[90vh] overflow-y-auto rounded-scrollbar">
-        <DialogHeader>
-          <DialogTitle>Create Appointment</DialogTitle>
-          <DialogDescription>
-            Fill in the details below to schedule a new appointment.
-          </DialogDescription>
-        </DialogHeader>
-        <form onSubmit={handleAppSubmit}>
-          <div className="grid gap-4">
-            <DatePicker date={selectedDate} setDate={setSelectedDate} />
-            <div className="grid gap-3">
-              <Label htmlFor="reason">Reason</Label>
-              <Textarea id="reason" name="reason" />
-            </div>
-            <div className="grid gap-3 mb-4">
-              <Label htmlFor="username-1">Duration (Minutes)</Label>
-              <Input id="duration" type="number" name="duration" />
-            </div>
-            <div className="grid gap-3">
-              <Label htmlFor="diagnose">Diagnose</Label>
-              <Textarea id="diagnose" name="diagnose" />
-            </div>
-            <div className="grid gap-3 mb-4">
-              <Label htmlFor="firstName">First Name</Label>
-              <Input id="firstName" type="text" name="firstName" />
-            </div>
-            <div className="grid gap-3 mb-4">
-              <Label htmlFor="lastName">Last Name</Label>
-              <Input id="lastName" type="text" name="lastName" />
-            </div>
-            <div className="grid gap-3 mb-4">
-              <Label htmlFor="patientEmail">Patient Email</Label>
-              <Input
-                id="patientEmail"
-                type="patientEmail"
-                name="patientEmail"
-              />
-            </div>
-            <div className="grid gap-3 mb-4">
-              <Label htmlFor="phone">Phone</Label>
-              <Input id="phone" type="phone" name="phone" />
-            </div>
-          </div>
-          <DialogFooter>
-            <DialogClose asChild>
-              <Button variant="outline">Cancel</Button>
-            </DialogClose>
-            <button className="appointBtn">
-              {isPending ? "Creating..." : "Create Appointment"}
-            </button>
-          </DialogFooter>
-        </form>
-      </DialogContent> */}
     </Dialog>
   );
 }
