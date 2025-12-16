@@ -9,10 +9,11 @@ export default async function Navigation() {
   return (
     <div className="bg-[var(--secondary)]">
       <div className="lp-container h-[65px] flex items-center justify-between">
-        <div className="flex items-center gap-5">
-          <Link className="font-bold text-lg font-lg w-[140px]" href={"/"}>
+        <div className="flex items-center">
+          <Link className="font-bold text-lg font-lg w-[170px]" href={"/"}>
             <img src="/logo.png" alt="logo" />
           </Link>
+
           <div className="flex items-center gap-3">
             <Link className="lp-link" href={"#hero"}>
               Home

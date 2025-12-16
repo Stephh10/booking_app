@@ -18,7 +18,6 @@ import {
 import LargeScreenLink from "./LargeScreenLink";
 import MobileScreenLink from "./MobileScreenLink";
 import clsx from "clsx";
-import Image from "next/image";
 
 import { signOut } from "next-auth/react";
 
@@ -73,7 +72,7 @@ export default function Sidebar() {
       <div className="flex items-center justify-between sm:none md:h-[50px] overflow-hidden ">
         {expanded && (
           <Link href={"/"} className="cursor-pointer">
-            <img className="w-90 h-auto" src="/logo.png" alt="logo" />
+            <img className="w-90 h-auto" src="/logo-dashboard.png" alt="logo" />
           </Link>
         )}
         <div className="w-full">
