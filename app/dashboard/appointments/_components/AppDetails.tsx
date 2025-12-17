@@ -12,6 +12,13 @@ import EditableField from "../../patient/_components/EditableField";
 import { useForm } from "react-hook-form";
 import { useEditAppountmentState } from "@/store/useEditAppountmentState";
 import { useRouter } from "next/navigation";
+import { Controller } from "react-hook-form";
+import { AppointmentDateSelector } from "../../_components/CreateAppointment/AppointmentDateSelector";
+import TimeSelector from "../../_components/CreateAppointment/TimeSelector";
+import { formatWorkCardDate } from "@/lib/dateFormats/formatWorkCardDate";
+import { toast } from "react-toastify";
+import combineDateWithTime from "@/lib/dateFormats/BindDateAndTime";
+
 export default function AppDetails({
   appointmentData,
 }: {
@@ -21,14 +28,19 @@ export default function AppDetails({
     register,
     handleSubmit,
     control,
+    setError,
+    watch,
     formState: { errors },
   } = useForm<Appointment>();
+
+  const newDate = watch("date");
 
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
 
   //date state
   const [selectedDate, setSelectedDate] = useState(appointmentData.date);
+  const [availableDates, setAvailableDates] = useState<string[] | null>(null);
 
   const {
     isEditingAppointment: isEditing,
@@ -37,24 +49,35 @@ export default function AppDetails({
 
   const { diagnose, duration, date, reason, status } = appointmentData;
 
-  function handleFormSubmit(data: Appointment) {
-    startTransition(async () => {
-      const response = await updateSelectedAppointment(appointmentData.id, {
-        ...data,
-        date: selectedDate ? selectedDate.toISOString() : undefined,
-        duration: Number(data.duration),
-      });
-      if ("error" in response) {
-        console.log(response);
-        return;
+  function handleDataSubmit(data: Appointment) {
+    if (appointmentData?.date && appointmentData.time) {
+      return toast.error("Please select a date and time");
+    } else {
+      if (!data.date || !data.time) {
+        return setError("date", {
+          type: "manual",
+          message: "Please select a date and time",
+        });
       }
 
-      setIsEditing(false);
-    });
+      data.date = combineDateWithTime(data.date, formatWorkCardDate(data.time));
+
+      startTransition(async () => {
+        const response = await updateSelectedAppointment(appointmentData.id, {
+          ...data,
+          time: null,
+          duration: Number(data.duration),
+        });
+        console.log(response);
+      });
+
+      return setIsEditing(false);
+    }
   }
+
   return (
     <div className="relative ">
-      <form className="w-[450px]" onSubmit={handleSubmit(handleFormSubmit)}>
+      <form className="w-[450px]" onSubmit={handleSubmit(handleDataSubmit)}>
         <div
           className={`absolute top-0 right-0 text-[var(--text)] rounded-lg px-4 py-2 text-center capitalize ${
             status !== "scheduled"
@@ -80,29 +103,74 @@ export default function AppDetails({
           register={register}
           errors={errors}
         />
-        <div className="inputSection">
-          <div className="flex flex-1 flex-col mb-4">
-            <Label className="mb-[5px]">Date and Time</Label>
-            {isEditing ? (
-              <DateSelector
-                selectedDateTime={selectedDate}
-                setSelectedDateTime={setSelectedDate}
-              />
-            ) : (
-              <h2 className="formText ">{formatDate(date)}</h2>
+
+        <div className="inputSection flex items-center mb-1">
+          <Controller
+            name="date"
+            control={control}
+            render={({ field }) => (
+              <div className="flex-1">
+                {isEditing ? (
+                  <div>
+                    <AppointmentDateSelector
+                      value={field.value || date}
+                      onDateChange={field.onChange}
+                      setAvailableDates={setAvailableDates}
+                    />
+                  </div>
+                ) : (
+                  <div>
+                    <h2>Date</h2>
+                    <p className="text-[var(--text-soft)]">
+                      {formatDate(appointmentData?.date || "")}
+                    </p>
+                  </div>
+                )}
+
+                {errors.date && (
+                  <p className="text-red-500 text-sm mb-1">
+                    {errors.date.message}
+                  </p>
+                )}
+              </div>
             )}
-          </div>
-          <EditableField
-            label="Duration (Minutes)"
-            name="duration"
-            inputData={duration}
-            isEditing={isEditing}
-            register={register}
-            errors={errors}
           />
+          <div className="flex-1 mt-[2px]">
+            <Controller
+              name="time"
+              control={control}
+              render={({ field }) =>
+                isEditing ? (
+                  <TimeSelector
+                    disabled={!date && !appointmentData?.date}
+                    value={
+                      appointmentData?.time
+                        ? formatWorkCardDate(appointmentData?.time)
+                        : field.value
+                        ? formatWorkCardDate(field.value)
+                        : null
+                    }
+                    onValueChange={field.onChange}
+                    availableDates={availableDates}
+                  />
+                ) : (
+                  <h2></h2>
+                )
+              }
+            />
+          </div>
         </div>
 
-        <div className="appDetailsAction flex justify-between">
+        <EditableField
+          label="Duration (Minutes)"
+          name="duration"
+          inputData={duration}
+          isEditing={isEditing}
+          register={register}
+          errors={errors}
+        />
+
+        <div className="appDetailsAction flex justify-between mt-4">
           <button
             onClick={() => router.push("/dashboard")}
             className="outlineBtn border-1"
@@ -110,11 +178,7 @@ export default function AppDetails({
             Go Back
           </button>
           {isEditing && (
-            <button
-              type="submit"
-              onClick={() => setIsEditing(!isEditing)}
-              className="primaryBtn px-7"
-            >
+            <button type="submit" className="primaryBtn px-7">
               Save
             </button>
           )}

@@ -5,18 +5,18 @@ import { Link as LinkIcon } from "lucide-react";
 import { toast } from "react-toastify";
 
 export default function ShareLink({ activeUser }: any) {
-  const link = `${window.location.origin}/schedule/${activeUser.user.id}`;
+  // const link = `${window.location.origin}/schedule/${activeUser.user.id}`;
 
   function copyLink() {
-    navigator.clipboard
-      .writeText(link)
-      .then(() => {
-        toast.success("Link copied to clipboard");
-      })
-      .catch((err) => {
-        toast.error("Failed to copy link");
-        console.error(err);
-      });
+    // navigator.clipboard
+    //   .writeText(link)
+    //   .then(() => {
+    //     toast.success("Link copied to clipboard");
+    //   })
+    //   .catch((err) => {
+    //     toast.error("Failed to copy link");
+    //     console.error(err);
+    //   });
   }
   return (
     <button

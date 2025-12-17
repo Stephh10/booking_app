@@ -66,24 +66,26 @@ export default function CreateAppointmentApp() {
               </div>
             )}
           />
-          <Controller
-            name="time"
-            control={control}
-            render={({ field }) => (
-              <TimeSelector
-                disabled={!date && !appointmentData?.date}
-                value={
-                  appointmentData?.time
-                    ? formatWorkCardDate(appointmentData?.time)
-                    : field.value
-                    ? formatWorkCardDate(field.value)
-                    : null
-                }
-                onValueChange={field.onChange}
-                availableDates={availableDates}
-              />
-            )}
-          />
+          <div className="mt-0.5 flex-1">
+            <Controller
+              name="time"
+              control={control}
+              render={({ field }) => (
+                <TimeSelector
+                  disabled={!date && !appointmentData?.date}
+                  value={
+                    appointmentData?.time
+                      ? formatWorkCardDate(appointmentData?.time)
+                      : field.value
+                      ? formatWorkCardDate(field.value)
+                      : null
+                  }
+                  onValueChange={field.onChange}
+                  availableDates={availableDates}
+                />
+              )}
+            />
+          </div>
         </div>
         <EditableField
           label="Reason"

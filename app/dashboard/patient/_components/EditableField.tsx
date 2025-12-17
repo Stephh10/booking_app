@@ -37,7 +37,7 @@ export default function EditableField({
             <input
               id={name}
               name={name}
-              className="border-2 border-neutral-200 rounded"
+              className="border-1 border-neutral-400 rounded"
               defaultValue={inputData || ""}
               placeholder={
                 inputData ? inputData : inputType === "password" ? "" : ""

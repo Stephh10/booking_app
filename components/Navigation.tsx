@@ -13,7 +13,6 @@ export default async function Navigation() {
           <Link className="font-bold text-lg font-lg w-[170px]" href={"/"}>
             <img src="/logo.png" alt="logo" />
           </Link>
-
           <div className="flex items-center gap-3">
             <Link className="lp-link" href={"#hero"}>
               Home
