@@ -210,11 +210,11 @@ html {
   }
 
   .inputSection {
-    @apply flex gap-3 w-full;
+    @apply flex items-center gap-3 w-full mb-2;
   }
 
   .inputControl {
-    @apply flex-col flex-1 mb-1 overflow-x-hidden;
+    @apply flex-col flex-1  overflow-x-hidden;
   }
 
   .inputControl input {

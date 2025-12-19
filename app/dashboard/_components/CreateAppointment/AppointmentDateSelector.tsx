@@ -50,7 +50,7 @@ export function AppointmentDateSelector({
   };
 
   return (
-    <div className="flex flex-col  ">
+    <div className="flex flex-col">
       <Label htmlFor="date" className=" mt-0.5 text-md !font-normal">
         Appointment Date
       </Label>

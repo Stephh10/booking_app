@@ -26,7 +26,7 @@ export default function EditableField({
   const fieldError = errors?.[name];
   return (
     <div className="inputControl">
-      <label className="!mb-0.5" htmlFor={name}>
+      <label className="" htmlFor={name}>
         {label}
       </label>
       {!isEditing ? (

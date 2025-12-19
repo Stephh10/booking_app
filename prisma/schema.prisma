@@ -146,9 +146,22 @@ model Appointment {
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
 
+  appointmentType AppointmentType @default(first_visit)
+  price           Float?
+  paid            Boolean         @default(false)
+  paymentMethod   String?
+  insuranceId     String?
+
   doctor  User     @relation(fields: [doctorId], references: [id], onDelete: Cascade)
   patient Patient? @relation(fields: [patientId], references: [id])
   Note    Note[]
+}
+
+enum AppointmentType {
+  first_visit
+  follow_up
+  online
+  emergency
 }
 
 //NOTE MODEL
