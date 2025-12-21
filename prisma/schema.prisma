@@ -146,10 +146,10 @@ model Appointment {
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
 
-  appointmentType AppointmentType @default(first_visit)
   price           Float?
   paid            Boolean         @default(false)
   paymentMethod   String?
+  appointmentType AppointmentType @default(first_visit)
   insuranceId     String?
 
   doctor  User     @relation(fields: [doctorId], references: [id], onDelete: Cascade)

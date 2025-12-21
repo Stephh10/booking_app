@@ -47,10 +47,11 @@ export default function AppDetails({
     setIsEditingAppointment: setIsEditing,
   } = useEditAppountmentState();
 
-  const { diagnose, duration, date, reason, status } = appointmentData;
+  const { diagnose, duration, date, reason, status, price, paid, insuranceId } =
+    appointmentData;
 
   function handleDataSubmit(data: Appointment) {
-    if (appointmentData?.date && appointmentData.time) {
+    if (!appointmentData?.date && !appointmentData.time) {
       return toast.error("Please select a date and time");
     } else {
       if (!data.date || !data.time) {
@@ -111,6 +112,14 @@ export default function AppDetails({
             register={register}
             errors={errors}
           />
+          <EditableField
+            label="Insurance ID"
+            name="insuranceId"
+            inputData={insuranceId}
+            isEditing={isEditing}
+            register={register}
+            errors={errors}
+          />
           <div className="inputSection flex items-center mb-1">
             <Controller
               name="date"
@@ -128,7 +137,7 @@ export default function AppDetails({
                   ) : (
                     <div>
                       <h2>Date</h2>
-                      <p className="text-[var(--text-soft)]">
+                      <p className="formText">
                         {formatDate(appointmentData?.date || "")}
                       </p>
                     </div>
@@ -167,55 +176,6 @@ export default function AppDetails({
               />
             </div>
           </div>
-          <div className="inputSection">
-            <EditableField
-              label="Duration (Minutes)"
-              name="duration"
-              inputData={duration}
-              isEditing={isEditing}
-              register={register}
-              errors={errors}
-            />
-            <EditableField
-              label="Duration (Minutes)"
-              name="duration"
-              inputData={duration}
-              isEditing={isEditing}
-              register={register}
-              errors={errors}
-            />
-          </div>
-
-          <div className="inputSection">
-            <div className="flex-1">
-              <Label className="text-md font-normal">Appointment Type</Label>
-              {isEditing ? (
-                <SelectInput
-                  name="appointmentType"
-                  control={control}
-                  componentProps={{
-                    placeholder: "",
-                    options: [
-                      { value: "first_visit", label: "Schedule" },
-                      { value: "follow_up", label: "Cancel" },
-                      { value: "emergency", label: "Emergency" },
-                    ],
-                  }}
-                />
-              ) : (
-                <p>{appointmentData?.appointmentType}</p>
-              )}
-            </div>
-
-            <EditableField
-              label="Duration (Minutes)"
-              name="duration"
-              inputData={duration}
-              isEditing={isEditing}
-              register={register}
-              errors={errors}
-            />
-          </div>
 
           <div className="appDetailsAction flex justify-between mt-4">
             <button
@@ -240,7 +200,75 @@ export default function AppDetails({
           </div>
         </div>
         <div className="flex-1">
-          <h2>Second part</h2>
+          <div className="inputSection">
+            <div className="flex-1">
+              <Label className="text-md font-normal ">Appointment Type</Label>
+              {isEditing ? (
+                <SelectInput
+                  name="appointmentType"
+                  control={control}
+                  componentProps={{
+                    placeholder: "",
+                    options: [
+                      { value: "first_visit", label: "First Visit" },
+                      { value: "follow_up", label: "Second Visit" },
+                      { value: "emergency", label: "Emergency" },
+                    ],
+                  }}
+                />
+              ) : (
+                <p className="text-[var(--text-soft)] pt-[6px]">
+                  {appointmentData?.appointmentType
+                    .split("_")
+                    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+                    .join(" ")}
+                </p>
+              )}
+            </div>
+
+            <div className="flex-1">
+              <Label className="text-md font-normal ">Status</Label>
+              {isEditing ? (
+                <SelectInput
+                  name="status"
+                  control={control}
+                  componentProps={{
+                    placeholder: "",
+                    options: [
+                      { value: "scheduled", label: "Scheduled" },
+                      { value: "cancelled", label: "Cancel" },
+                      { value: "pending", label: "Pending" },
+                    ],
+                  }}
+                />
+              ) : (
+                <p className="text-[var(--text-soft)] pt-[6px]">
+                  {appointmentData?.status
+                    .split("_")
+                    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+                    .join(" ")}
+                </p>
+              )}
+            </div>
+          </div>
+          <div className="inputSection">
+            <EditableField
+              label="Price"
+              name="price"
+              inputData={price ? price : 0}
+              isEditing={isEditing}
+              register={register}
+              errors={errors}
+            />
+            <EditableField
+              label="Paid"
+              name="paid"
+              inputData={paid ? "Yes" : "No"}
+              isEditing={isEditing}
+              register={register}
+              errors={errors}
+            />
+          </div>
         </div>
       </form>
     </div>

@@ -36,7 +36,7 @@ export const SelectInput: React.FC<SelectInputProps> = ({
           onValueChange={field.onChange}
           disabled={disabled}
         >
-          <SelectTrigger className="w-full bg-[var(--card)] border border-neutral-400 shadow-none !rounded-sm">
+          <SelectTrigger className="w-full bg-[var(--card)] border border-neutral-400 shadow-none !rounded-sm mb-2">
             <SelectValue placeholder={placeholder} />
           </SelectTrigger>
           <SelectContent side="bottom" align="center">

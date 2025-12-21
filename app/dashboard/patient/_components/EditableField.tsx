@@ -32,7 +32,7 @@ export default function EditableField({
       {!isEditing ? (
         <h2 className="formText pt-[6px]">{inputData ? inputData : ""}</h2>
       ) : (
-        <div className="">
+        <div className="mb-2">
           {inputType !== "textarea" ? (
             <input
               id={name}
