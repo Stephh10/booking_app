@@ -20,6 +20,7 @@ import { Spinner } from "@/components/ui/spinner";
 import clsx from "clsx";
 import { SelectInput } from "@/components/SelectInput";
 import { Label } from "@/components/ui/label";
+import { formatAppointmentType } from "@/lib/formatAppointmentType";
 
 export default function AppDetails({
   appointmentData,
@@ -72,6 +73,7 @@ export default function AppDetails({
 
         if ("error" in response) {
           toast.error(response.error);
+          console.log(response);
           return;
         }
       });
@@ -112,14 +114,26 @@ export default function AppDetails({
             register={register}
             errors={errors}
           />
-          <EditableField
-            label="Insurance ID"
-            name="insuranceId"
-            inputData={insuranceId}
-            isEditing={isEditing}
-            register={register}
-            errors={errors}
-          />
+          <div className="inputSection">
+            <EditableField
+              label="Insurance ID"
+              name="insuranceId"
+              inputData={insuranceId}
+              isEditing={isEditing}
+              register={register}
+              errors={errors}
+            />
+
+            <EditableField
+              label="Duration ( in minutes )"
+              name="duration"
+              inputData={duration}
+              isEditing={isEditing}
+              register={register}
+              errors={errors}
+            />
+          </div>
+
           <div className="inputSection flex items-center mb-1">
             <Controller
               name="date"
@@ -170,7 +184,7 @@ export default function AppDetails({
                       availableDates={availableDates}
                     />
                   ) : (
-                    <h2></h2>
+                    <div />
                   )
                 }
               />
@@ -208,20 +222,21 @@ export default function AppDetails({
                   name="appointmentType"
                   control={control}
                   componentProps={{
-                    placeholder: "",
+                    placeholder: formatAppointmentType(
+                      appointmentData?.appointmentType
+                    ),
+
                     options: [
                       { value: "first_visit", label: "First Visit" },
                       { value: "follow_up", label: "Second Visit" },
+                      { value: "online", label: "Online" },
                       { value: "emergency", label: "Emergency" },
                     ],
                   }}
                 />
               ) : (
                 <p className="text-[var(--text-soft)] pt-[6px]">
-                  {appointmentData?.appointmentType
-                    .split("_")
-                    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-                    .join(" ")}
+                  {formatAppointmentType(appointmentData?.appointmentType)}
                 </p>
               )}
             </div>
@@ -233,11 +248,11 @@ export default function AppDetails({
                   name="status"
                   control={control}
                   componentProps={{
-                    placeholder: "",
+                    placeholder: status ?? "Scheduled",
                     options: [
-                      { value: "scheduled", label: "Scheduled" },
-                      { value: "cancelled", label: "Cancel" },
-                      { value: "pending", label: "Pending" },
+                      { value: "scheduled", label: "scheduled" },
+                      { value: "cancelled", label: "cancelled" },
+                      { value: "pending", label: "pending" },
                     ],
                   }}
                 />
@@ -260,14 +275,26 @@ export default function AppDetails({
               register={register}
               errors={errors}
             />
-            <EditableField
-              label="Paid"
-              name="paid"
-              inputData={paid ? "Yes" : "No"}
-              isEditing={isEditing}
-              register={register}
-              errors={errors}
-            />
+            <div className="flex-1">
+              <Label className="text-md font-normal">Paid</Label>
+              {isEditing ? (
+                <SelectInput
+                  name="paid"
+                  control={control}
+                  componentProps={{
+                    placeholder: paid ? "Yes" : "No",
+                    options: [
+                      { value: true, label: "Yes" },
+                      { value: false, label: "No" },
+                    ],
+                  }}
+                />
+              ) : (
+                <p className="text-[var(--text-soft)] pt-[6px]">
+                  {paid ? "Yes" : "No"}
+                </p>
+              )}
+            </div>
           </div>
         </div>
       </form>
