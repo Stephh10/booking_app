@@ -5,18 +5,17 @@ import { Link as LinkIcon } from "lucide-react";
 import { toast } from "react-toastify";
 
 export default function ShareLink({ activeUser }: any) {
-  // const link = `${window.location.origin}/schedule/${activeUser.user.id}`;
-
   function copyLink() {
-    // navigator.clipboard
-    //   .writeText(link)
-    //   .then(() => {
-    //     toast.success("Link copied to clipboard");
-    //   })
-    //   .catch((err) => {
-    //     toast.error("Failed to copy link");
-    //     console.error(err);
-    //   });
+    const link = `${window.location.origin}/schedule/${activeUser.user.id}`;
+    navigator.clipboard
+      .writeText(link)
+      .then(() => {
+        toast.success("Link copied to clipboard");
+      })
+      .catch((err) => {
+        toast.error("Failed to copy link");
+        console.error(err);
+      });
   }
   return (
     <button
@@ -28,21 +27,3 @@ export default function ShareLink({ activeUser }: any) {
     </button>
   );
 }
-
-// "use client";
-
-// import React from "react";
-// import Link from "next/link";
-// import { Link as LinkIcon } from "lucide-react";
-
-// export default function ShareLink({ activeUser }: any) {
-//   return (
-//     <button
-//       className="outlineBtn flex items-center justify-center gap-1"
-//       href={`/schedule/${activeUser.user.id}`}
-//     >
-//       <LinkIcon size={17} />
-//       Schedule link
-//     </Link>
-//   );
-// }
