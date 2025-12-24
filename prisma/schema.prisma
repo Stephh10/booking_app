@@ -7,6 +7,28 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+//PAYMNT ENUM
+
+enum PlanType {
+  basic
+  essential
+  premuim
+}
+
+enum SubscriptionStatus {
+  active
+  pending
+  cancelled
+  expired
+}
+
+enum PaymentStatus {
+  completed
+  pending
+  failed
+  refunded
+}
+
 //DOCTOR-USER MODEL
 
 model User {
@@ -25,12 +47,115 @@ model User {
   address    String?
   postalCode Int?
 
+  //payment details
+
+  paypalCustomerId String?
+  subscription     Subscription?
+
   profileImage ProfileImage? @relation("UserProfileImage")
 
   appointments        Appointment[]
   availabilities      DoctorAvailability[]
   patients            Patient[]
   passwordResetTokens PasswordResetToken[]
+  payments            Payment[]
+}
+
+model Subscription {
+  id     String @id @default(cuid())
+  userId String @unique
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  // Plan info
+  planType PlanType
+  status   SubscriptionStatus @default(pending)
+
+  // PayPal integracija
+  paypalSubscriptionId String? @unique
+  paypalOrderId        String? @unique
+  paypalAgreementId    String? @unique
+
+  // Period
+  currentPeriodStart DateTime?
+  currentPeriodEnd   DateTime?
+  trialEndsAt        DateTime? // Za trial period ako postoji
+  cancelAtPeriodEnd  Boolean   @default(false)
+
+  // Billing methods
+  billingCycleAnchor   DateTime?
+  defaultPaymentMethod String?
+
+  // Timestamps
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  payments Payment[]
+
+  @@index([userId])
+  @@index([status])
+  @@index([currentPeriodEnd])
+  @@map("subscriptions")
+}
+
+model Payment {
+  id String @id @default(cuid())
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  // Subscription reference
+  subscriptionId String?
+  subscription   Subscription? @relation(fields: [subscriptionId], references: [id])
+
+  // PayPal info
+  paypalPaymentId String  @unique
+  paypalOrderId   String? @unique
+  paypalCaptureId String? @unique
+
+  // Payment details
+  amount      Float
+  currency    String        @default("USD")
+  status      PaymentStatus @default(pending)
+  description String?
+
+  // Metadata
+  receiptUrl String?
+  invoiceId  String?
+
+  // Timestamps
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId])
+  @@index([subscriptionId])
+  @@index([status])
+  @@index([createdAt])
+  @@map("payments")
+}
+
+model Plan {
+  id           String   @id @default(cuid())
+  name         PlanType @unique
+  priceMonthly Float
+
+  // Limits
+  maxPatients     Int?
+  maxAppointments Int?
+  maxStorageGB    Int?
+  hasAnalytics    Boolean @default(false)
+  hasAPIAccess    Boolean @default(false)
+  prioritySupport Boolean @default(false)
+
+  // Display
+  description String?
+  color       String?
+  popular     Boolean @default(false)
+
+  // Timestamps
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("plans")
 }
 
 model ProfileImage {
