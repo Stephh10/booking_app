@@ -3,84 +3,87 @@ import { getPayPalToken } from "@/lib/paypal";
 import { prisma } from "@/lib/prisma";
 
 export async function POST(req: Request) {
-  const { userId, productId, name, price, interval, subscriberEmail } =
-    await req.json();
+  try {
+    const userId = "cmirlrhbf0000i34wwfitp3bz";
+    const { productId, name, price, interval, subscriberEmail } =
+      await req.json();
 
-  const token = await getPayPalToken();
+    // 1️⃣ Validate user
+    const user = await prisma.user.findUnique({ where: { id: userId } });
+    if (!user)
+      return NextResponse.json({ error: "User not found" }, { status: 400 });
 
-  const planResponse = await fetch(
-    `https://api-m.sandbox.paypal.com/v1/billing/plans`,
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify({
-        product_id: productId,
-        name,
-        description: "Monthly subscription",
-        status: "ACTIVE",
-        billing_cycles: [
-          {
-            frequency: {
-              interval_unit: interval,
-              interval_count: 1,
-            },
-            tenure_type: "REGULAR",
-            sequence: 1,
-            total_cycles: 0,
-            pricing_scheme: {
-              fixed_price: {
-                currency_code: "USD",
-                value: price,
+    // 2️⃣ Create PayPal plan (hardcoded minimal working JSON)
+    const token = await getPayPalToken();
+
+    const planResponse = await fetch(
+      "https://api-m.sandbox.paypal.com/v1/billing/plans",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          product_id: "PROD-5PC441360G0657214",
+          name: "essential",
+          description: "Monthly subscription",
+          status: "ACTIVE",
+          billing_cycles: [
+            {
+              frequency: {
+                interval_unit: "MONTH",
+                interval_count: 1,
+              },
+              tenure_type: "REGULAR",
+              sequence: 1,
+              total_cycles: 0,
+              pricing_scheme: {
+                fixed_price: { value: "10", currency_code: "USD" }, // <-- string
               },
             },
+          ],
+          payment_preferences: {
+            auto_bill_outstanding: true,
+            setup_fee: { value: "0", currency_code: "USD" },
+            setup_fee_failure_action: "CONTINUE",
+            payment_failure_threshold: 3,
           },
-        ],
-      }),
-    }
-  );
+        }),
+      }
+    );
 
-  const planData = await planResponse.json();
+    const planData = await planResponse.json();
 
-  const subRes = await fetch(
-    "https://api-m.sandbox.paypal.com/v1/billing/subscriptions",
-    {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-        "PayPal-Request-Id": `sub-${Date.now()}`,
-      },
-      body: JSON.stringify({
-        plan_id: planData.id,
-        subscriber: { email_address: subscriberEmail },
-        application_context: {
-          brand_name: "Moja Platforma",
-          return_url: "https://localhost:3000/dashboard",
-          cancel_url: "https://localhost:3000/dashboard",
-        },
-      }),
-    }
-  );
-  const subData = await subRes.json();
+    if (!planData.id)
+      return NextResponse.json(
+        { error: "Failed to create plan", details: planData },
+        { status: 500 }
+      );
 
-  const subscription = await prisma.subscription.create({
-    data: {
-      userId,
-      planType: "essential",
-      status: "pending",
-      paypalSubscriptionId: subData.id,
-      currentPeriodStart: subData.billing_info?.next_billing_time
-        ? new Date(subData.billing_info.next_billing_time)
-        : null,
-      currentPeriodEnd: subData.billing_info?.cycle_executions?.[0]
-        ?.tenure_end_time
-        ? new Date(subData.billing_info.cycle_executions[0].tenure_end_time)
-        : null,
-    },
-  });
+    // 3️⃣ Save subscription using upsert (avoids P2002)
+    // const subscription = await prisma.subscription.upsert({
+    //   where: { userId },
+    //   update: {
+    //     planType: "essential",
+    //     status: "pending",
+    //     paypalSubscriptionId: planData.id,
+    //   },
+    //   create: {
+    //     userId,
+    //     planType: "essential",
+    //     status: "pending",
+    //     paypalSubscriptionId: planData.id,
+    //   },
+    // });
 
-  return NextResponse.json(subscription);
+    return NextResponse.json({ planId: planData.id });
+  } catch (err) {
+    console.log(err);
+    console.error(err);
+    return NextResponse.json(
+      { error: "Internal server error", details: err },
+      { status: 500 }
+    );
+  }
 }

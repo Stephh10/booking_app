@@ -1,7 +1,36 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { SquareCheck } from "lucide-react";
+import PayPalButton from "@/components/PayPalButton";
+import { useTransition } from "react";
+import { Spinner } from "@/components/ui/spinner";
 
 export default function BillingCard({ plan }: any) {
+  const [planId, setPlanId] = useState<string | null>(null);
+  const [isPending, startTransition] = useTransition();
+
+  function getUserId() {
+    startTransition(async () => {
+      try {
+        const res = await fetch("/api/paypal/create-subscription", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            userId: "user-id-here",
+            productId: plan.productId,
+            name: plan.name,
+            price: plan.price,
+            interval: "MONTH",
+            subscriberEmail: "user@example.com",
+          }),
+        });
+        const data = await res.json();
+        if (data.planId) setPlanId(data.planId);
+      } catch (err) {
+        console.error("Failed to fetch plan ID", err);
+      }
+    });
+  }
+
   return (
     <div
       className={`relative border flex-1 rounded-md p-2 lg:p-4 flex flex-col justify-between overflow-hidden ${
@@ -36,15 +65,20 @@ export default function BillingCard({ plan }: any) {
           <p>{feature}</p>
         </div>
       ))}
-      <button
-        className={`w-full  py-2 rounded-lg cursor-pointer mt-4 text-lg font-bold ${
-          plan.active
-            ? "bg-[var(--text)] text-[var(--btn-primary)]"
-            : " bg-[var(--btn-primary)] text-[var(--text)]"
-        }`}
-      >
-        {plan.active ? "Current Plan" : "Select Plan"}
-      </button>
+      {planId ? (
+        <PayPalButton planId={planId} />
+      ) : isPending ? (
+        <div className="flex items-center justify-center ">
+          <Spinner className="size-9 text-center text-[ var(--text)]" />
+        </div>
+      ) : (
+        <button
+          onClick={getUserId}
+          className="w-full py-2 bg-[var(--btn-primary)] cursor-pointer text-[var(--text)] rounded-lg mt-4"
+        >
+          Upgrade
+        </button>
+      )}
     </div>
   );
 }

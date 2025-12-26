@@ -50,7 +50,7 @@ model User {
   //payment details
 
   paypalCustomerId String?
-  subscription     Subscription?
+  subscription     Subscription[]
 
   profileImage ProfileImage? @relation("UserProfileImage")
 
@@ -63,29 +63,22 @@ model User {
 
 model Subscription {
   id     String @id @default(cuid())
-  userId String @unique
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade, map: "subscription_user_fk")
 
-  // Plan info
   planType PlanType
   status   SubscriptionStatus @default(pending)
 
-  // PayPal integracija
   paypalSubscriptionId String? @unique
   paypalOrderId        String? @unique
   paypalAgreementId    String? @unique
 
-  // Period
-  currentPeriodStart DateTime?
-  currentPeriodEnd   DateTime?
-  trialEndsAt        DateTime? // Za trial period ako postoji
-  cancelAtPeriodEnd  Boolean   @default(false)
-
-  // Billing methods
+  currentPeriodStart   DateTime?
+  currentPeriodEnd     DateTime?
+  cancelAtPeriodEnd    Boolean   @default(false)
   billingCycleAnchor   DateTime?
   defaultPaymentMethod String?
 
-  // Timestamps
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
