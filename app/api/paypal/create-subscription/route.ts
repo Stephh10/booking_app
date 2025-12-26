@@ -8,12 +8,12 @@ export async function POST(req: Request) {
     const { productId, name, price, interval, subscriberEmail } =
       await req.json();
 
-    // 1️⃣ Validate user
+    //user validation
     const user = await prisma.user.findUnique({ where: { id: userId } });
     if (!user)
       return NextResponse.json({ error: "User not found" }, { status: 400 });
 
-    // 2️⃣ Create PayPal plan (hardcoded minimal working JSON)
+    // pay pal plan
     const token = await getPayPalToken();
 
     const planResponse = await fetch(
@@ -61,15 +61,6 @@ export async function POST(req: Request) {
         { status: 500 }
       );
 
-    // const foundSubscription = await prisma.subscription.findMany({
-    //   where: { userId },
-    // });
-    // if (foundSubscription) {
-    //   await prisma.subscription.deleteMany({
-    //     where: { userId },
-    //   });
-    // }
-
     const subscription = await prisma.subscription.upsert({
       where: { userId },
       update: {
@@ -85,23 +76,7 @@ export async function POST(req: Request) {
       },
     });
 
-    // 3️⃣ Save subscription using upsert (avoids P2002)
-    // const subscription = await prisma.subscription.upsert({
-    //   where: { userId },
-    //   update: {
-    //     planType: "essential",
-    //     status: "pending",
-    //     paypalSubscriptionId: planData.id,
-    //   },
-    //   create: {
-    //     userId,
-    //     planType: "essential",
-    //     status: "pending",
-    //     paypalSubscriptionId: planData.id,
-    //   },
-    // });
-
-    return NextResponse.json({ planId: planData.id });
+    return NextResponse.json({ planId: planData.id, subscription });
   } catch (err) {
     console.log(err);
     console.error(err);
