@@ -72,7 +72,11 @@ export default function Sidebar() {
       <div className="flex items-center justify-between sm:none md:h-[50px] overflow-hidden ">
         {expanded && (
           <Link href={"/"} className="cursor-pointer">
-            <img className="w-90 h-auto" src="/logo-dashboard.png" alt="logo" />
+            <img
+              className="w-140 -ml-4 h-auto pt-2"
+              src="/logo.png"
+              alt="logo"
+            />
           </Link>
         )}
         <div className="w-full">
