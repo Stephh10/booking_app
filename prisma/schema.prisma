@@ -50,7 +50,7 @@ model User {
   //payment details
 
   paypalCustomerId String?
-  subscription     Subscription[]
+  subscription     Subscription?
 
   profileImage ProfileImage? @relation("UserProfileImage")
 
@@ -63,7 +63,7 @@ model User {
 
 model Subscription {
   id     String @id @default(cuid())
-  userId String
+  userId String @unique
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade, map: "subscription_user_fk")
 
   planType PlanType

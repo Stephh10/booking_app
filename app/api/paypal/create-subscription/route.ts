@@ -39,7 +39,7 @@ export async function POST(req: Request) {
               sequence: 1,
               total_cycles: 0,
               pricing_scheme: {
-                fixed_price: { value: "10", currency_code: "USD" }, // <-- string
+                fixed_price: { value: "10", currency_code: "USD" },
               },
             },
           ],
@@ -60,6 +60,30 @@ export async function POST(req: Request) {
         { error: "Failed to create plan", details: planData },
         { status: 500 }
       );
+
+    // const foundSubscription = await prisma.subscription.findMany({
+    //   where: { userId },
+    // });
+    // if (foundSubscription) {
+    //   await prisma.subscription.deleteMany({
+    //     where: { userId },
+    //   });
+    // }
+
+    const subscription = await prisma.subscription.upsert({
+      where: { userId },
+      update: {
+        planType: "essential",
+        status: "pending",
+        paypalSubscriptionId: planData.id,
+      },
+      create: {
+        userId,
+        planType: "essential",
+        status: "pending",
+        paypalSubscriptionId: planData.id,
+      },
+    });
 
     // 3️⃣ Save subscription using upsert (avoids P2002)
     // const subscription = await prisma.subscription.upsert({
