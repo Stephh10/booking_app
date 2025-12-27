@@ -1,12 +1,23 @@
 import { NextResponse } from "next/server";
 import { getPayPalToken } from "@/lib/paypal";
 import { prisma } from "@/lib/prisma";
+import { auth } from "@/auth";
 
 export async function POST(req: Request) {
   try {
-    const userId = "cmirlrhbf0000i34wwfitp3bz";
-    const { productId, name, price, interval, subscriberEmail } =
-      await req.json();
+    const authResult = await auth();
+    const activeUser = authResult?.user;
+
+    if (!activeUser) {
+      return NextResponse.json(
+        { error: "You are not authenticated" },
+        { status: 401 }
+      );
+    }
+
+    const { id: userId, email: subscriberEmail } = activeUser;
+
+    const { productId, name, price } = await req.json();
 
     //user validation
     const user = await prisma.user.findUnique({ where: { id: userId } });
