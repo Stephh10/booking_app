@@ -66,7 +66,7 @@ model Subscription {
   userId String @unique
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade, map: "subscription_user_fk")
 
-  planType PlanType
+  planType PlanType           @default(basic)
   status   SubscriptionStatus @default(pending)
 
   paypalSubscriptionId String? @unique
@@ -141,8 +141,10 @@ model Plan {
 
   // Display
   description String?
+  features    Json    @default("[]")
   color       String?
   popular     Boolean @default(false)
+  // Display
 
   // Timestamps
   createdAt DateTime @default(now())

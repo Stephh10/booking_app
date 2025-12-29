@@ -34,6 +34,7 @@ export default function PayPalButton({ planId }: { planId: string }) {
 
       <PayPalScriptProvider options={paypalOptions}>
         <PayPalButtons
+          className="mt-2"
           style={buttonStyle}
           createSubscription={(_data, actions) => {
             return actions.subscription.create({
@@ -42,8 +43,6 @@ export default function PayPalButton({ planId }: { planId: string }) {
           }}
           onApprove={async (data, actions) => {
             try {
-              console.log("Subscription approved", data.subscriptionID);
-
               const response = await fetch("/api/paypal/capture-subscription", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
@@ -57,10 +56,8 @@ export default function PayPalButton({ planId }: { planId: string }) {
                 throw new Error("Failed to capture subscription");
               }
 
-              console.log("Subscription captured on server");
               return actions.redirect("/dashboard");
             } catch (err) {
-              console.error("Error capturing subscription:", err);
               setError(" PayPal error: Try again later.");
             }
           }}

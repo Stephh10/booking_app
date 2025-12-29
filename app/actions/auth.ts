@@ -77,6 +77,16 @@ export async function registerAction(formData: any) {
       lastName,
       email,
       password: await bcrypt.hash(password, 10),
+      subscription: {
+        create: {
+          planType: "basic",
+          status: "active",
+          currentPeriodStart: new Date(),
+          currentPeriodEnd: new Date(
+            new Date().setMonth(new Date().getMonth() + 1)
+          ),
+        },
+      },
     },
   });
 

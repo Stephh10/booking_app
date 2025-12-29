@@ -1,6 +1,5 @@
 import React from "react";
 import DashboardNav from "../_components/DashboardNav";
-import SettingsMain from "./_components/SettingsMain";
 import { getUser } from "@/app/actions/user";
 import PageHeader from "@/components/PageHeader";
 import SettingsEditingBtn from "./_components/SettingsEditingBtn";
@@ -9,6 +8,7 @@ import GeneralSettings from "./_components/GeneralSettings";
 import PreferencesSettings from "./_components/PreferencesSettings";
 import AccountSettings from "./_components/AccountSettings";
 import BillingsSettings from "./_components/BillingsSettings";
+import { getPlans } from "@/app/actions/plans";
 
 export default async function page({
   searchParams,
@@ -16,6 +16,7 @@ export default async function page({
   searchParams: { view?: string };
 }) {
   const userData = await getUser();
+  const plans = await getPlans();
   const view = searchParams.view ?? "";
   return (
     <div>
@@ -36,7 +37,9 @@ export default async function page({
               {!view && <GeneralSettings userData={userData} />}
               {view === "account" && <AccountSettings userData={userData} />}
               {view === "preferences" && <PreferencesSettings />}
-              {view === "billings" && <BillingsSettings />}
+              {plans && view === "billings" && (
+                <BillingsSettings plans={plans} />
+              )}
             </div>
           </>
         )}

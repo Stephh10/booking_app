@@ -5,12 +5,17 @@ import { SquareCheck } from "lucide-react";
 import PayPalButton from "@/components/PayPalButton";
 import { useTransition } from "react";
 import { Spinner } from "@/components/ui/spinner";
+import { Plan } from "@prisma/client";
 
-export default function BillingCard({ plan }: any) {
+export default function BillingCard({
+  plan,
+  planType,
+}: {
+  plan: Plan;
+  planType: string;
+}) {
   const [planId, setPlanId] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();
-
-  console.log(plan);
 
   function getUserId() {
     startTransition(async () => {
@@ -20,9 +25,9 @@ export default function BillingCard({ plan }: any) {
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             userId: "user-id-here",
-            productId: plan.productId,
+            productId: plan.id,
             name: plan.name,
-            price: plan.price,
+            price: plan.priceMonthly,
           }),
         });
         const data = await res.json();
@@ -35,11 +40,13 @@ export default function BillingCard({ plan }: any) {
 
   return (
     <div
-      className={`relative border flex-1 rounded-md p-2 lg:p-4 flex flex-col justify-between overflow-hidden ${
-        plan.active ? "bg-[var(--btn-primary)] text-[var(--text)]" : ""
+      className={`min-h-[500px] relative border flex-1 rounded-md p-2 lg:p-4 flex flex-col justify-between overflow-hidden ${
+        plan.name === planType
+          ? "bg-[var(--btn-primary)] text-[var(--text)]"
+          : ""
       }`}
     >
-      {plan.active && (
+      {plan.name === planType && (
         <div className="absolute flex top-[2px] -right-[5px] -mt-5">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -56,23 +63,31 @@ export default function BillingCard({ plan }: any) {
       <h1 className="font-bold text-2xl">{plan.name}</h1>
       <p className="text-lg">{plan.description}</p>
       <div className="flex gap-1">
-        <h1 className="text-3xl my-4">${plan.price}</h1>
+        <h1 className="text-3xl my-4">${plan.priceMonthly}</h1>
         <h1 className="text-2xl my-4 text-[var(--text-soft)] items-end">
           /month
         </h1>
       </div>
-      {plan.features.map((feature: string, index: number) => (
-        <div className="flex items-center gap-2 my-2" key={index}>
-          <SquareCheck size={20} />
-          <p>{feature}</p>
-        </div>
-      ))}
+      {Array.isArray(plan?.features) &&
+        plan.features
+          .filter((f): f is string => typeof f === "string")
+          .map((feature, index) => (
+            <div className="flex items-center gap-2 my-2" key={index}>
+              <SquareCheck size={20} />
+              <p>{feature}</p>
+            </div>
+          ))}
+
       {planId ? (
         <PayPalButton planId={planId} />
       ) : isPending ? (
         <div className="flex items-center justify-center ">
           <Spinner className="size-9 text-center text-[ var(--text)]" />
         </div>
+      ) : plan.name === planType ? (
+        <button className="w-full py-2 bg-[var(--card)] cursor-pointer text-[var(--text-dark)] rounded-lg mt-4 ">
+          Active
+        </button>
       ) : (
         <button
           onClick={getUserId}
