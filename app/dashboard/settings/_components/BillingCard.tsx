@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { SquareCheck } from "lucide-react";
 import PayPalButton from "@/components/PayPalButton";
 import { useTransition } from "react";
@@ -7,6 +7,8 @@ import { Spinner } from "@/components/ui/spinner";
 export default function BillingCard({ plan }: any) {
   const [planId, setPlanId] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();
+
+  console.log(plan);
 
   function getUserId() {
     startTransition(async () => {
@@ -19,8 +21,6 @@ export default function BillingCard({ plan }: any) {
             productId: plan.productId,
             name: plan.name,
             price: plan.price,
-            interval: "MONTH",
-            subscriberEmail: "user@example.com",
           }),
         });
         const data = await res.json();

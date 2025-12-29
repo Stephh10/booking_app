@@ -2,14 +2,12 @@
 
 import React from "react";
 import PageHeader from "@/components/PageHeader";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import GeneralSettings from "./GeneralSettings";
-import PreferencesSettings from "./PreferencesSettings";
+
 import { useEditSettings } from "@/store/useEditSettings";
 import { useRouter } from "next/navigation";
 import { useSearchParams } from "next/navigation";
-import AccountSettings from "./AccountSettings";
-import BillingsSettings from "./BillingsSettings";
+import TabList from "./TabList";
+
 import { User, ProfileImage } from "@prisma/client";
 
 export default function SettingsMain({
@@ -52,69 +50,7 @@ export default function SettingsMain({
           ))}
       </PageHeader>
       <div className="mt-4 2 bg-[var(--secondary)] p-4 rounded-2xl">
-        <Tabs
-          className="w-full"
-          value={view || "general"}
-          onValueChange={(val) => {
-            router.push(
-              `/dashboard/settings${val === "general" ? "" : `?view=${val}`}`
-            );
-          }}
-        >
-          <TabsList className="w-full flex border-1 p-0">
-            <TabsTrigger
-              onClick={() => router.push(`/dashboard/settings`)}
-              className="menuTab
-                 data-[state=active]:bg-[var(--btn-primary)] 
-                 data-[state=active]:text-white"
-              value="general"
-            >
-              General
-            </TabsTrigger>
-            <TabsTrigger
-              onClick={() => router.push(`/dashboard/settings?view=account`)}
-              className="menuTab
-                 data-[state=active]:bg-[var(--btn-primary)] 
-                 data-[state=active]:text-white "
-              value="account"
-            >
-              Account
-            </TabsTrigger>
-            <TabsTrigger
-              onClick={() =>
-                router.push(`/dashboard/settings?view=preferences`)
-              }
-              className="menuTab
-                 data-[state=active]:bg-[var(--btn-primary)] 
-                 data-[state=active]:text-white"
-              value="preferences"
-            >
-              Preferences
-            </TabsTrigger>
-            <TabsTrigger
-              onClick={() => router.push(`/dashboard/settings?view=billings`)}
-              className="menuTab
-                 data-[state=active]:bg-[var(--btn-primary)] 
-                 data-[state=active]:text-white "
-              value="billings"
-            >
-              Billings
-            </TabsTrigger>
-          </TabsList>
-          <TabsContent value="general">
-            <GeneralSettings userData={userData} />
-          </TabsContent>
-          <TabsContent value="preferences">
-            <PreferencesSettings />
-          </TabsContent>
-
-          <TabsContent value="account">
-            <AccountSettings userData={userData} />
-          </TabsContent>
-          <TabsContent value="billings">
-            <BillingsSettings />
-          </TabsContent>
-        </Tabs>
+        <TabList />
       </div>
     </>
   );
