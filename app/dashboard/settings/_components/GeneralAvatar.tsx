@@ -13,7 +13,7 @@ import { useRouter } from "next/navigation";
 export default function GeneralAvatar({
   profileImage,
 }: {
-  profileImage: ProfileImage | null;
+  profileImage: { url: string } | null;
 }) {
   const [file, setFile] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);

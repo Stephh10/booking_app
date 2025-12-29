@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useState } from "react";
 import { SquareCheck } from "lucide-react";
 import PayPalButton from "@/components/PayPalButton";

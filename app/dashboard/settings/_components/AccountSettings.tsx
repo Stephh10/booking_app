@@ -1,3 +1,5 @@
+"use client";
+
 import React, { use } from "react";
 
 import EditableField from "../../patient/_components/EditableField";

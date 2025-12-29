@@ -12,7 +12,7 @@ export default function TabList() {
   const view = searchParams.get("view");
   return (
     <Tabs
-      className="w-full"
+      className=""
       value={view || "general"}
       onValueChange={(val) => {
         router.push(
@@ -20,7 +20,7 @@ export default function TabList() {
         );
       }}
     >
-      <TabsList className="w-full flex border-1 p-0 overflow-hidden">
+      <TabsList className="w-full flex border-1 rounded-lg p-0">
         <TabListButton value="General" />
         <TabListButton value="Account" />
         <TabListButton value="Preferences" />

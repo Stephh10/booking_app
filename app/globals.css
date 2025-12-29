@@ -254,7 +254,7 @@ html {
   }
 
   .menuTab {
-    @apply flex-1 transition-all cursor-pointer py-4  text-neutral-800 hover:bg-[var(--text)]  hover:text-[var(--lp-primary)]!;
+    @apply flex-1 transition-all cursor-pointer py-4  text-neutral-800 hover:bg-[var(--text)]  hover:text-[var(--lp-primary)]! h-[35px] rounded-lg flex items-center justify-center;
   }
 
   .tableSearchInput {

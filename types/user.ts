@@ -1,13 +1,18 @@
 import { Appointment } from "./appointment";
 
-export interface User {
+export type UserSettingsDTO = {
   id: string;
   firstName: string;
   lastName: string;
   email: string;
-  password: string;
-  role: "DOCTOR" | string;
-  createdAt: Date;
-  updatedAt: Date;
-  appointments?: Appointment[];
-}
+  phone: number | null;
+
+  country?: string | null;
+  city?: string | null;
+  address?: string | null;
+  postalCode?: number | null;
+
+  profileImage?: {
+    url: string;
+  } | null;
+};

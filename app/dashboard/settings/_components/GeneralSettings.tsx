@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useEffect } from "react";
 import GeneralAvatar from "./GeneralAvatar";
 import EditableField from "../../patient/_components/EditableField";
@@ -6,12 +8,12 @@ import UpgradeAccount from "./UpgradeAccount";
 import { useForm } from "react-hook-form";
 import { useTransition } from "react";
 import { updateUser } from "@/app/actions/user";
-import { User, ProfileImage } from "@prisma/client";
+import { UserSettingsDTO } from "@/types/user";
 
 export default function GeneralSettings({
   userData,
 }: {
-  userData: User & { profileImage?: ProfileImage | null };
+  userData: UserSettingsDTO;
 }) {
   const { isEditing, submit, setIsEditing } = useEditSettings();
   const [isPending, startTransition] = useTransition();
@@ -54,7 +56,7 @@ export default function GeneralSettings({
   return (
     <div className="mt-2">
       <h1 className="settingsHeader">General Settings</h1>
-      <GeneralAvatar profileImage={profileImage || null} />
+      <GeneralAvatar profileImage={userData.profileImage ?? null} />
       <form className="w-full" onSubmit={handleSubmit(onSubmit)}>
         <div className="inputSection">
           <EditableField
@@ -101,7 +103,7 @@ export default function GeneralSettings({
           <EditableField
             label="Country"
             name="country"
-            inputData={country}
+            inputData={country ?? null}
             isEditing={isEditing}
             register={register}
             errors={errors}
@@ -109,7 +111,7 @@ export default function GeneralSettings({
           <EditableField
             label="City"
             name="city"
-            inputData={city}
+            inputData={city ?? null}
             isEditing={isEditing}
             register={register}
             errors={errors}
@@ -119,7 +121,7 @@ export default function GeneralSettings({
           <EditableField
             label="Address"
             name="address"
-            inputData={address}
+            inputData={address ?? null}
             isEditing={isEditing}
             register={register}
             errors={errors}
@@ -127,7 +129,7 @@ export default function GeneralSettings({
           <EditableField
             label="Postal Code"
             name="postalCode"
-            inputData={postalCode}
+            inputData={postalCode ?? null}
             isEditing={isEditing}
             register={register}
             errors={errors}
