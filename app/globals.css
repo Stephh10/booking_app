@@ -69,7 +69,7 @@ html {
 
 .lp-dotlist p::before {
   content: "";
-  margin-top: 0.55rem;
+  margin-top: 0.75rem;
   width: 0.45rem;
   height: 0.45rem;
   background: var(--lp-primary);
@@ -254,7 +254,7 @@ html {
   }
 
   .menuTab {
-    @apply flex-1 transition-all cursor-pointer py-4  text-neutral-800 hover:bg-[var(--text)]  hover:text-[var(--lp-primary)]! h-[35px] rounded-lg flex items-center justify-center;
+    @apply flex-1 transition-all cursor-pointer py-4  text-neutral-800 hover:bg-[var(--card)]  hover:text-[var(--lp-primary)]! h-[35px] rounded-lg flex items-center justify-center;
   }
 
   .tableSearchInput {

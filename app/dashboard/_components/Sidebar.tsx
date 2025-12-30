@@ -18,6 +18,7 @@ import {
 import LargeScreenLink from "./LargeScreenLink";
 import MobileScreenLink from "./MobileScreenLink";
 import clsx from "clsx";
+import { useThemeState } from "@/store/useTheme";
 
 import { signOut } from "next-auth/react";
 
@@ -34,12 +35,13 @@ const links = [
   { name: "Settings", href: "/dashboard/settings", icon: Settings },
 ];
 
-import { useTheme } from "@/hooks/useTheme";
-
 export default function Sidebar() {
-  const { theme } = useTheme();
   const pathname = usePathname();
   const [expanded, setExpanded] = useState(true);
+
+  const { theme } = useThemeState();
+
+  console.log(theme);
 
   function handleLogout() {
     signOut({ callbackUrl: "/login" });
@@ -49,9 +51,9 @@ export default function Sidebar() {
     document.documentElement.classList.toggle("dark", theme === "dark");
   }, [theme]);
 
-  useEffect(() => {
-    if (typeof window === "undefined") return;
+  console.log(theme);
 
+  useEffect(() => {
     const handleResize = () => {
       setExpanded(window.innerWidth >= 700);
     };
@@ -74,7 +76,7 @@ export default function Sidebar() {
           <Link href={"/"} className="cursor-pointer">
             <img
               className="w-160 -ml-4 h-auto pt-2"
-              src="/logo.png"
+              src={theme === "light" ? "/logo.png" : "/logo-light.png"}
               alt="logo"
             />
           </Link>
