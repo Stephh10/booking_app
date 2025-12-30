@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { getPayPalToken } from "@/lib/paypal";
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/auth";
+import { getSelectedPlan } from "@/app/actions/plans";
 
 export async function POST(req: Request) {
   try {
@@ -15,9 +16,15 @@ export async function POST(req: Request) {
       );
     }
 
-    const { id: userId, email: subscriberEmail } = activeUser;
+    const { id: userId } = activeUser;
+    const { productId } = await req.json();
+    const selectedPlan = await getSelectedPlan(productId);
 
-    const { productId, name, price } = await req.json();
+    if (!selectedPlan) {
+      return NextResponse.json({ error: "Plan not found" }, { status: 404 });
+    }
+
+    if (selectedPlan.name === "basic") return;
 
     //user validation
     const user = await prisma.user.findUnique({ where: { id: userId } });
@@ -36,8 +43,8 @@ export async function POST(req: Request) {
           Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
-          product_id: "PROD-5PC441360G0657214",
-          name: "essential",
+          product_id: selectedPlan.id,
+          name: selectedPlan.name,
           description: "Monthly subscription",
           status: "ACTIVE",
           billing_cycles: [
@@ -72,22 +79,7 @@ export async function POST(req: Request) {
         { status: 500 }
       );
 
-    const subscription = await prisma.subscription.upsert({
-      where: { userId },
-      update: {
-        planType: "essential",
-        status: "pending",
-        paypalSubscriptionId: planData.id,
-      },
-      create: {
-        userId,
-        planType: "essential",
-        status: "pending",
-        paypalSubscriptionId: planData.id,
-      },
-    });
-
-    return NextResponse.json({ planId: planData.id, subscription });
+    return NextResponse.json({ planId: planData.id });
   } catch (err) {
     console.log(err);
     console.error(err);

@@ -73,7 +73,7 @@ export default function Sidebar() {
         {expanded && (
           <Link href={"/"} className="cursor-pointer">
             <img
-              className="w-140 -ml-4 h-auto pt-2"
+              className="w-160 -ml-4 h-auto pt-2"
               src="/logo.png"
               alt="logo"
             />

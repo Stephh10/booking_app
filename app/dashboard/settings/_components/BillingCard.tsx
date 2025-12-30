@@ -18,16 +18,14 @@ export default function BillingCard({
   const [isPending, startTransition] = useTransition();
 
   function getUserId() {
+    if (plan.name == "basic") return null;
     startTransition(async () => {
       try {
         const res = await fetch("/api/paypal/create-subscription", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            userId: "user-id-here",
             productId: plan.id,
-            name: plan.name,
-            price: plan.priceMonthly,
           }),
         });
         const data = await res.json();
@@ -60,7 +58,7 @@ export default function BillingCard({
         </div>
       )}
 
-      <h1 className="font-bold text-2xl">{plan.name}</h1>
+      <h1 className="font-bold text-2xl">{plan.name.toUpperCase()}</h1>
       <p className="text-lg">{plan.description}</p>
       <div className="flex gap-1">
         <h1 className="text-3xl my-4">${plan.priceMonthly}</h1>
@@ -89,12 +87,14 @@ export default function BillingCard({
           Active
         </button>
       ) : (
-        <button
-          onClick={getUserId}
-          className="w-full py-2 bg-[var(--btn-primary)] cursor-pointer text-[var(--text)] rounded-lg mt-4"
-        >
-          Upgrade
-        </button>
+        plan.id === "basic" && (
+          <button
+            onClick={getUserId}
+            className="w-full py-2 bg-[var(--btn-primary)] cursor-pointer text-[var(--text)] rounded-lg mt-4"
+          >
+            Upgrade
+          </button>
+        )
       )}
     </div>
   );

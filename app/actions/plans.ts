@@ -6,15 +6,25 @@ import { auth } from "@/auth";
 import { PlanType } from "@prisma/client";
 import { SubscriptionStatus } from "@prisma/client";
 
-export async function getPlans(): Promise<Plan[]> {
-  return prisma.plan.findMany({
-    orderBy: {
-      name: "asc",
-    },
+export const getPlans = async (): Promise<Plan[] | { error: string }> => {
+  try {
+    return prisma.plan.findMany({
+      orderBy: {
+        name: "asc",
+      },
+    });
+  } catch (error) {
+    return { error: "Failed to fetch plans" };
+  }
+};
+
+export async function getSelectedPlan(planId: string) {
+  return prisma.plan.findUnique({
+    where: { id: planId },
   });
 }
 
-export async function getUserPlan(): Promise<
+export const getUserPlan = async (): Promise<
   | {
       ok: true;
       planType: PlanType;
@@ -28,7 +38,7 @@ export async function getUserPlan(): Promise<
       ok: false;
       reason: "UNAUTHENTICATED" | "NO_SUBSCRIPTION";
     }
-> {
+> => {
   const authResult = await auth();
   const activeUser = authResult?.user;
 
@@ -61,4 +71,4 @@ export async function getUserPlan(): Promise<
       currentPeriodEnd: user.subscription.currentPeriodEnd,
     },
   };
-}
+};
