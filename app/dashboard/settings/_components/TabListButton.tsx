@@ -2,10 +2,14 @@
 
 import { TabsTrigger } from "@radix-ui/react-tabs";
 import { useRouter } from "next/navigation";
+import { useThemeState } from "@/store/useTheme";
+import clsx from "clsx";
 
 export default function TabListButton({ value }: { value: string }) {
   const router = useRouter();
   const view = value.toLowerCase();
+
+  const { theme } = useThemeState();
 
   return (
     <TabsTrigger
@@ -16,9 +20,12 @@ export default function TabListButton({ value }: { value: string }) {
             : `/dashboard/settings?view=${view}`
         )
       }
-      className="menuTab
-        data-[state=active]:bg-[var(--btn-primary)] 
-        data-[state=active]:text-white"
+      className={clsx(
+        "menuTab",
+        "data-[state=active]:bg-[var(--btn-primary)]",
+        "data-[state=active]:text-white",
+        theme === "dark" && "text-white hover:bg-[var(--text-soft)]"
+      )}
       value={view}
     >
       {value}
