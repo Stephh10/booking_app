@@ -10,7 +10,6 @@ export default async function BillingsSettings({ plans }: { plans: Plan[] }) {
     return <div>Error: {response.reason}</div>;
   }
   const { planType, subscription } = response;
-  console.log(planType);
   return (
     <div className="mt-3">
       <h1 className="settingsHeader">Billings Settings</h1>

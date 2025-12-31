@@ -32,7 +32,7 @@ export default async function page({
             >
               <SettingsEditingBtn />
             </PageHeader>
-            <div className="mt-4 2 bg-[var(--secondary)] p-4 rounded-2xl ">
+            <div className="mt-4 2 bg-[var(--secondary)] p-4 rounded-2xl">
               <TabList />
               {!view && <GeneralSettings userData={userData} />}
               {view === "account" && <AccountSettings userData={userData} />}
