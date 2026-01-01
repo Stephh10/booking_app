@@ -2,9 +2,9 @@
 
 import { Calendar, momentLocalizer } from "react-big-calendar";
 import moment from "moment";
-import { Appointment } from "@prisma/client";
 import { useRouter } from "next/navigation";
 import { useState, useMemo, useEffect } from "react";
+import { Appointment } from "@prisma/client";
 
 const localizer = momentLocalizer(moment);
 
@@ -16,7 +16,11 @@ type CalendarEvent = {
   resource?: Appointment;
 };
 
-export default function DashboardCalendar({ appointments }: any) {
+export default function DashboardCalendar({
+  appointments,
+}: {
+  appointments: Appointment[];
+}) {
   const router = useRouter();
   const [mounted, setMounted] = useState(false);
 
@@ -84,11 +88,11 @@ export default function DashboardCalendar({ appointments }: any) {
           return {
             style: {
               backgroundColor: isToday
-                ? "#3e7eb6"
+                ? "#0c3a66"
                 : isOtherMonth
                 ? "var(--card)"
                 : "var(--background)",
-              color: isOtherMonth ? "#9CA3AF" : "black",
+              color: isOtherMonth ? "#9CA3AF" : "white",
               borderRadius: "4px",
             },
           };

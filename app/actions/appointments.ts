@@ -314,36 +314,42 @@ export const getAppPatient = async (
 };
 
 //GET ALL APPOINTMENTS
-export const getAllAppointments = async (statusFilter?: string) => {
-  const authResult = await auth();
-  const activeUser = authResult?.user;
+export const getAllAppointments = async (
+  statusFilter?: string
+): Promise<AppointmentWithPatient[] | { error: string }> => {
+  try {
+    const authResult = await auth();
+    const activeUser = authResult?.user;
 
-  if (!activeUser) {
-    return { error: "You are not authentificated" };
-  }
+    if (!activeUser) {
+      return { error: "You are not authentificated" };
+    }
 
-  await syncAppointmentsStatus();
+    await syncAppointmentsStatus();
 
-  const appointments = await Prisma.appointment.findMany({
-    where: {
-      doctorId: activeUser.id,
-      status: statusFilter,
-    },
-    include: {
-      patient: {
-        select: {
-          firstName: true,
-          lastName: true,
+    const appointments = await Prisma.appointment.findMany({
+      where: {
+        doctorId: activeUser.id,
+        status: statusFilter,
+      },
+      include: {
+        patient: {
+          select: {
+            firstName: true,
+            lastName: true,
+          },
         },
       },
-    },
-  });
+    });
 
-  if (!appointments) {
-    return { error: "There is no appointments recorded" };
+    if (!appointments) {
+      return { error: "There is no appointments recorded" };
+    }
+
+    return appointments;
+  } catch (error) {
+    return { error: "Failed to fetch appointments" };
   }
-
-  return appointments;
 };
 
 //CREATE APPOINTMENT

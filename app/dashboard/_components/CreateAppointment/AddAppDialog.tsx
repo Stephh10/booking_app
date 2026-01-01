@@ -55,8 +55,8 @@ export default function AddAppDialog() {
       }}
     >
       <DialogTrigger asChild>
-        <button className="primaryBtn flex items-center gap-0">
-          <Plus size={18} /> Add Appointment
+        <button className="flex flex-1 md:flex-none primaryBtn  items-center gap-0">
+          New Appointment
         </button>
       </DialogTrigger>
 

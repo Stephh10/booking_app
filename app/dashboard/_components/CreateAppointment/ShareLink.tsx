@@ -20,7 +20,7 @@ export default function ShareLink({ activeUser }: any) {
   return (
     <button
       onClick={copyLink}
-      className="outlineBtn flex items-center justify-center gap-1"
+      className="flex-1 md:w-auto outlineBtn flex items-center justify-center gap-1 cursor-pointer"
     >
       <LinkIcon size={17} />
       Schedule link

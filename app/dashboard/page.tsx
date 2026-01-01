@@ -17,10 +17,14 @@ export default async function page() {
     return redirect("/login");
   }
 
+  if ("error" in appointmentsData) {
+    throw new Error(appointmentsData.error);
+  }
+
   return (
     <div>
       <DashboardNav />
-      <main className="mt-4 bg-[var(--secondary)] p-4 rounded-xl">
+      <main className="mt-4 bg-[var(--secondary)] p-4 rounded-xl overflow-hidden">
         <PageHeader
           title="Dashboard"
           description="Plan, prioritize and accomplisch yor appointments with ease."

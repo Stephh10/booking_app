@@ -92,7 +92,7 @@ html {
   --secondary: oklch(0.97 0 0);
   --secondary-hover: #3e7eb6;
   --disabled: #3e7eb6;
-  --btn-primary: #3e7eb6;
+  --btn-primary: #0c3a66;
   --btn-hover: #2563eb;
   --btn-danger: #ff3670;
   --border: oklch(0.922 0 0);
@@ -373,6 +373,15 @@ html {
   .rounded-scrollbar::-webkit-scrollbar-thumb:hover {
     background-color: #6b7280;
   }
+}
+
+/* Toastify */
+.Toastify__toast-icon--success svg {
+  fill: #0c3a66 !important;
+}
+
+.Toastify__progress-bar--success {
+  background: #0c3a66 !important;
 }
 
 /* shad cn input selector config */

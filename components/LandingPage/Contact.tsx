@@ -2,18 +2,33 @@
 import React from "react";
 import EditableField from "@/app/dashboard/patient/_components/EditableField";
 import { useForm } from "react-hook-form";
+import { toast } from "react-toastify";
+
+type FormValues = {
+  email: string;
+  password: string;
+  firstName: string;
+  lastName: string;
+  phone: string;
+};
 
 export default function Contact() {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
-  } = useForm();
+  } = useForm<FormValues>();
   const isEditing = true;
+
+  function submitFormData(data: FormValues) {
+    reset();
+    toast.success("Thank you for reaching out! We will get back to you soon.");
+  }
   return (
     <section
       id="contact"
-      className=" h-[420px] flex items-center gap-2 md:gap-5"
+      className="min-h-[420px] flex items-center gap-2 md:gap-5"
     >
       <div className="contactContent flex-5 ">
         <h1 className="font-bold text-4xl text-[var(--lp-primary)]">
@@ -55,7 +70,10 @@ export default function Contact() {
           </div>
         </div>
       </div>
-      <form className="contactForm flex-2 bg-[var(--lp-card)] h-full  rounded-lg p-4">
+      <form
+        onSubmit={handleSubmit(submitFormData)}
+        className="contactForm flex-2 bg-[var(--lp-card)] h-full  rounded-lg p-4 py-6"
+      >
         <h1 className="text-2xl font-bold text-[var(--lp-primary)]">
           Get in Touch
         </h1>
@@ -114,7 +132,10 @@ export default function Contact() {
           errors={errors}
           validation={{ required: "Message is required" }}
         />
-        <button className="bg-[var(--lp-primary)] text-[var(--lp-card)] w-full py-2 rounded">
+        <button
+          type="submit"
+          className="bg-[var(--lp-primary)] text-[var(--lp-card)] w-full py-2 rounded"
+        >
           Submit
         </button>
       </form>

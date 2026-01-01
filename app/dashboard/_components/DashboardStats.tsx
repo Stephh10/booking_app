@@ -15,7 +15,7 @@ export default async function DashboardStats() {
     ]);
 
   return (
-    <div className="flex gap-2 my-4">
+    <div className="flex flex-col gap-4 my-4 md:flex-row md:gap-2  ">
       <DashboardCard
         title="Today's Appointments"
         value={Array.isArray(todaysAppData) ? todaysAppData.length : 0}
