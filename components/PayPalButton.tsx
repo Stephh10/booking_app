@@ -61,9 +61,6 @@ export default function PayPalButton({ planId }: { planId: string }) {
               setError(" PayPal error: Try again later.");
             }
           }}
-          onCancel={() => {
-            console.log("User cancelled PayPal subscription");
-          }}
           onError={(err) => {
             console.error("PayPal error:", err);
             setError(`PayPal error: ${err.message || "Try again later."}`);

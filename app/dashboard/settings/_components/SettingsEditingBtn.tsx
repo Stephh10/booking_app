@@ -14,16 +14,16 @@ export default function SettingsEditingBtn() {
     <>
       {(!view || view === "account") &&
         (isEditing ? (
-          <div className="flex gap-2">
+          <div className="flex w-full gap-2">
             <button
               onClick={() => setIsEditing(false)}
-              className="w-[120px] border-1 py-1 rounded-lg cursor-pointer"
+              className="w-full md:w-[120px] border-1 py-1 rounded-lg cursor-pointer"
             >
               Cancel
             </button>
             <button
               onClick={() => handleSubmit()}
-              className="bg-[var(--btn-primary)] text-[var(--text)] w-[120px] border-2 py-1 rounded-lg cursor-pointer"
+              className="w-full md:w-[120px] bg-[var(--btn-primary)] text-[var(--text)]  border-2 py-1 rounded-lg cursor-pointer"
             >
               Save
             </button>
@@ -31,7 +31,7 @@ export default function SettingsEditingBtn() {
         ) : (
           <button
             onClick={() => setIsEditing(true)}
-            className="bg-[var(--btn-primary)] text-[var(--text)] w-[120px] border-2 py-1 rounded-lg cursor-pointer"
+            className="w-full md:w-[120px] bg-[var(--btn-primary)] text-[var(--text)]  border-2 py-1 rounded-lg cursor-pointer"
           >
             Edit
           </button>

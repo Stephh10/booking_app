@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
@@ -19,7 +18,6 @@ import LargeScreenLink from "./LargeScreenLink";
 import MobileScreenLink from "./MobileScreenLink";
 import clsx from "clsx";
 import { useThemeState } from "@/store/useTheme";
-
 import { signOut } from "next-auth/react";
 
 const links = [
@@ -41,8 +39,6 @@ export default function Sidebar() {
 
   const { theme } = useThemeState();
 
-  console.log(theme);
-
   function handleLogout() {
     signOut({ callbackUrl: "/login" });
   }
@@ -50,8 +46,6 @@ export default function Sidebar() {
   useEffect(() => {
     document.documentElement.classList.toggle("dark", theme === "dark");
   }, [theme]);
-
-  console.log(theme);
 
   useEffect(() => {
     const handleResize = () => {
