@@ -1,8 +1,6 @@
 "use client";
 
 import React from "react";
-import Image from "next/image";
-import { CircleCheck } from "lucide-react";
 import {
   Select,
   SelectContent,
@@ -14,9 +12,11 @@ import {
 } from "@/components/ui/select";
 import { useTheme } from "@/hooks/useTheme";
 import ThemeCard from "./ThemeCard";
+import { useThemeState } from "@/store/useTheme";
 
 export default function PreferencesSettings() {
-  const { theme, toggleTheme } = useTheme();
+  const { toggleTheme } = useTheme();
+  const { theme } = useThemeState();
   return (
     <div>
       <h1 className="settingsHeader mt-2">Select Theme</h1>
@@ -24,12 +24,12 @@ export default function PreferencesSettings() {
         <ThemeCard
           cardThemeValue="light"
           theme={theme}
-          toggleTheme={toggleTheme}
+          toggleTheme={() => toggleTheme("light")}
         />
         <ThemeCard
           cardThemeValue="dark"
           theme={theme}
-          toggleTheme={toggleTheme}
+          toggleTheme={() => toggleTheme("dark")}
         />
       </div>
       <div className="preferencesDetails mt-4  w-full lg:w-[38%]">

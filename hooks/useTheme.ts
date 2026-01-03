@@ -1,31 +1,25 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useThemeState } from "@/store/useTheme";
 
 export type Theme = "light" | "dark";
 
-export function useTheme(initialTheme: Theme = "light") {
-  // const [theme, setTheme] = useState<Theme>(initialTheme);
-
-  const { theme, toggleThemeState: setTheme } = useThemeState();
+export function useTheme(themeProp?: Theme) {
+  const { theme, setTheme } = useThemeState();
 
   useEffect(() => {
-    const savedTheme = localStorage.getItem("theme") as Theme | null;
+    // prvo provjeri localStorage
+    const storedTheme = localStorage.getItem("theme") as Theme | null;
 
-    const activeTheme = savedTheme ?? initialTheme;
-    setTheme();
-
+    const activeTheme: Theme = storedTheme || themeProp || "light"; // default na light
+    setTheme(activeTheme);
     document.documentElement.classList.toggle("dark", activeTheme === "dark");
-  }, [initialTheme]);
+    localStorage.setItem("theme", activeTheme);
+  }, [themeProp, setTheme]);
 
   const toggleTheme = (newTheme?: Theme) => {
-    const nextTheme: Theme = newTheme
-      ? newTheme
-      : theme === "light"
-      ? "dark"
-      : "light";
-
-    setTheme();
+    const nextTheme: Theme = newTheme ?? (theme === "light" ? "dark" : "light");
+    setTheme(nextTheme);
     document.documentElement.classList.toggle("dark", nextTheme === "dark");
     localStorage.setItem("theme", nextTheme);
   };

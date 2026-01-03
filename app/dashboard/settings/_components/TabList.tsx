@@ -26,19 +26,6 @@ export default function TabList() {
         <TabListButton value="Preferences" />
         <TabListButton value="Billings" />
       </TabsList>
-      {/* <TabsContent value="general">
-            <GeneralSettings userData={userData} />
-          </TabsContent>
-          <TabsContent value="preferences">
-            <PreferencesSettings />
-          </TabsContent>
-
-          <TabsContent value="account">
-            <AccountSettings userData={userData} />
-          </TabsContent>
-          <TabsContent value="billings">
-            <BillingsSettings />
-          </TabsContent> */}
     </Tabs>
   );
 }

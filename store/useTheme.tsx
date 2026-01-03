@@ -1,10 +1,23 @@
 import { create } from "zustand";
 
-export const useThemeState = create<{
-  theme: "light" | "dark";
+type Theme = "light" | "dark";
+
+interface ThemeState {
+  theme: Theme;
+  setTheme: (theme: Theme) => void;
   toggleThemeState: () => void;
-}>((set) => ({
+}
+
+export const useThemeState = create<ThemeState>((set) => ({
   theme: "light",
+  setTheme: (theme) => {
+    localStorage.setItem("theme", theme);
+    set({ theme });
+  },
   toggleThemeState: () =>
-    set((state) => ({ theme: state.theme === "light" ? "dark" : "light" })),
+    set((state) => {
+      const next = state.theme === "light" ? "dark" : "light";
+      localStorage.setItem("theme", next);
+      return { theme: next };
+    }),
 }));

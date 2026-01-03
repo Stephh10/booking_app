@@ -8,11 +8,15 @@ import { SubscriptionStatus } from "@prisma/client";
 
 export const getPlans = async (): Promise<Plan[] | { error: string }> => {
   try {
-    return prisma.plan.findMany({
+    const plan = await prisma.plan.findMany({
       orderBy: {
         name: "asc",
       },
     });
+
+    if (!plan) return { error: "Failed to fetch plans" };
+
+    return plan;
   } catch (error) {
     return { error: "Failed to fetch plans" };
   }

@@ -37,7 +37,7 @@ export default function Sidebar() {
   const pathname = usePathname();
   const [expanded, setExpanded] = useState(true);
 
-  const { theme } = useThemeState();
+  const { theme, setTheme } = useThemeState();
 
   function handleLogout() {
     signOut({ callbackUrl: "/login" });
@@ -61,11 +61,11 @@ export default function Sidebar() {
   return (
     <div
       className={clsx(
-        "flex-none bg-[var(--secondary)] h-[600px] lg:h-[500px] w-60 rounded-lg sm:p-0 md:py-2 text-[var(--text)] overflow-hidden",
+        "flex-none bg-[var(--secondary)] h-[600px] lg:h-[500px] w-60 rounded-lg sm:p-0 md:py-2 text-[var(--text)]",
         !expanded && "!w-13 !h-max"
       )}
     >
-      <div className="flex items-center justify-between sm:none md:h-[50px] overflow-hidden ">
+      <div className="flex items-center justify-between sm:none md:h-[50px]">
         {expanded && (
           <Link href={"/"} className="cursor-pointer">
             <img

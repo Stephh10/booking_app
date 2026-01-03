@@ -23,7 +23,7 @@ export default async function page({
       <DashboardNav />
       <div className="mt-4 bg-[var(--secondary)] rounded-lg p-4">
         {"error" in userData ? (
-          <h1>{userData.error}</h1>
+          <h1 className="text-red-500">{String(userData.error)}</h1>
         ) : (
           <>
             <PageHeader
@@ -32,13 +32,20 @@ export default async function page({
             >
               <SettingsEditingBtn />
             </PageHeader>
-            <div className="mt-4 2 bg-[var(--secondary)] p-4 rounded-2xl">
+
+            <div className="mt-4 bg-[var(--secondary)] p-4 rounded-2xl">
               <TabList />
+
               {!view && <GeneralSettings userData={userData} />}
+
               {view === "account" && <AccountSettings userData={userData} />}
+
               {view === "preferences" && <PreferencesSettings />}
-              {plans && view === "billings" && (
-                <BillingsSettings plans={plans} />
+
+              {"error" in plans ? (
+                <h1 className="text-red-500">{String(plans.error)}</h1>
+              ) : (
+                view === "billings" && <BillingsSettings plans={plans} />
               )}
             </div>
           </>

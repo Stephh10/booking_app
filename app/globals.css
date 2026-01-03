@@ -254,7 +254,7 @@ html {
   }
 
   .menuTab {
-    @apply flex-1 transition-all cursor-pointer py-4  text-neutral-800 hover:bg-[var(--card)]  hover:text-[var(--lp-primary)]! h-[35px] rounded-lg flex items-center justify-center;
+    @apply flex-1 transition-all cursor-pointer py-4  text-neutral-800 hover:bg-[var(--card)]  hover:text-[var(--text-dark)]! h-[35px] rounded-lg flex items-center justify-center;
   }
 
   .tableSearchInput {
@@ -309,7 +309,7 @@ html {
 .dark {
   --background: oklch(0.145 0 0);
   --foreground: oklch(0.985 0 0);
-  --btn-primary: #3e7eb6;
+  --btn-primary: #0c3a66;
   --card: oklch(0.205 0 0);
   --card-foreground: oklch(0.985 0 0);
   --popover: oklch(0.205 0 0);
