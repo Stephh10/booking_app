@@ -376,12 +376,16 @@ html {
 }
 
 /* Toastify */
-.Toastify__toast-icon--success svg {
+.Toastify__toast-icon svg {
   fill: #0c3a66 !important;
 }
 
 .Toastify__progress-bar--success {
   background: #0c3a66 !important;
+}
+
+.Toastify__toast-icon {
+  border: #0f0f0f;
 }
 
 /* shad cn input selector config */
