@@ -210,7 +210,7 @@ html {
   }
 
   .inputSection {
-    @apply flex  gap-3 w-full;
+    @apply flex gap-1 md:gap-3 w-full;
   }
 
   .inputControl {
@@ -270,7 +270,7 @@ html {
   }
 
   .settingsModeCard {
-    @apply w-[250px] h-[250px] flex flex-col items-center gap-2 cursor-pointer border-2 overflow-hidden rounded-lg;
+    @apply w-full md:w-[250px] h-[250px] flex flex-col items-center gap-2 cursor-pointer border-2 overflow-hidden rounded-lg;
   }
 
   .activeModeCard {

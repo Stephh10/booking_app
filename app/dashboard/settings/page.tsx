@@ -21,7 +21,7 @@ export default async function page({
   return (
     <div>
       <DashboardNav />
-      <div className="mt-4 bg-[var(--secondary)] rounded-lg p-4">
+      <div className="mt-4 bg-[var(--secondary)] rounded-lg p-2 md:p-4">
         {"error" in userData ? (
           <h1 className="text-red-500">{String(userData.error)}</h1>
         ) : (
@@ -33,7 +33,7 @@ export default async function page({
               <SettingsEditingBtn />
             </PageHeader>
 
-            <div className="mt-4 bg-[var(--secondary)] p-4 rounded-2xl">
+            <div className="mt-4 bg-[var(--secondary)] py-4 p-1 md:p-4 rounded-2xl">
               <TabList />
 
               {!view && <GeneralSettings userData={userData} />}

@@ -6,7 +6,7 @@ export default function UpgradeAccount() {
   return (
     <div>
       <h1 className="settingsHeader">Upgrade to Premium</h1>
-      <div className="flex items-center justify-between gap-7 lg:gap-20">
+      <div className="flex flex-col md:flex-row items-center justify-between gap-7 lg:gap-20">
         <div className="flex-1">
           <p className="text-[var(--text-soft)]">
             Unlock the full potential of your dashboard with Premium access.
@@ -21,14 +21,14 @@ export default function UpgradeAccount() {
             practice.
           </p>
         </div>
-        <div className="flex gap-2">
+        <div className="flex gap-2 w-full md:w-auto">
           <button
             onClick={() => router.push(`/dashboard/settings?view=billings`)}
-            className="bg-[var(--btn-primary)] text-[var(--text)] w-[120px] border-2 py-2 rounded-lg cursor-pointer"
+            className="flex-1 md:w-[120px] bg-[var(--btn-primary)] text-[var(--text)] border-2 py-2 rounded-lg cursor-pointer"
           >
             Upgrade Now
           </button>
-          <button className="bg-inherit text-[var(--dark)] w-[120px] border-2 py-2 rounded-lg cursor-pointer">
+          <button className="flex-1 md:flex-none md:w-[120px] bg-inherit text-[var(--dark)] w-[120px] border-2 py-2 rounded-lg cursor-pointer">
             Learn More
           </button>
         </div>

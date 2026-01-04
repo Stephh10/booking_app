@@ -22,7 +22,7 @@ export function Notification() {
           <Bell size={22} />
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-[258px]" align="start">
+      <DropdownMenuContent className="w-[258px]" align="end">
         <DropdownMenuLabel className="text-[var(--text-soft)]">
           Welcome to your Patient Management Dashboard! Track patient progress,
           manage appointments, and access medical records efficiently.

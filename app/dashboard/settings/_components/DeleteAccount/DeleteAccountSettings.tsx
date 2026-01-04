@@ -10,7 +10,7 @@ export default function DeleteAccountSettings() {
   return (
     <div>
       <h1 className="settingsHeader">Delete Account</h1>
-      <div className="flex items-center justify-between gap-7 lg:gap-20">
+      <div className="flex flex-col md:flex-row items-center justify-between gap-7 lg:gap-20">
         <div className="flex-1">
           <p className="text-[var(--text-soft)]">
             By deleting your account, all your personal data, preferences, and
@@ -24,14 +24,14 @@ export default function DeleteAccountSettings() {
             associated services are permanently removed.
           </p>
         </div>
-        <div className="flex gap-2">
+        <div className="flex gap-2 w-full md:w-auto">
           <button
             onClick={() => setIsOpen(true)}
-            className="bg-[#FF3670] text-[var(--text)] w-[120px] border-2 py-2 rounded-lg cursor-pointer"
+            className="flex-1 md:w-[120px] bg-[#FF3670] text-[var(--text)] border-2 py-2 rounded-lg cursor-pointer"
           >
             Delete Account
           </button>
-          <button className="bg-inherit text-[var(--dark)] w-[120px] border-2 py-2 rounded-lg cursor-pointer">
+          <button className="flex-1 md:w-[120px] bg-inherit text-[var(--dark)]  border-2 py-2 rounded-lg cursor-pointer">
             Learn More
           </button>
         </div>

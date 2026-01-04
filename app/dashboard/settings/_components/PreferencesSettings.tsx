@@ -20,7 +20,7 @@ export default function PreferencesSettings() {
   return (
     <div>
       <h1 className="settingsHeader mt-2">Select Theme</h1>
-      <div className="flex gap-4">
+      <div className="flex flex-col md:flex-row gap-4">
         <ThemeCard
           cardThemeValue="light"
           theme={theme}

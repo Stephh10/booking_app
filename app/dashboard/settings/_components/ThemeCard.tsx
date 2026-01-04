@@ -18,7 +18,7 @@ export default function ThemeCard({
         theme === cardThemeValue ? "activeModeCard" : ""
       }`}
     >
-      <div className="relative flex-1 w-[250px]">
+      <div className="relative flex-1 w-full md:w-[250px]">
         <Image
           src={
             cardThemeValue === "light" ? "/mode-light.png" : "/mode-dark.png"

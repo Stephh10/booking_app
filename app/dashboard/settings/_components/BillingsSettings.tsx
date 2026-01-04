@@ -13,7 +13,7 @@ export default async function BillingsSettings({ plans }: { plans: Plan[] }) {
   return (
     <div className="mt-3">
       <h1 className="settingsHeader">Billings Settings</h1>
-      <div className="flex gap-2 lg:gap-4 my-5">
+      <div className="flex flex-col md:flex-row gap-4 md:gap-2 lg:gap-4 my-5">
         {plans.map((plan) => (
           <BillingCard key={plan.id} plan={plan} planType={planType} />
         ))}

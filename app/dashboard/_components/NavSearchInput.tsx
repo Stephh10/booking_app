@@ -31,9 +31,9 @@ export default function NavSearchInput() {
   }, [searchValue]);
 
   return (
-    <div className="relative w-[55%] lg:w-[40%]">
-      <div className="flex items-center gap-2 h-[40px] bg-[var(--card)] rounded-lg px-4 shadow-lg ">
-        <Search size={20} />
+    <div className="relative w-[200px] md:w-[55%] lg:w-[40%]">
+      <div className="flex items-center gap-2 h-[40px] bg-[var(--card)] rounded-lg px-2 md:px-4 shadow-lg ">
+        <Search className="hidden md:block" size={20} />
         <input
           className="h-full flex-1 outline-none"
           type="text"
@@ -44,7 +44,7 @@ export default function NavSearchInput() {
         />
         <button
           onClick={() => (setSearchValue(""), inputRef.current?.focus())}
-          className="text-[var(--text-soft)] ml-auto cursor-pointer"
+          className="hidden md:block text-[var(--text-soft)] ml-auto cursor-pointer"
         >
           clear
         </button>
