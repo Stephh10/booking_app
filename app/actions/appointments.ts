@@ -418,9 +418,6 @@ export async function createAppointment(data: any, doctorId?: string) {
           doctorId: activeUser.id,
         },
       });
-      console.log("New patient created:", existingPatient.id);
-    } else {
-      console.log("Existing patient:", existingPatient.id);
     }
 
     //CREATE APPOINTMENT
@@ -452,7 +449,6 @@ export async function createAppointment(data: any, doctorId?: string) {
     revalidatePath("/dashboard");
     return appointment;
   } catch (error) {
-    console.error("An error occurred:", error);
     return { error: error instanceof Error ? error.message : "Unknown error" };
   }
 }

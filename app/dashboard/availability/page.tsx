@@ -24,8 +24,6 @@ export default async function page() {
 
   if ("error" in availabilityData) return <h1>{availabilityData.error}</h1>;
 
-  console.log(availabilityData[0]);
-
   return (
     <div>
       <DashboardNav />

@@ -9,7 +9,6 @@ export function formatAppointmentTime(
     typeof date === "string" ? new Date(Date.parse(date)) : new Date(date);
 
   if (isNaN(start.getTime())) {
-    console.error("Invalid date provided:", date);
     return "Invalid Date";
   }
 

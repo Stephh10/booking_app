@@ -102,7 +102,6 @@ export const todayAppointmentsColumns: ColumnDef<AppointmentWithPatient>[] = [
     enableHiding: false,
     header: () => <div className="mx-auto">Actions</div>,
     cell: ({ row }) => {
-      console.log(row);
       const appointment = row.original;
 
       return (

@@ -13,7 +13,6 @@ export default function DateSelector({
   selectedDateTime,
   setSelectedDateTime,
 }: DateSelectorProps) {
-  console.log(selectedDateTime);
   return (
     <DatePicker
       className="w-full h-[35px] pl-2 bg-white rounded-lg text-[var(--text-soft)]"

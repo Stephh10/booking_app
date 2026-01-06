@@ -36,8 +36,6 @@ export default function ChangePassword({ email }: ChangePasswordProps) {
           return;
         }
 
-        console.log(response);
-
         setSentOnce(true);
 
         setTimeout(() => setSentOnce(false), 10000);
@@ -45,7 +43,6 @@ export default function ChangePassword({ email }: ChangePasswordProps) {
         setSentOnce(true);
         return router.push(response.resetLink);
       } catch (err) {
-        console.error(err);
         setError("Failed to send email. Try again later.");
       }
     });

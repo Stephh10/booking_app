@@ -14,7 +14,6 @@ export default function ShareLink({ activeUser }: any) {
       })
       .catch((err) => {
         toast.error("Failed to copy link");
-        console.error(err);
       });
   }
   return (

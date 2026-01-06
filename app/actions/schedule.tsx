@@ -40,7 +40,5 @@ export const getScheduleData = async (appointmentId: string) => {
     },
   });
 
-  console.log(doctorInfo);
-
   return { ...appointment, doctorInfo };
 };

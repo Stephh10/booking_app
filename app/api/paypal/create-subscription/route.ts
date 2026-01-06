@@ -81,8 +81,6 @@ export async function POST(req: Request) {
 
     return NextResponse.json({ planId: planData.id });
   } catch (err) {
-    console.log(err);
-    console.error(err);
     return NextResponse.json(
       { error: "Internal server error", details: err },
       { status: 500 }

@@ -18,6 +18,7 @@ import { useTransition } from "react";
 import { Patient } from "@prisma/client";
 import { updateSelectedPatient } from "@/app/actions/patients";
 import { formatBirthDate } from "@/lib/formatBirthDate";
+import { toast } from "react-toastify";
 
 export default function PatientDetails({
   patientData,
@@ -62,7 +63,7 @@ export default function PatientDetails({
       const updatedPatient = await updateSelectedPatient(patientData);
 
       if ("error" in updatedPatient) {
-        console.log("Something went wrong");
+        toast.error(updatedPatient.error);
       }
 
       setIsEditing(false);

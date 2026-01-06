@@ -11,6 +11,7 @@ import { formatWorkCardDate } from "@/lib/dateFormats/formatWorkCardDate";
 import { getSelectedDate } from "../../_lib/getSelectedDate";
 import { Spinner } from "@/components/ui/spinner";
 import clsx from "clsx";
+import { toast } from "react-toastify";
 
 export default function ConfirmationDialog({
   closeModal,
@@ -38,7 +39,7 @@ export default function ConfirmationDialog({
       const response = await createAppointment(data);
 
       if ("error" in response) {
-        console.log("An error ocured");
+        toast.error(response.error);
       } else {
         closeModal();
         clearPatientData();

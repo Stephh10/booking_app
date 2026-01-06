@@ -6,6 +6,7 @@ import PayPalButton from "@/components/PayPalButton";
 import { useTransition } from "react";
 import { Spinner } from "@/components/ui/spinner";
 import { Plan } from "@prisma/client";
+import { toast } from "react-toastify";
 
 export default function BillingCard({
   plan,
@@ -31,7 +32,7 @@ export default function BillingCard({
         const data = await res.json();
         if (data.planId) setPlanId(data.planId);
       } catch (err) {
-        console.error("Failed to fetch plan ID", err);
+        toast.error("Failed to create subscription");
       }
     });
   }

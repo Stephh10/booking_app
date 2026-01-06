@@ -40,8 +40,6 @@ export default function ScheduleMain({ doctorId }: { doctorId: string }) {
     setActiveIndex(null);
   }, [selectedDate]);
 
-  console.log(availableDates);
-
   return (
     <div className="container min-h-screen">
       <h1 className="text-xl font-bold py-2">AppDoc</h1>

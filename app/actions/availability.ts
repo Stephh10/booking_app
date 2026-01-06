@@ -108,8 +108,6 @@ export const updateDayTime = async (
 //UPDATE ACTIVE DAYS
 
 export const updateActiveDays = async (selectedDay: number) => {
-  console.log(selectedDay);
-
   const authResult = await auth();
   const activeUser = authResult?.user;
 

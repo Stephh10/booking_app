@@ -33,8 +33,6 @@ export default function WorkTimeCard({
     to: selectedDay?.endTime || null,
   });
 
-  console.log(selectedTime);
-
   //ACTIVE DATE CARD
   const [isPending, startTransition] = useTransition();
   const [activeDay, setActiveDay] = useState(selectedDay ? true : false);

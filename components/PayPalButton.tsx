@@ -62,7 +62,6 @@ export default function PayPalButton({ planId }: { planId: string }) {
             }
           }}
           onError={(err) => {
-            console.error("PayPal error:", err);
             setError(`PayPal error: ${err.message || "Try again later."}`);
           }}
         />
