@@ -30,7 +30,7 @@ export default function About() {
         <div className="flex-1 rounded-lg overflow-hidden h-full">
           <img
             className="h-full w-full"
-            src="/login-image.jpg"
+            src="/lp-mission.jpg"
             alt="Our Mission"
           />
         </div>
