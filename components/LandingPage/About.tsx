@@ -3,7 +3,7 @@ import React from "react";
 export default function About() {
   return (
     <section id="about" className="my-4  flex flex-col gap-4 p-5">
-      <div className="flex items-center h-[350px] gap-4 ">
+      <div className="flex flex-col md:flex-row items-center h-auto md:h-[350px] gap-4">
         <div className="flex-1">
           <h4 className="font-bold">Home / About Us</h4>
           <h1 className="text-3xl font-bold mb-2 text-[var(--lp-primary)]">
@@ -25,8 +25,7 @@ export default function About() {
           />
         </div>
       </div>
-
-      <div className="flex items-center h-[350px] gap-4">
+      <div className="flex flex-col-reverse md:flex-row items-center h-auto md:h-[350px] gap-4">
         <div className="flex-1 rounded-lg overflow-hidden h-full">
           <img
             className="h-full w-full"
