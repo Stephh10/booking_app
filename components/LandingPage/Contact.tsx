@@ -134,7 +134,7 @@ export default function Contact() {
         />
         <button
           type="submit"
-          className="bg-[var(--lp-primary)] text-[var(--lp-card)] w-full py-2 rounded"
+          className="bg-[var(--lp-primary)] text-[var(--lp-card)] w-full py-2 rounded hoverScale"
         >
           Submit
         </button>
