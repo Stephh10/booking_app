@@ -28,9 +28,12 @@ export default async function Navigation() {
             </Link>
           </div>
         </div>
-        <div>
+        <div className="flex items-center gap-2">
           {activeUser?.user && (
-            <Link className="lp-navBtn mr-2" href={"/dashboard"}>
+            <Link
+              href="/dashboard"
+              className="lp-navBtn inline-block cursor-pointer hoverScale"
+            >
               Dashboard
             </Link>
           )}

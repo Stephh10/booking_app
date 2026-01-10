@@ -28,7 +28,7 @@ export default function Contact() {
   return (
     <section
       id="contact"
-      className="min-h-[420px] flex items-center gap-2 md:gap-5"
+      className="min-h-[420px] flex flex-col md:flex-row items-center gap-2 md:gap-5"
     >
       <div className="contactContent flex-5 ">
         <h1 className="font-bold text-4xl text-[var(--lp-primary)]">
@@ -39,7 +39,7 @@ export default function Contact() {
           solve your problem and streamline your workflow.
         </p>
         <p className="lp-text underline ">appointdoc@gmail.com</p>
-        <div className="flex gap-4 my-5">
+        <div className="flex flex-col md:flex-row gap-4 my-5">
           <div>
             <h2 className="font-bold text-md lg:text-lg">Support</h2>
             <p className="lp-text">
@@ -72,7 +72,7 @@ export default function Contact() {
       </div>
       <form
         onSubmit={handleSubmit(submitFormData)}
-        className="contactForm flex-2 bg-[var(--lp-card)] h-full  rounded-lg p-4 py-6"
+        className="contactForm w-full md:flex-2 bg-[var(--lp-card)] h-full  rounded-lg p-4 py-6"
       >
         <h1 className="text-2xl font-bold text-[var(--lp-primary)]">
           Get in Touch
