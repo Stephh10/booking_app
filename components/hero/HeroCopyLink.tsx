@@ -12,8 +12,8 @@ export default function HeroCopyLink() {
   }
 
   return (
-    <div className="h-[65px] bg-[var(--lp-card)] flex items-center justify-between my-5 px-5 rounded-lg -mt-5">
-      <h2 className="text-xl text-[var(--lp-primary)]">
+    <div className="h-auto md:h-[65px] bg-[var(--lp-card)] flex flex-col md:flex-row items-center justify-between my-5 px-5 py-5 md:py-0 rounded-lg md:-mt-5">
+      <h2 className="text-md md:text-xl text-[var(--lp-primary)] text-center md:text-left mb-1 md:mb-0">
         Share the link with your patients to book an appointment quickly and
         conveniently.
       </h2>

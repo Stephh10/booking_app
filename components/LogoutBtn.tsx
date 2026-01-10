@@ -7,7 +7,10 @@ export default function LogoutBtn() {
     signOut({ callbackUrl: "/login" });
   };
   return (
-    <button className="lp-navBtn" onClick={handleLogout}>
+    <button
+      className="lp-navBtn hidden md:block hoverScale"
+      onClick={handleLogout}
+    >
       Logout
     </button>
   );
