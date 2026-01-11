@@ -13,10 +13,36 @@ import {
 import { useTheme } from "@/hooks/useTheme";
 import ThemeCard from "./ThemeCard";
 import { useThemeState } from "@/store/useTheme";
+import { changeTimeZone } from "@/app/actions/user";
+import { useTransition } from "react";
+import { toast } from "react-toastify";
+import { User } from "@prisma/client";
+import { useState } from "react";
 
-export default function PreferencesSettings() {
+export default function PreferencesSettings({ userData }: { userData: User }) {
   const { toggleTheme } = useTheme();
   const { theme } = useThemeState();
+
+  const [isPending, startTransition] = useTransition();
+  const [timeZone, setTimeZone] = useState<string | undefined>(
+    userData.timeZone ?? undefined
+  );
+
+  function handleTimeZoneChange(value: string) {
+    startTransition(async () => {
+      setTimeZone(value);
+      const response = await changeTimeZone(value);
+
+      if ("error" in response) {
+        toast.error(response.error);
+        return;
+      } else {
+        toast.success(response.success);
+        return;
+      }
+    });
+  }
+
   return (
     <div>
       <h1 className="settingsHeader mt-2">Select Theme</h1>
@@ -36,7 +62,7 @@ export default function PreferencesSettings() {
         <h1 className="settingsHeader">Preferences Details</h1>
         <div className="flex justify-between items-center mb-4">
           <h2>Time Zone</h2>
-          <Select>
+          <Select onValueChange={handleTimeZoneChange} value={timeZone}>
             <SelectTrigger className="w-[60%]">
               <SelectValue placeholder="Select" />
             </SelectTrigger>

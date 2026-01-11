@@ -47,6 +47,12 @@ model User {
   address    String?
   postalCode Int?
 
+  //user config
+
+  language     String @default("english")
+  sidebarWidth String @default("240")
+  timeZone     String @default("est")
+
   //payment details
 
   paypalCustomerId String?

@@ -40,7 +40,9 @@ export default async function page({
 
               {view === "account" && <AccountSettings userData={userData} />}
 
-              {view === "preferences" && <PreferencesSettings />}
+              {view === "preferences" && (
+                <PreferencesSettings userData={userData} />
+              )}
 
               {"error" in plans ? (
                 <h1 className="text-red-500">{String(plans.error)}</h1>

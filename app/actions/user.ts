@@ -10,6 +10,28 @@ import crypto from "crypto";
 import { loginAction } from "./auth";
 import cloudinary from "@/lib/cloudinary";
 
+//HANDLE TIME ZONE CHANGE
+
+export const changeTimeZone = async (timeZone: string) => {
+  const authResult = await auth();
+  const activeUser = authResult?.user;
+
+  if (!activeUser) {
+    return { error: "You are not authenticated" };
+  }
+
+  await Prisma.user.update({
+    where: {
+      id: activeUser.id,
+    },
+    data: {
+      timeZone,
+    },
+  });
+
+  return { success: "Time zone updated successfully" };
+};
+
 //SENT FORGOT PASSWORD EMAIL
 
 export const sendForgotPasswordEmail = async (email: string) => {

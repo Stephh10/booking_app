@@ -6,7 +6,6 @@ import { usePathname } from "next/navigation";
 import {
   Calendar,
   Users,
-  MessageSquare,
   Settings,
   LayoutPanelLeft,
   LogOut,
@@ -47,6 +46,8 @@ export default function Sidebar() {
   }, [theme]);
 
   useEffect(() => {
+    //check window size
+
     const handleResize = () => {
       setExpanded(window.innerWidth >= 700);
     };
@@ -60,7 +61,7 @@ export default function Sidebar() {
   return (
     <div
       className={clsx(
-        "flex-none bg-[var(--secondary)] h-[600px] lg:h-[500px] w-60 rounded-lg sm:p-0 md:py-2 text-[var(--text)]",
+        `flex-none bg-[var(--secondary)] h-[600px] lg:h-[500px] w-60 rounded-lg sm:p-0 md:py-2 text-[var(--text)]`,
         !expanded && "!w-13 !h-max"
       )}
     >
