@@ -6,7 +6,9 @@ export default function HeroCopyLink() {
   const [copied, setCopied] = useState(false);
 
   function handleCopy() {
-    navigator.clipboard.writeText("https://share-yourlink.com");
+    navigator.clipboard.writeText(
+      `http://localhost:3000/schedule/${process.env.NEXT_PUBLIC_ID}`
+    );
     setCopied(true);
     setTimeout(() => setCopied(false), 1500);
   }

@@ -5,6 +5,7 @@ import { useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { handleScheduleSubmit } from "@/app/actions/schedule";
 import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
 
 export default function ScheduleForm({
   selectedTime,
@@ -36,6 +37,10 @@ export default function ScheduleForm({
     };
 
     startTransition(async () => {
+      if (!selectedTime) {
+        toast.error("Please select a time");
+        return;
+      }
       const response = await handleScheduleSubmit(formatedData, doctorId);
 
       if ("error" in response) return;

@@ -73,7 +73,6 @@ export default function AppDetails({
 
         if ("error" in response) {
           toast.error(response.error);
-          console.log(response);
           return;
         }
       });

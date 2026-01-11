@@ -16,7 +16,7 @@ export default function AvailableDateCard({
     <div
       onClick={() => onClick(dateData.startTime)}
       className={`w-full p-4 border rounded-lg my-4 cursor-pointer bg-[var(--btn-primary)] text-amber-50 transform transition duration-150 ease-in-out hover:scale-105 shadow-md hover:shadow-lg ${
-        isActive ? " bg-[var(--dark-blue)] " : ""
+        isActive ? " bg-[var(--lp-light)] " : ""
       }`}
     >
       <h1 className="text-2xl text-center">{formatedDate}</h1>
