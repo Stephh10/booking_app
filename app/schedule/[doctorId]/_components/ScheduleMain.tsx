@@ -10,8 +10,9 @@ import AvailableDateCard from "./AvailableDateCard";
 import ScheduleForm from "./ScheduleForm";
 import ScheduleFooter from "./ScheduleFooter";
 import { SquareUser, GraduationCap } from "lucide-react";
-import { User } from "next-auth";
 import { getUser } from "@/app/actions/user";
+import Link from "next/link";
+import { useThemeState } from "@/store/useTheme";
 
 interface FreeSlot {
   dayOfWeek: number;
@@ -35,6 +36,8 @@ export default function ScheduleMain({ doctorId }: { doctorId: string }) {
 
   const [doctorData, setDoctorData] = useState<UserPlanType | null>();
 
+  const { theme, setTheme } = useThemeState();
+
   useEffect(() => {
     if (selectedDate) {
       startTransition(async () => {
@@ -53,7 +56,15 @@ export default function ScheduleMain({ doctorId }: { doctorId: string }) {
 
   return (
     <div className="container min-h-screen">
-      <h1 className="text-xl font-bold py-2">AppDoc</h1>
+      <div className="relative w-[200px] h-[50px] flex items-center -ml-9">
+        <Link href={"/"} className="cursor-pointer">
+          <img
+            className="h-full w-auto object-contain"
+            src={theme === "light" ? "/logo.png" : "/logo-light.png"}
+            alt="logo"
+          />
+        </Link>
+      </div>
       <div className="sheduleContainer max-w-[790px] mx-auto -mt-1">
         {doctorData && !("error" in doctorData) && (
           <div className="mb-2">

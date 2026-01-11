@@ -6,7 +6,6 @@ import DashboardNav from "../../_components/DashboardNav";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import AppHistory from "../../appointments/_components/AppHistory";
 import PatientDetails from "../_components/PatientDetails";
-import PatientAttachments from "../_components/PatientAttachments";
 import PatientMedicalDetails from "../_components/PatientMedicalDetails";
 import { getPatientMedicalDetails } from "@/app/actions/patients";
 import { MedicalDetails } from "@prisma/client";
@@ -66,14 +65,6 @@ export default async function page({
             >
               Patient History
             </TabsTrigger>
-            <TabsTrigger
-              className="menuTab
-             data-[state=active]:bg-[var(--btn-primary)] 
-             data-[state=active]:text-white"
-              value="attachments"
-            >
-              Attachments
-            </TabsTrigger>
           </TabsList>
           <TabsContent value="details">
             <PatientDetails patientData={patientData} />
@@ -87,9 +78,6 @@ export default async function page({
           </TabsContent>
           <TabsContent value="history">
             <AppHistory patientId={patientId} />
-          </TabsContent>
-          <TabsContent value="attachments">
-            <PatientAttachments />
           </TabsContent>
         </Tabs>
       </div>

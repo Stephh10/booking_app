@@ -29,7 +29,6 @@ const links = [
     href: "/dashboard/availability",
     icon: CalendarClock,
   },
-  { name: "Messages", href: "/dashboard/messages", icon: MessageSquare },
   { name: "Settings", href: "/dashboard/settings", icon: Settings },
 ];
 
