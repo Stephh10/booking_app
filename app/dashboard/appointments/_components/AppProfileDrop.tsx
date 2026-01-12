@@ -60,10 +60,6 @@ export function AppProfileDrop({
               Patient Profile
               <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
             </DropdownMenuItem>
-            <DropdownMenuItem className="cursor-pointer">
-              Change Patient
-              <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
-            </DropdownMenuItem>
           </DropdownMenuGroup>
         )}
       </DropdownMenuContent>

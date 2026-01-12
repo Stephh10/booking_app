@@ -60,7 +60,7 @@ export default function UserInfo({
           {!profileRouteId && (
             <button
               onClick={() => setIsOpenChangeStatus(true)}
-              className="outlineBtn rounded-lg border-1 disabled:opacity-50 disabled:cursor-not-allowed disabled:bg-gray-200"
+              className="outlineBtn rounded-lg border-1 disabled:opacity-50 disabled:cursor-not-allowed disabled:bg-gray-200 !p-2"
               disabled={appointmentData?.status !== "scheduled"}
             >
               <CalendarX size={20} />
@@ -76,7 +76,7 @@ export default function UserInfo({
               <div className="flex items-center gap-2">
                 <button
                   onClick={() => setIsEditing(false)}
-                  className="outlineBtn rounded-lg bg-[var(--destructive)] text-[var(--bg)]"
+                  className="outlineBtn rounded-lg bg-[var(--destructive)] text-[var(--bg)] !p-2"
                 >
                   <X size={20} />
                 </button>
@@ -85,7 +85,7 @@ export default function UserInfo({
           {/* EDIT APPOINTMENT */}
           {!profileRouteId &&
             (!isEditingAppointment ? (
-              <button className="outlineBtn rounded-lg border-1">
+              <button className="outlineBtn rounded-lg border-1 !p-2">
                 <SquarePen
                   onClick={() => setIsEditingAppointment(true)}
                   size={20}
@@ -95,7 +95,7 @@ export default function UserInfo({
               <div className="flex items-center gap-2">
                 <button
                   onClick={() => setIsEditingAppointment(false)}
-                  className="outlineBtn rounded-lg border-1 bg-[var(--destructive)] text-[var(--bg)]"
+                  className="outlineBtn rounded-lg border-1 bg-[var(--destructive)] text-[var(--bg)] !p-2"
                 >
                   <X size={20} />
                 </button>

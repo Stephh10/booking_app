@@ -37,6 +37,8 @@ export default function BillingCard({
     });
   }
 
+  console.log(plan.name);
+
   return (
     <div
       className={`min-h-[380px] md:min-h-[500px] relative border flex-1 rounded-md p-2 lg:p-4 flex flex-col justify-between overflow-hidden ${
@@ -88,7 +90,7 @@ export default function BillingCard({
           Active
         </button>
       ) : (
-        plan.id === "basic" && (
+        plan.name !== "basic" && (
           <button
             onClick={getUserId}
             className="w-full py-2 bg-[var(--btn-primary)] cursor-pointer text-[var(--text)] rounded-lg mt-4"

@@ -42,10 +42,6 @@ export default function Sidebar() {
   }
 
   useEffect(() => {
-    document.documentElement.classList.toggle("dark", theme === "dark");
-  }, [theme]);
-
-  useEffect(() => {
     //check window size
 
     const handleResize = () => {
