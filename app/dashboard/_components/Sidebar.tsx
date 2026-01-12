@@ -61,7 +61,7 @@ export default function Sidebar() {
   return (
     <div
       className={clsx(
-        `flex-none bg-[var(--secondary)] h-[600px] lg:h-[500px] w-60 rounded-lg sm:p-0 md:py-2 text-[var(--text)]`,
+        `flex-none bg-[var(--secondary)] h-[600px] lg:h-[500px] w-60 rounded-lg sm:p-0 md:py-2 text-[var(--text)] overflow-hidden`,
         !expanded && "!w-13 !h-max"
       )}
     >
@@ -111,7 +111,7 @@ export default function Sidebar() {
             <MobileScreenLink key={link.name} link={link} isActive={isActive} />
           );
         })}
-        <div className="mt-auto navFooter">
+        <div className="mt-auto navFooter overflow-hidden">
           {expanded && (
             <div className="text-center">
               <Link className="sidebarLink" href={"/"}>

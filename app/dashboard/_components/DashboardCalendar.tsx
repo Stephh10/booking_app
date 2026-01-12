@@ -73,6 +73,7 @@ export default function DashboardCalendar({
             margin: "2px 0",
             borderRadius: "8px",
             fontSize: "0.875rem",
+            backgroundColor: "var(--btn-primary)",
             border: "1px solid rgba(0,0,0,0.1)",
           },
         })}
