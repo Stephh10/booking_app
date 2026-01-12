@@ -16,7 +16,6 @@ export default function ChangePassword({ email }: ChangePasswordProps) {
   const [sentOnce, setSentOnce] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  // Automatski pošalji email kada komponenta mountuje
   useEffect(() => {
     if (email && !sentOnce) {
       handleEmailSend();

@@ -222,7 +222,9 @@ export const changePassword = async (passwordDetails: any) => {
 
 //GET USER DATA
 
-export const getUser = async (): Promise<
+export const getUser = async (
+  doctorId?: string
+): Promise<
   | (User & { profileImage?: { url: string } | null })
   | { error: string }
   | { error: string }
@@ -230,13 +232,15 @@ export const getUser = async (): Promise<
   const authResult = await auth();
   const activeUser = authResult?.user;
 
-  if (!activeUser) {
-    return { error: "You are not authenticated" };
+  const userId = doctorId ?? activeUser?.id;
+
+  if (!userId) {
+    return { error: "No user id provided" };
   }
 
   const userData = await Prisma.user.findUnique({
     where: {
-      id: activeUser.id,
+      id: userId,
     },
     include: {
       profileImage: true,

@@ -17,13 +17,13 @@ export default async function Navigation() {
             <img src="/logo.png" alt="logo" />
           </Link>
           <div className="flex items-center gap-3">
-            <Link className="lp-link" href={"#hero"}>
+            <Link className="lp-link" href="/#hero" prefetch={false}>
               Home
             </Link>
-            <Link className="lp-link" href={"#about"}>
+            <Link className="lp-link" href={"/#about"} prefetch={false}>
               About
             </Link>
-            <Link className="lp-link" href={"#contact"}>
+            <Link className="lp-link" href={"/#contact"} prefetch={false}>
               Contact
             </Link>
           </div>

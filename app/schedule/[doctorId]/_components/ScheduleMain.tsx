@@ -46,13 +46,15 @@ export default function ScheduleMain({ doctorId }: { doctorId: string }) {
       });
     }
 
-    const userResponse = getUser();
+    const userResponse = getUser(doctorId);
     userResponse.then((data) => {
       setDoctorData(data);
     });
 
     setActiveIndex(null);
   }, [selectedDate]);
+
+  console.log(doctorData);
 
   return (
     <div className="container min-h-screen">
@@ -75,7 +77,9 @@ export default function ScheduleMain({ doctorId }: { doctorId: string }) {
             <div className="flex gap-2 items-center">
               <GraduationCap size={30} />
               <h2 className="text-xl font-bold  text-[var(--btn-primary)] ">
-                {doctorData?.speciality ?? "General Medicine"}
+                {doctorData?.speciality?.trim()
+                  ? doctorData.speciality
+                  : "General Medicine"}
               </h2>
             </div>
           </div>

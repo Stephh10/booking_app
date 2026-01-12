@@ -45,7 +45,7 @@ export default function page() {
   return (
     <div className="h-[90vh] w-full flex items-center  justify-center ">
       <div className="text-center p-7 flex gap-5 w-[1200px] h-[520px]">
-        <div className="relative flex-4 h-full rounded-lg overflow-hidden">
+        <div className="hidden sm:block relative flex-4 h-full rounded-lg overflow-hidden">
           <Image src="/login-image.jpg" alt="register-image" fill />
           <div className="absolute top-10 left-10 right-10 flex justify-between items-center text-[var(--lp-card)] z-10">
             <h1 className="text-2xl">AppointDoc</h1>
@@ -72,7 +72,7 @@ export default function page() {
           {!changePassword ? (
             <form
               onSubmit={handleSubmit(handleUserLogin)}
-              className="authForm relative h-full text-left"
+              className="authForm relative mt-7 h-full text-left"
             >
               <EditableField
                 label="Email"
@@ -112,12 +112,6 @@ export default function page() {
                   ) : (
                     "Login"
                   )}
-                </button>
-                <button
-                  onClick={() => setChangePassword(true)}
-                  className="pt-2 text-gray-400 cursor-pointer"
-                >
-                  Forgot password?
                 </button>
                 <p className="pt-2 text-gray-400">
                   Don't have an account?
