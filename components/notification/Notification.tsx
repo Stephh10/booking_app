@@ -11,6 +11,7 @@ import {
 import { Bell } from "lucide-react";
 import { SquarePen } from "lucide-react";
 import NotificationActions from "./NotificationActions";
+import NotificationCard from "./NotificationCard";
 
 export function Notification() {
   return (
@@ -26,7 +27,7 @@ export function Notification() {
           <Bell size={22} />
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-[380px] p-2" align="center">
+      <DropdownMenuContent className="w-[400px] p-2" align="end">
         <div className="flex items-center justify-between">
           <h1>Notifications</h1>
           <div className="text-[var(--btn-primary)] flex items-center gap-1  cursor-pointer underline">
@@ -37,10 +38,11 @@ export function Notification() {
 
         <NotificationActions />
 
-        <DropdownMenuLabel className="text-[var(--text-soft)]">
+        <NotificationCard />
+        {/* <DropdownMenuLabel className="text-[var(--text-soft)]">
           Welcome to your Patient Management Dashboard! Track patient progress,
           manage appointments, and access medical records efficiently.
-        </DropdownMenuLabel>
+        </DropdownMenuLabel> */}
         <DropdownMenuSeparator />
       </DropdownMenuContent>
     </DropdownMenu>
