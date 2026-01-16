@@ -1,3 +1,5 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -7,7 +9,8 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Bell } from "lucide-react";
-import { X, SquareCheck } from "lucide-react";
+import { SquarePen } from "lucide-react";
+import NotificationActions from "./NotificationActions";
 
 export function Notification() {
   return (
@@ -24,16 +27,15 @@ export function Notification() {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-[380px] p-2" align="center">
-        <button>
-          <X className="text-[var(--text-soft)]" size={20} />
-        </button>
         <div className="flex items-center justify-between">
           <h1>Notifications</h1>
-          <div className="text-[var(--btn-primary)] flex items-center gap-1  cursor-pointer">
-            <SquareCheck className="" size={18} />
-            <p>Mark all as read</p>
+          <div className="text-[var(--btn-primary)] flex items-center gap-1  cursor-pointer underline">
+            <SquarePen className="" size={16} />
+            <p>Cancel all requests</p>
           </div>
         </div>
+
+        <NotificationActions />
 
         <DropdownMenuLabel className="text-[var(--text-soft)]">
           Welcome to your Patient Management Dashboard! Track patient progress,

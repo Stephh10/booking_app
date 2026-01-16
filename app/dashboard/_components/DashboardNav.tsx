@@ -1,6 +1,6 @@
 import React from "react";
 import Avatar from "@/components/Avatar";
-import { Notification } from "@/components/Notification";
+import { Notification } from "@/components/notification/Notification";
 import NavSearchInput from "./NavSearchInput";
 import { getUser } from "@/app/actions/user";
 
