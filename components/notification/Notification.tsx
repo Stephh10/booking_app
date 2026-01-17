@@ -12,8 +12,16 @@ import { Bell } from "lucide-react";
 import { SquarePen } from "lucide-react";
 import NotificationActions from "./NotificationActions";
 import NotificationCard from "./NotificationCard";
+import { getPendingAppointments } from "@/app/actions/appointments";
+import clsx from "clsx";
 
-export function Notification() {
+type AvailableAppointments = Awaited<ReturnType<typeof getPendingAppointments>>;
+
+export function Notification({
+  appointments,
+}: {
+  appointments: AvailableAppointments;
+}) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>

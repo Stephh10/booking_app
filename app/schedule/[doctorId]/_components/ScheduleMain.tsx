@@ -28,7 +28,7 @@ export default function ScheduleMain({ doctorId }: { doctorId: string }) {
   const [timeCard, setTimeCard] = useState<Date | null>(null);
   //availableDates from db
   const [availableDates, setAvailableDates] = useState<FreeSlot[] | undefined>(
-    undefined
+    undefined,
   );
   //selected date functionality
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
@@ -36,7 +36,7 @@ export default function ScheduleMain({ doctorId }: { doctorId: string }) {
 
   const [doctorData, setDoctorData] = useState<UserPlanType | null>();
 
-  const { theme, setTheme } = useThemeState();
+  const { theme } = useThemeState();
 
   useEffect(() => {
     if (selectedDate) {
@@ -53,8 +53,6 @@ export default function ScheduleMain({ doctorId }: { doctorId: string }) {
 
     setActiveIndex(null);
   }, [selectedDate]);
-
-  console.log(doctorData);
 
   return (
     <div className="container min-h-screen">
@@ -106,7 +104,8 @@ export default function ScheduleMain({ doctorId }: { doctorId: string }) {
                     dateData={data}
                     isActive={activeIndex === index}
                     onClick={(dateData: any) => (
-                      setActiveIndex(index), setTimeCard(dateData)
+                      setActiveIndex(index),
+                      setTimeCard(dateData)
                     )}
                   />
                 ))
@@ -114,7 +113,7 @@ export default function ScheduleMain({ doctorId }: { doctorId: string }) {
                 <div className="h-full flex items-center justify-center">
                   <h2 className="text-xl text-[var(--text-soft)]">
                     {" "}
-                    No available dates
+                    Please select another date...
                   </h2>
                 </div>
               )}

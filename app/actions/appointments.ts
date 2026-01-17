@@ -4,7 +4,6 @@ import { auth } from "@/auth";
 import { revalidatePath } from "next/cache";
 import { Patient } from "@prisma/client";
 import { Appointment } from "@prisma/client";
-import { UpdatedAppointment } from "@/types/appointment";
 import { syncAppointmentsStatus } from "@/lib/appointments";
 
 type AppointmentWithPatient = Appointment & {
@@ -12,6 +11,40 @@ type AppointmentWithPatient = Appointment & {
     firstName: string;
     lastName: string;
   } | null;
+};
+
+//GET PENDING APPOINTMENTS
+
+export const getPendingAppointments = async (): Promise<
+  AppointmentWithPatient[] | { error: string }
+> => {
+  try {
+    const authResult = await auth();
+    const activeUser = authResult?.user;
+
+    if (!activeUser) {
+      return { error: "Please Login to continue this operation" };
+    }
+
+    const pendingAppointments = await Prisma.appointment.findMany({
+      where: {
+        doctorId: activeUser.id,
+        status: "pending",
+      },
+      include: {
+        patient: {
+          select: {
+            firstName: true,
+            lastName: true,
+          },
+        },
+      },
+    });
+
+    return pendingAppointments;
+  } catch (error) {
+    return { error: "Failed to fetch appointments" };
+  }
 };
 
 //CANCEL APPOINTMENT
@@ -80,7 +113,7 @@ export const getPastAppointments = async (): Promise<
 
   const pastAppointments = todaysAppointments.filter((appointment) => {
     const endTime = new Date(
-      new Date(appointment.date).getTime() + appointment.duration * 60 * 1000
+      new Date(appointment.date).getTime() + appointment.duration * 60 * 1000,
     );
     return endTime < now;
   });
@@ -242,7 +275,7 @@ export const getPatientAppointments = async (patientId: string) => {
 
 export const updateSelectedAppointment = async (
   appId: string,
-  updatedData: any
+  updatedData: any,
 ) => {
   try {
     if (!appId) {
@@ -264,7 +297,7 @@ export const updateSelectedAppointment = async (
 //GET SELECTED APPOINTMENT
 
 export const getSelectedAppointment = async (
-  appId: string
+  appId: string,
 ): Promise<Appointment | { error: string }> => {
   if (!appId) {
     return { error: "Appointment id is required" };
@@ -284,7 +317,7 @@ export const getSelectedAppointment = async (
 //GET PATIENT FROM APPOINTMENT ID
 
 export const getAppPatient = async (
-  appId: string
+  appId: string,
 ): Promise<Patient | { error: string }> => {
   if (!appId) {
     return { error: "Appointment id is required" };
@@ -315,7 +348,7 @@ export const getAppPatient = async (
 
 //GET ALL APPOINTMENTS
 export const getAllAppointments = async (
-  statusFilter?: string
+  statusFilter?: string,
 ): Promise<AppointmentWithPatient[] | { error: string }> => {
   try {
     const authResult = await auth();
@@ -353,7 +386,11 @@ export const getAllAppointments = async (
 };
 
 //CREATE APPOINTMENT
-export async function createAppointment(data: any, doctorId?: string) {
+export async function createAppointment(
+  data: any,
+  doctorId?: string,
+  patientSubmit?: boolean,
+) {
   try {
     const authResult = await auth();
     let activeUser = undefined;
@@ -429,6 +466,7 @@ export async function createAppointment(data: any, doctorId?: string) {
           diagnose: data.diagnose || null,
           patientId: existingPatient.id,
           doctorId: activeUser.id,
+          status: patientSubmit ? "pending" : "scheduled",
         },
       });
 

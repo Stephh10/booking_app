@@ -3,7 +3,7 @@ import { UserRoundPlus } from "lucide-react";
 
 export default function NotificationCard() {
   return (
-    <div className="flex gap-1 p-1 relative border-1 border-neutral-400 my-2">
+    <div className="flex gap-1 p-1 relative border-1 border-neutral-400 rounded my-4">
       <div className="flex-shrink-0 flex items-center justify-center min-w-[35px] h-[35px] border bg-[var(--btn-primary)] rounded-md text-amber-50">
         <UserRoundPlus size={26} />
       </div>

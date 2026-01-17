@@ -26,7 +26,6 @@ import ConfirmationDialog from "./ConfirmationDialog";
 import { useAppointmentStep } from "@/store/appointmentModal/useAppointmentStep";
 import { useAddPatient } from "@/store/appointmentModal/useAddPatient";
 import { useAddAppointment } from "@/store/appointmentModal/useAddAppointment";
-import { Plus } from "lucide-react";
 
 export default function AddAppDialog() {
   const [openDialog, setOpenDialog] = useState(false);

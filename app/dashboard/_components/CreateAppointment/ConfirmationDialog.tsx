@@ -23,8 +23,6 @@ export default function ConfirmationDialog({
   const { step, changeStep } = useAppointmentStep();
   const [isPending, startTransition] = useTransition();
 
-  const isPendingText = true;
-
   useEffect(() => {
     if (!patientData?.firstName || !patientData?.lastName || !appointmentData) {
       changeStep(1);
@@ -98,7 +96,7 @@ export default function ConfirmationDialog({
           type="submit"
           className={clsx(
             "primaryBtn w-[100px]",
-            isPending && "bg-[var(--disabled)] cursor-not-allowed"
+            isPending && "bg-[var(--disabled)] cursor-not-allowed",
           )}
         >
           {isPending ? (
