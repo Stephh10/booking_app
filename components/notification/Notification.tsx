@@ -26,12 +26,18 @@ export function Notification({
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button
-          className="relative bg-[var(--btn-primary)] hover:bg-[var(--btn-primary)] cursor-pointer w-10 h-10 rounded-full text-white"
+          className="relative bg-[var(--btn-primary)] hover:bg-[var(--btn-primary)] cursor-pointer w-10 h-10 rounded-full text-white hover:text-white"
           variant="outline"
         >
-          {/* <div className="absolute top-[-3px] right-[-3px] bg-[var(--destructive)] w-4 h-4 rounded-full flex items-center justify-center">
-            1
-          </div> */}
+          <div
+            className={clsx(
+              "absolute top-[-3px] right-[-3px] bg-[var(--destructive)] w-4 h-4 rounded-full flex items-center justify-center",
+              !appointments &&
+                "bg-white text-[var(--btn-primary)] border border-[var(--btn-primary)]",
+            )}
+          >
+            {Array.isArray(appointments) ? appointments.length : 0}
+          </div>
           <Bell size={22} />
         </Button>
       </DropdownMenuTrigger>
@@ -45,12 +51,13 @@ export function Notification({
         </div>
 
         <NotificationActions />
-
-        <NotificationCard />
-        {/* <DropdownMenuLabel className="text-[var(--text-soft)]">
-          Welcome to your Patient Management Dashboard! Track patient progress,
-          manage appointments, and access medical records efficiently.
-        </DropdownMenuLabel> */}
+        {Array.isArray(appointments) ? (
+          appointments.map((item) => (
+            <NotificationCard key={item.id} data={item} />
+          ))
+        ) : (
+          <p>No Available Appointments</p>
+        )}
         <DropdownMenuSeparator />
       </DropdownMenuContent>
     </DropdownMenu>
