@@ -1,8 +1,26 @@
 import React from "react";
 import { UserRoundPlus } from "lucide-react";
+import { AppointmentWithPatient } from "@/types/user";
+import { confirmAppointment } from "@/app/actions/appointments";
+import { useState } from "react";
 
-export default function NotificationCard({ data }: any) {
-  console.log(data.patient.firstName);
+export default function NotificationCard({
+  data,
+}: {
+  data: AppointmentWithPatient;
+}) {
+  const [visible, setVisible] = useState(true);
+
+  if (!data.patient || !visible) return null;
+
+  async function handleConfirm() {
+    setVisible(false);
+    const response = await confirmAppointment(data.id);
+
+    if (!response.success) {
+      setVisible(true);
+    }
+  }
   return (
     <div className="flex gap-1 p-1 relative border-1 border-neutral-400 rounded my-4">
       <div className="flex-shrink-0 flex items-center justify-center min-w-[35px] h-[35px] border bg-[var(--btn-primary)] rounded-md text-amber-50">
@@ -17,7 +35,10 @@ export default function NotificationCard({ data }: any) {
           <button className="w-[100px] py-1 bg-[var(--card)]  text-dark-50 border-1 border-neutral-700 rounded-lg cursor-pointer">
             Decline
           </button>
-          <button className="w-[100px] py-1 bg-[var(--btn-primary)] text-amber-50 rounded-lg cursor-pointer">
+          <button
+            onClick={handleConfirm}
+            className="w-[100px] py-1 bg-[var(--btn-primary)] text-amber-50 rounded-lg cursor-pointer"
+          >
             Confirm
           </button>
         </div>

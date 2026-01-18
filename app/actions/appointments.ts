@@ -5,12 +5,28 @@ import { revalidatePath } from "next/cache";
 import { Patient } from "@prisma/client";
 import { Appointment } from "@prisma/client";
 import { syncAppointmentsStatus } from "@/lib/appointments";
+import { AppointmentWithPatient } from "@/types/user";
 
-type AppointmentWithPatient = Appointment & {
-  patient: {
-    firstName: string;
-    lastName: string;
-  } | null;
+//CONFIRM APPOINTMENT
+
+export const confirmAppointment = async (appId: string) => {
+  try {
+    if (!appId) {
+      return { error: "Appointment id is required" };
+    }
+
+    await Prisma.appointment.update({
+      where: { id: appId },
+      data: {
+        status: "confirmed",
+      },
+    });
+
+    revalidatePath(`/dashboard/appointments/today`);
+    return { success: true };
+  } catch (error) {
+    return { error: "Failed to confirm appointment" };
+  }
 };
 
 //GET PENDING APPOINTMENTS
@@ -32,15 +48,9 @@ export const getPendingAppointments = async (): Promise<
         status: "pending",
       },
       include: {
-        patient: {
-          select: {
-            firstName: true,
-            lastName: true,
-          },
-        },
+        patient: true,
       },
     });
-
     return pendingAppointments;
   } catch (error) {
     return { error: "Failed to fetch appointments" };
@@ -102,12 +112,7 @@ export const getPastAppointments = async (): Promise<
       date: "asc",
     },
     include: {
-      patient: {
-        select: {
-          firstName: true,
-          lastName: true,
-        },
-      },
+      patient: true,
     },
   });
 
@@ -197,12 +202,7 @@ export const getTodaysAppointments = async (): Promise<
       },
     },
     include: {
-      patient: {
-        select: {
-          firstName: true,
-          lastName: true,
-        },
-      },
+      patient: true,
     },
   });
 
@@ -366,12 +366,7 @@ export const getAllAppointments = async (
         status: statusFilter,
       },
       include: {
-        patient: {
-          select: {
-            firstName: true,
-            lastName: true,
-          },
-        },
+        patient: true,
       },
     });
 

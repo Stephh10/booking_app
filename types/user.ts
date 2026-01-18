@@ -1,4 +1,5 @@
 import { Appointment } from "./appointment";
+import { Prisma } from "@prisma/client";
 
 export type UserSettingsDTO = {
   id: string;
@@ -16,3 +17,9 @@ export type UserSettingsDTO = {
     url: string;
   } | null;
 };
+
+export type AppointmentWithPatient = Prisma.AppointmentGetPayload<{
+  include: {
+    patient: true;
+  };
+}>;
