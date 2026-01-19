@@ -18,7 +18,7 @@ export const confirmAppointment = async (appId: string) => {
     await Prisma.appointment.update({
       where: { id: appId },
       data: {
-        status: "confirmed",
+        status: "scheduled",
       },
     });
 

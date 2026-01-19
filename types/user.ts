@@ -1,4 +1,3 @@
-import { Appointment } from "./appointment";
 import { Prisma } from "@prisma/client";
 
 export type UserSettingsDTO = {
