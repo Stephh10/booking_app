@@ -7,6 +7,61 @@ import { Appointment } from "@prisma/client";
 import { syncAppointmentsStatus } from "@/lib/appointments";
 import { AppointmentWithPatient } from "@/types/user";
 
+//GET NOTIFICATION
+
+export const getUserAppointments = async (
+  searchTerm: string,
+  sortValue: "asc" | "desc" = "asc",
+): Promise<AppointmentWithPatient[] | { error: string }> => {
+  try {
+    const authResult = await auth();
+    const activeUser = authResult?.user;
+
+    if (!activeUser) {
+      return { error: "Please Login to continue this operation" };
+    }
+
+    if (!sortValue) {
+      return { error: "Sort value is required" };
+    }
+
+    console.log("THIS IS TEARM SEARCHHHHHHHHHHHHHHHHHH");
+    console.log(searchTerm);
+
+    const appointments = await Prisma.appointment.findMany({
+      where: {
+        doctorId: activeUser.id,
+        status: "pending",
+        ...(searchTerm && {
+          OR: [
+            {
+              patient: {
+                firstName: { startsWith: searchTerm },
+              },
+            },
+            {
+              patient: {
+                lastName: { startsWith: searchTerm },
+              },
+            },
+          ],
+        }),
+      },
+      orderBy: {
+        createdAt: sortValue,
+      },
+      include: {
+        patient: true,
+      },
+    });
+
+    return appointments;
+  } catch (error) {
+    console.error(error);
+    return { error: "Failed to fetch appointments" };
+  }
+};
+
 //CONFIRM APPOINTMENT
 
 export const confirmAppointment = async (appId: string) => {
@@ -26,34 +81,6 @@ export const confirmAppointment = async (appId: string) => {
     return { success: true };
   } catch (error) {
     return { error: "Failed to confirm appointment" };
-  }
-};
-
-//GET PENDING APPOINTMENTS
-
-export const getPendingAppointments = async (): Promise<
-  AppointmentWithPatient[] | { error: string }
-> => {
-  try {
-    const authResult = await auth();
-    const activeUser = authResult?.user;
-
-    if (!activeUser) {
-      return { error: "Please Login to continue this operation" };
-    }
-
-    const pendingAppointments = await Prisma.appointment.findMany({
-      where: {
-        doctorId: activeUser.id,
-        status: "pending",
-      },
-      include: {
-        patient: true,
-      },
-    });
-    return pendingAppointments;
-  } catch (error) {
-    return { error: "Failed to fetch appointments" };
   }
 };
 

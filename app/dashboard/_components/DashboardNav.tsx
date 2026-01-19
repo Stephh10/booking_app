@@ -7,9 +7,8 @@ import { getPendingAppointments } from "@/app/actions/appointments";
 
 export default async function DashboardNav() {
   const activeUser = await getUser();
-  const pendingAppointments = await getPendingAppointments();
 
-  if ("error" in pendingAppointments || "error" in activeUser) return null;
+  if ("error" in activeUser) return null;
 
   const { firstName, lastName, email, profileImage } = activeUser;
 
@@ -17,7 +16,7 @@ export default async function DashboardNav() {
     <nav className="flex items-center justify-between bg-[var(--secondary)] p-4 rounded-xl">
       <NavSearchInput />
       <div className="flex items-center gap-2">
-        <Notification appointments={pendingAppointments} />
+        <Notification />
         <Avatar
           src={profileImage ? profileImage.url : "/default-profile.png"}
         />

@@ -12,20 +12,34 @@ import { Bell } from "lucide-react";
 import { SquarePen } from "lucide-react";
 import NotificationActions from "./NotificationActions";
 import NotificationCard from "./NotificationCard";
-import { getPendingAppointments } from "@/app/actions/appointments";
+import {
+  getPendingAppointments,
+  getUserAppointments,
+} from "@/app/actions/appointments";
 import clsx from "clsx";
 import { cancelAllAppointments } from "@/app/actions/appointments";
+import { useEffect, useState } from "react";
 
-type AvailableAppointments = Awaited<ReturnType<typeof getPendingAppointments>>;
+type AvailableAppointments = Awaited<ReturnType<typeof getUserAppointments>>;
 
-export function Notification({
-  appointments,
-}: {
-  appointments: AvailableAppointments;
-}) {
+export function Notification() {
+  const [appointments, setAppointments] =
+    useState<AvailableAppointments | null>();
+  const [searchValue, setSearchValue] = useState<string>("");
+  const [order, setOrder] = useState<"asc" | "desc">("asc");
   function handleCancelAppointments() {
     cancelAllAppointments();
   }
+
+  useEffect(() => {
+    async function fetchAppointments() {
+      const responseData = await getUserAppointments(searchValue, order);
+
+      setAppointments(responseData);
+    }
+    fetchAppointments();
+  }, [searchValue, order]);
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -57,7 +71,10 @@ export function Notification({
           </div>
         </div>
 
-        <NotificationActions />
+        <NotificationActions
+          setOrder={setOrder}
+          setSearchValue={setSearchValue}
+        />
         {Array.isArray(appointments) && appointments.length ? (
           appointments.map((item) => (
             <NotificationCard key={item.id} data={item} />
