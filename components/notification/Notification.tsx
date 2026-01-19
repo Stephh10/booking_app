@@ -14,6 +14,7 @@ import NotificationActions from "./NotificationActions";
 import NotificationCard from "./NotificationCard";
 import { getPendingAppointments } from "@/app/actions/appointments";
 import clsx from "clsx";
+import { cancelAllAppointments } from "@/app/actions/appointments";
 
 type AvailableAppointments = Awaited<ReturnType<typeof getPendingAppointments>>;
 
@@ -22,6 +23,9 @@ export function Notification({
 }: {
   appointments: AvailableAppointments;
 }) {
+  function handleCancelAppointments() {
+    cancelAllAppointments();
+  }
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -44,19 +48,24 @@ export function Notification({
       <DropdownMenuContent className="w-[400px] p-2" align="end">
         <div className="flex items-center justify-between">
           <h1>Notifications</h1>
-          <div className="text-[var(--btn-primary)] flex items-center gap-1  cursor-pointer underline">
-            <SquarePen className="" size={16} />
+          <div
+            onClick={handleCancelAppointments}
+            className="text-[var(--btn-primary)] flex items-center gap-1  cursor-pointer underline"
+          >
+            <SquarePen size={16} />
             <p>Cancel all requests</p>
           </div>
         </div>
 
         <NotificationActions />
-        {Array.isArray(appointments) ? (
+        {Array.isArray(appointments) && appointments.length ? (
           appointments.map((item) => (
             <NotificationCard key={item.id} data={item} />
           ))
         ) : (
-          <p>No Available Appointments</p>
+          <p className="text-center text-[var(--text-soft)]">
+            No Available Appointments
+          </p>
         )}
         <DropdownMenuSeparator />
       </DropdownMenuContent>

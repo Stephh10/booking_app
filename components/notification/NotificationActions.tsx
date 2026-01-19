@@ -18,8 +18,8 @@ export default function NotificationActions() {
           placeholder="Search..."
         />
       </div>
-      <Select>
-        <SelectTrigger defaultValue={"asc"} className="flex-1 shadow-none">
+      <Select defaultValue={"asc"}>
+        <SelectTrigger className="flex-1 shadow-none">
           <SelectValue placeholder="Sort" />
         </SelectTrigger>
         <SelectContent>

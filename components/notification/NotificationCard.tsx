@@ -1,7 +1,10 @@
 import React from "react";
 import { UserRoundPlus } from "lucide-react";
 import { AppointmentWithPatient } from "@/types/user";
-import { confirmAppointment } from "@/app/actions/appointments";
+import {
+  confirmAppointment,
+  cancelAppointment,
+} from "@/app/actions/appointments";
 import { useState } from "react";
 
 export default function NotificationCard({
@@ -21,6 +24,15 @@ export default function NotificationCard({
       setVisible(true);
     }
   }
+
+  async function handleCancel() {
+    setVisible(false);
+    const response = await cancelAppointment(data.id);
+
+    if (!response.success) {
+      setVisible(true);
+    }
+  }
   return (
     <div className="flex gap-1 p-1 relative border-1 border-neutral-400 rounded my-4">
       <div className="flex-shrink-0 flex items-center justify-center min-w-[35px] h-[35px] border bg-[var(--btn-primary)] rounded-md text-amber-50">
@@ -32,7 +44,10 @@ export default function NotificationCard({
         </h2>
         <p>{data.reason}</p>
         <div className="flex gap-1 my-2">
-          <button className="w-[100px] py-1 bg-[var(--card)]  text-dark-50 border-1 border-neutral-700 rounded-lg cursor-pointer">
+          <button
+            onClick={handleCancel}
+            className="w-[100px] py-1 bg-[var(--card)]  text-dark-50 border-1 border-neutral-700 rounded-lg cursor-pointer"
+          >
             Decline
           </button>
           <button

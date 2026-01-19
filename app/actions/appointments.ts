@@ -57,6 +57,32 @@ export const getPendingAppointments = async (): Promise<
   }
 };
 
+//CANCEL ALL APPOINTMENTS
+
+export const cancelAllAppointments = async () => {
+  try {
+    const authResult = await auth();
+    const activeUser = authResult?.user;
+
+    if (!activeUser) {
+      return { error: "Please Login to continue this operation" };
+    }
+
+    await Prisma.appointment.updateMany({
+      where: {
+        doctorId: activeUser.id,
+      },
+      data: {
+        status: "canceled",
+      },
+    });
+    revalidatePath(`/dashboard`);
+    return { success: true };
+  } catch (error) {
+    return { error: "Failed to cancel appointments" };
+  }
+};
+
 //CANCEL APPOINTMENT
 
 export const cancelAppointment = async (appId: string) => {
