@@ -12,10 +12,7 @@ import { Bell } from "lucide-react";
 import { SquarePen } from "lucide-react";
 import NotificationActions from "./NotificationActions";
 import NotificationCard from "./NotificationCard";
-import {
-  getPendingAppointments,
-  getUserAppointments,
-} from "@/app/actions/appointments";
+import { getUserAppointments } from "@/app/actions/appointments";
 import clsx from "clsx";
 import { cancelAllAppointments } from "@/app/actions/appointments";
 import { useEffect, useState } from "react";
@@ -27,15 +24,25 @@ export function Notification() {
     useState<AvailableAppointments | null>();
   const [searchValue, setSearchValue] = useState<string>("");
   const [order, setOrder] = useState<"asc" | "desc">("asc");
-  function handleCancelAppointments() {
-    cancelAllAppointments();
+  const [error, setError] = useState<string | null>(null);
+
+  async function handleCancelAppointments() {
+    try {
+      await cancelAllAppointments();
+    } catch (error) {
+      setError("Failed to cancel appointments");
+    }
   }
 
   useEffect(() => {
     async function fetchAppointments() {
-      const responseData = await getUserAppointments(searchValue, order);
+      try {
+        const responseData = await getUserAppointments(searchValue, order);
 
-      setAppointments(responseData);
+        setAppointments(responseData);
+      } catch (error) {
+        setError("Failed to fetch appointments");
+      }
     }
     fetchAppointments();
   }, [searchValue, order]);
@@ -62,6 +69,7 @@ export function Notification() {
       <DropdownMenuContent className="w-[400px] p-2" align="end">
         <div className="flex items-center justify-between">
           <h1>Notifications</h1>
+          {error && <p className="text-[var(--destructive)]">{error}</p>}
           <div
             onClick={handleCancelAppointments}
             className="text-[var(--btn-primary)] flex items-center gap-1  cursor-pointer underline"
