@@ -25,9 +25,6 @@ export const getUserAppointments = async (
       return { error: "Sort value is required" };
     }
 
-    console.log("THIS IS TEARM SEARCHHHHHHHHHHHHHHHHHH");
-    console.log(searchTerm);
-
     const appointments = await Prisma.appointment.findMany({
       where: {
         doctorId: activeUser.id,
