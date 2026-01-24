@@ -27,7 +27,7 @@ export default function DeleteAccountSettings() {
         <div className="flex gap-2 w-full md:w-auto">
           <button
             onClick={() => setIsOpen(true)}
-            className="flex-1 md:w-[120px] bg-[#FF3670] text-[var(--text)] border-2 py-2 rounded-lg cursor-pointer"
+            className="flex-1 md:w-[120px] bg-red-500 text-[var(--text)] border-2 py-2 rounded-lg cursor-pointer"
           >
             Delete Account
           </button>

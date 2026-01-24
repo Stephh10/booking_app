@@ -25,7 +25,7 @@ export default function PreferencesSettings({ userData }: { userData: User }) {
 
   const [isPending, startTransition] = useTransition();
   const [timeZone, setTimeZone] = useState<string | undefined>(
-    userData.timeZone ?? undefined
+    userData.timeZone ?? undefined,
   );
 
   function handleTimeZoneChange(value: string) {
@@ -44,9 +44,9 @@ export default function PreferencesSettings({ userData }: { userData: User }) {
   }
 
   return (
-    <div>
+    <div className="w-full m lg:w-[40%]">
       <h1 className="settingsHeader mt-2">Select Theme</h1>
-      <div className="flex flex-col md:flex-row gap-4">
+      <div className="flex flex-col md:flex-row justify-between gap-4 lg:gap-0">
         <ThemeCard
           cardThemeValue="light"
           theme={theme}
@@ -58,7 +58,7 @@ export default function PreferencesSettings({ userData }: { userData: User }) {
           toggleTheme={() => toggleTheme("dark")}
         />
       </div>
-      <div className="preferencesDetails mt-4  w-full lg:w-[38%]">
+      <div className="preferencesDetails mt-4  w-full">
         <h1 className="settingsHeader">Preferences Details</h1>
         <div className="flex justify-between items-center mb-4">
           <h2>Time Zone</h2>
