@@ -3,7 +3,6 @@ import Avatar from "@/components/Avatar";
 import { Notification } from "@/components/notification/Notification";
 import NavSearchInput from "./NavSearchInput";
 import { getUser } from "@/app/actions/user";
-import { getPendingAppointments } from "@/app/actions/appointments";
 
 export default async function DashboardNav() {
   const activeUser = await getUser();

@@ -1,10 +1,8 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
@@ -15,6 +13,7 @@ import NotificationCard from "./NotificationCard";
 import { getUserAppointments } from "@/app/actions/appointments";
 import clsx from "clsx";
 import { cancelAllAppointments } from "@/app/actions/appointments";
+import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
 
 type AvailableAppointments = Awaited<ReturnType<typeof getUserAppointments>>;
@@ -69,7 +68,7 @@ export function Notification() {
       <DropdownMenuContent className="w-[400px] p-2" align="end">
         <div className="flex items-center justify-between">
           <h1>Notifications</h1>
-          {error && <p className="text-[var(--destructive)]">{error}</p>}
+
           <div
             onClick={handleCancelAppointments}
             className="text-[var(--btn-primary)] flex items-center gap-1  cursor-pointer underline"
@@ -87,6 +86,8 @@ export function Notification() {
           appointments.map((item) => (
             <NotificationCard key={item.id} data={item} />
           ))
+        ) : error ? (
+          <p className="text-center text-red-400">{error}</p>
         ) : (
           <p className="text-center text-[var(--text-soft)]">
             No Available Appointments
