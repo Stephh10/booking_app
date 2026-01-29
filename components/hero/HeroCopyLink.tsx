@@ -7,10 +7,13 @@ export default function HeroCopyLink() {
 
   function handleCopy() {
     navigator.clipboard.writeText(
-      `http://localhost:3000/schedule/${process.env.NEXT_PUBLIC_ID}`
+      `http://localhost:3000/schedule/${process.env.NEXT_PUBLIC_ID}`,
     );
     setCopied(true);
-    setTimeout(() => setCopied(false), 1500);
+    setTimeout(() => {
+      setCopied(false);
+      window.open(`http://localhost:3000/demo`, "_blank");
+    }, 1500);
   }
 
   return (

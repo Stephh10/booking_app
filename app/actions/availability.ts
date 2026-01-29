@@ -69,7 +69,7 @@ export const handleCreateBreakTime = async (status: boolean) => {
 export const updateDayTime = async (
   selectedDay: number,
   startTime?: string | Date,
-  endTime?: string | Date
+  endTime?: string | Date,
 ) => {
   const authResult = await auth();
   const activeUser = authResult?.user;
@@ -243,7 +243,7 @@ export const getDoctorAvailability = async (selectedDate: Date) => {
       availability.breakTimeStart.getUTCHours(),
       availability.breakTimeStart.getUTCMinutes(),
       0,
-      0
+      0,
     );
 
     breakEnd = new Date(selectedDate);
@@ -251,7 +251,7 @@ export const getDoctorAvailability = async (selectedDate: Date) => {
       availability.breakTimeEnd.getUTCHours(),
       availability.breakTimeEnd.getUTCMinutes(),
       0,
-      0
+      0,
     );
   }
 
@@ -273,6 +273,58 @@ export const getDoctorAvailability = async (selectedDate: Date) => {
         : false;
 
     if (!overlapsWithAppointment && !overlapsWithBreak) {
+      freeSlots.push({
+        dayOfWeek,
+        startTime: new Date(slotTime),
+        endTime: slotEnd,
+      });
+    }
+
+    slotTime = slotEnd;
+  }
+
+  return freeSlots;
+};
+
+export const getDemoAvailability = async (
+  selectedDate: Date,
+): Promise<FreeSlot[]> => {
+  const dayOfWeek = selectedDate.getDay();
+
+  if (dayOfWeek === 0 || dayOfWeek === 6) {
+    return [];
+  }
+
+  const WORK_START_HOUR = 9;
+  const WORK_END_HOUR = 17;
+
+  const BREAK_START_HOUR = 12;
+  const BREAK_END_HOUR = 13;
+
+  const SLOT_DURATION = 30;
+
+  const workingDayStart = new Date(selectedDate);
+  workingDayStart.setHours(WORK_START_HOUR, 0, 0, 0);
+
+  const workingDayEnd = new Date(selectedDate);
+  workingDayEnd.setHours(WORK_END_HOUR, 0, 0, 0);
+
+  const breakStart = new Date(selectedDate);
+  breakStart.setHours(BREAK_START_HOUR, 0, 0, 0);
+
+  const breakEnd = new Date(selectedDate);
+  breakEnd.setHours(BREAK_END_HOUR, 0, 0, 0);
+
+  const freeSlots: FreeSlot[] = [];
+
+  let slotTime = new Date(workingDayStart);
+
+  while (slotTime < workingDayEnd) {
+    const slotEnd = new Date(slotTime.getTime() + SLOT_DURATION * 60000);
+
+    const overlapsWithBreak = slotTime < breakEnd && slotEnd > breakStart;
+
+    if (!overlapsWithBreak) {
       freeSlots.push({
         dayOfWeek,
         startTime: new Date(slotTime),

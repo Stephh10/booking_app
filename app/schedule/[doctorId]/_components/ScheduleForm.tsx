@@ -6,6 +6,7 @@ import { useForm } from "react-hook-form";
 import { handleScheduleSubmit } from "@/app/actions/schedule";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
+import { Spinner } from "@/components/ui/spinner";
 
 export default function ScheduleForm({
   selectedTime,
@@ -25,6 +26,9 @@ export default function ScheduleForm({
     reValidateMode: "onChange",
   });
 
+  const sleep = (ms: number) =>
+    new Promise((resolve) => setTimeout(resolve, ms));
+
   function newAppointmentSubmit(data: any) {
     const formatedData = {
       date: selectedTime,
@@ -41,11 +45,15 @@ export default function ScheduleForm({
         toast.error("Please select a time");
         return;
       }
-      const response = await handleScheduleSubmit(formatedData, doctorId);
+      if (doctorId !== "test") {
+        const response = await handleScheduleSubmit(formatedData, doctorId);
 
-      if ("error" in response) return;
-
-      router.push(`/appointment/scheduled/${response.id}`);
+        if ("error" in response) return;
+        router.push(`/appointment/scheduled/${response.id}`);
+      } else {
+        await sleep(2000);
+        router.push(`/demo/response`);
+      }
     });
   }
 
@@ -111,9 +119,15 @@ export default function ScheduleForm({
       </div>
       <button
         type="submit"
-        className="h-[40px] bg-[var(--btn-primary)] text-[var(--text)] w-full mb-3 rounded-xl cursor-pointer"
+        className="h-[40px] bg-[var(--btn-primary)] text-[var(--text)] w-full mb-3 rounded-xl cursor-pointer block"
       >
-        {isPending ? "Confirming..." : "Confirm Appointment"}
+        {isPending ? (
+          <div className="flex justify-center">
+            <Spinner className="size-6 text-center" />
+          </div>
+        ) : (
+          "Confirm Appointment"
+        )}
       </button>
     </form>
   );
