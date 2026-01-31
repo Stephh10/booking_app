@@ -7,6 +7,7 @@ import { handleScheduleSubmit } from "@/app/actions/schedule";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import { Spinner } from "@/components/ui/spinner";
+import { useDemoSchedule } from "@/store/useDemoSchedule";
 
 export default function ScheduleForm({
   selectedTime,
@@ -15,6 +16,7 @@ export default function ScheduleForm({
   selectedTime: Date | null;
   doctorId: string;
 }) {
+  const { setDemoSchedule } = useDemoSchedule();
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
   const {
@@ -52,6 +54,7 @@ export default function ScheduleForm({
         router.push(`/appointment/scheduled/${response.id}`);
       } else {
         await sleep(2000);
+        setDemoSchedule(selectedTime);
         router.push(`/demo/response`);
       }
     });
