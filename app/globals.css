@@ -230,7 +230,7 @@ html {
   }
 
   .scheduleMainWrapper {
-    @apply rounded-lg mt-2 border-2 px-1 py-2;
+    @apply rounded-lg border-2 px-1 py-2;
   }
 
   .scheduleMain {
