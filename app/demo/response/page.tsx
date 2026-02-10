@@ -14,7 +14,6 @@ export default function page() {
   }
   return (
     <div className="container h-screen">
-      <h2>App</h2>
       <div className="h-[100vh] flex flex-col items-center justify-center">
         <div className="bg-[var(--bg)] p-4 py-6 max-w-[500px] rounded-lg text-center -mt-20">
           <CircleCheckBig
