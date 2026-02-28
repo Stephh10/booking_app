@@ -46,7 +46,7 @@ export default function page() {
 
   return (
     <div className="h-max flex items-center ">
-      <div className="relative max-w-[900px] mx-auto border-2 border-amber-600">
+      <div className="relative max-w-[900px] mx-auto">
         <div className="absolute w-[200px] h-[50px] flex items-center top-5 left-2 -ml-9">
           <Link href={"/"} className="cursor-pointer">
             <img
