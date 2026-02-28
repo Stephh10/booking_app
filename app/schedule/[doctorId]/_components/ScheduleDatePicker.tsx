@@ -27,8 +27,8 @@ export default function ScheduleDatePicker({
         selected={date}
         onSelect={setDate}
         disabled={(date) => date < today}
-        className="my-4 h-full w-full bg-inherit [&_td]:bg-inherit [&_th]:bg-inherit"
         captionLayout={"buttons" as any}
+        fixedWeeks
       />
     </div>
   );
