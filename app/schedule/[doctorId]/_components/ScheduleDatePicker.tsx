@@ -29,6 +29,7 @@ export default function ScheduleDatePicker({
         disabled={(date) => date < today}
         captionLayout={"buttons" as any}
         fixedWeeks
+        className="w-full"
       />
     </div>
   );

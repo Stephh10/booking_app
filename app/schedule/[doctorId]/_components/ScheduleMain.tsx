@@ -14,7 +14,7 @@ import { getUser } from "@/app/actions/user";
 import Link from "next/link";
 import { useThemeState } from "@/store/useTheme";
 import Image from "next/image";
-import { Globe, Hospital } from "lucide-react";
+import { Globe, Hospital, BadgeCheck } from "lucide-react";
 
 interface FreeSlot {
   dayOfWeek: number;
@@ -61,7 +61,7 @@ export default function ScheduleMain({ doctorId }: { doctorId: string }) {
   return (
     <div className="container">
       {doctorData && !("error" in doctorData) && (
-        <div className="relative max-w-[950px] mx-auto">
+        <div className="relative max-w-[900px] mx-auto">
           <div className="absolute w-[200px] h-[50px] flex items-center top-5 left-2 -ml-9">
             <Link href={"/"} className="cursor-pointer">
               <img
@@ -86,8 +86,13 @@ export default function ScheduleMain({ doctorId }: { doctorId: string }) {
                 />
               </div>
               <div className="mb-2 text-center">
-                <h2 className="text-2xl font-bold">
-                  Dr. {`${doctorData?.firstName} ${doctorData?.lastName}`}
+                <h2 className="text-2xl font-bold flex items-center justify-center">
+                  <BadgeCheck
+                    size={29}
+                    className="inline-block mt-0.5 mr-0.5 fill-[var(--btn-primary)] text-[var(--card)]"
+                  />
+                  {doctorData.role === "doctor" ? "Dr." : "Mr."}{" "}
+                  {`${doctorData?.firstName} ${doctorData?.lastName}`}
                 </h2>
                 <h2 className="text-xl font-bold  text-[var(--btn-primary)] ">
                   {doctorData?.speciality?.trim()
@@ -110,6 +115,11 @@ export default function ScheduleMain({ doctorId }: { doctorId: string }) {
                   <p>English, German</p>
                 </li>
               </ul>
+              {/* {doctorId === doctorData.id && (
+                <div>
+                  <button>Edit Profile</button>
+                </div>
+              )} */}
             </div>
             {/* schedule container */}
             <div className="scheduleMainWrapper bg-[var(--bg)] flex-5">
@@ -137,7 +147,8 @@ export default function ScheduleMain({ doctorId }: { doctorId: string }) {
                     <div className="h-full flex items-center justify-center">
                       <h2 className="text-xl text-center text-[var(--text-soft)]">
                         {" "}
-                        Please choose a valid date to schedule your appointment
+                        No available time slots for the selected date. Please
+                        choose another day.
                       </h2>
                     </div>
                   )}
