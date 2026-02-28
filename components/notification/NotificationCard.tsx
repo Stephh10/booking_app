@@ -6,11 +6,14 @@ import {
   cancelAppointment,
 } from "@/app/actions/appointments";
 import { useState } from "react";
+import formatNotificationTime from "@/lib/dateFormats/formatNotificationTime";
 
 export default function NotificationCard({
   data,
+  updateAppointments,
 }: {
   data: AppointmentWithPatient;
+  updateAppointments: (selectedAppId: string) => void;
 }) {
   const [visible, setVisible] = useState(true);
 
@@ -23,6 +26,8 @@ export default function NotificationCard({
     if (!response.success) {
       setVisible(true);
     }
+
+    updateAppointments(data.id);
   }
 
   async function handleCancel() {
@@ -32,6 +37,8 @@ export default function NotificationCard({
     if (!response.success) {
       setVisible(true);
     }
+
+    updateAppointments(data.id);
   }
   return (
     <div className="flex gap-1 p-1 relative border-1 border-neutral-400 rounded my-4">
@@ -59,8 +66,8 @@ export default function NotificationCard({
         </div>
       </div>
       <div className="cardEnd flex gap-1 items-start justify-center absolute right-1">
-        <p>10min</p>
-        <div className="w-2 h-2 rounded-full bg-red-500 mt-2"></div>
+        <p>{formatNotificationTime(data.createdAt)}</p>
+        <div className="w-2 h-2 rounded-full bg-red-500 mt-2.5"></div>
       </div>
     </div>
   );

@@ -11,7 +11,7 @@ import { AppointmentWithPatient } from "@/types/user";
 
 export const getUserAppointments = async (
   searchTerm: string,
-  sortValue: "asc" | "desc" = "asc",
+  sortValue: "asc" | "desc" = "desc",
 ): Promise<AppointmentWithPatient[] | { error: string }> => {
   try {
     const authResult = await auth();

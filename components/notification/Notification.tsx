@@ -14,7 +14,7 @@ import { getUserAppointments } from "@/app/actions/appointments";
 import clsx from "clsx";
 import { cancelAllAppointments } from "@/app/actions/appointments";
 import { Button } from "@/components/ui/button";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 
 type AvailableAppointments = Awaited<ReturnType<typeof getUserAppointments>>;
 
@@ -22,22 +22,36 @@ export function Notification() {
   const [appointments, setAppointments] =
     useState<AvailableAppointments | null>();
   const [searchValue, setSearchValue] = useState<string>("");
-  const [order, setOrder] = useState<"asc" | "desc">("asc");
+  const [order, setOrder] = useState<"asc" | "desc">("desc");
   const [error, setError] = useState<string | null>(null);
 
   async function handleCancelAppointments() {
     try {
-      await cancelAllAppointments();
+      const response = await cancelAllAppointments();
+
+      if (!response.success) {
+        throw new Error("Failed to cancel appointments");
+      }
+      setAppointments(null);
     } catch (error) {
       setError("Failed to cancel appointments");
     }
   }
 
+  const handleAppointmentUpdate = useCallback(
+    (selectedAppId: string) => {
+      if (Array.isArray(appointments) && selectedAppId) {
+        const filtered = appointments.filter((app) => app.id !== selectedAppId);
+        setAppointments(filtered);
+      }
+    },
+    [appointments],
+  );
+
   useEffect(() => {
     async function fetchAppointments() {
       try {
         const responseData = await getUserAppointments(searchValue, order);
-
         setAppointments(responseData);
       } catch (error) {
         setError("Failed to fetch appointments");
@@ -84,7 +98,11 @@ export function Notification() {
         />
         {Array.isArray(appointments) && appointments.length ? (
           appointments.map((item) => (
-            <NotificationCard key={item.id} data={item} />
+            <NotificationCard
+              key={item.id}
+              data={item}
+              updateAppointments={handleAppointmentUpdate}
+            />
           ))
         ) : error ? (
           <p className="text-center text-red-400">{error}</p>

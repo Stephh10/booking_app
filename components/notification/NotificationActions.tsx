@@ -43,14 +43,14 @@ export default function NotificationActions({
           placeholder="Search..."
         />
       </div>
-      <Select onValueChange={handleOrderChange} defaultValue={"asc"}>
+      <Select onValueChange={handleOrderChange} defaultValue={"desc"}>
         <SelectTrigger className="flex-1 shadow-none">
           <SelectValue placeholder="Sort" />
         </SelectTrigger>
         <SelectContent>
           <SelectGroup>
-            <SelectItem value="asc">Newest</SelectItem>
-            <SelectItem value="desc">Oldest</SelectItem>
+            <SelectItem value="desc">Newest</SelectItem>
+            <SelectItem value="asc">Oldest</SelectItem>
           </SelectGroup>
         </SelectContent>
       </Select>
