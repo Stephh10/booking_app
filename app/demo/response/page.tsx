@@ -6,15 +6,26 @@ import ScheduleFooter from "@/app/schedule/[doctorId]/_components/ScheduleFooter
 import { useDemoSchedule } from "@/store/useDemoSchedule";
 import { formatAppointmentDate } from "@/lib/formatAppointmentDate";
 import { formatAppointmentTime } from "@/lib/formatAppointmentTime";
+import Link from "next/link";
+import { useThemeState } from "@/store/useTheme";
 
 export default function page() {
   const { date } = useDemoSchedule();
+  const { theme } = useThemeState();
   if (!date) {
     throw new Error("Date is required");
   }
   return (
     <div className="container h-screen">
-      <h2>App</h2>
+      <div className="absolute w-[200px] h-[50px] flex items-center top-5 left-2 -ml-9">
+        <Link href={"/"} className="cursor-pointer">
+          <img
+            className="h-full w-auto object-contain"
+            src={theme === "light" ? "/logo.png" : "/logo-light.png"}
+            alt="logo"
+          />
+        </Link>
+      </div>
       <div className="h-[100vh] flex flex-col items-center justify-center">
         <div className="bg-[var(--bg)] p-4 py-6 max-w-[500px] rounded-lg text-center -mt-20">
           <CircleCheckBig
