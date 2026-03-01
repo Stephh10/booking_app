@@ -7,7 +7,7 @@ import ScheduleFooter from "../schedule/[doctorId]/_components/ScheduleFooter";
 import ScheduleForm from "../schedule/[doctorId]/_components/ScheduleForm";
 import AvailableDateCard from "../schedule/[doctorId]/_components/AvailableDateCard";
 import ScheduleDatePicker from "../schedule/[doctorId]/_components/ScheduleDatePicker";
-import { SquareUser, Globe, Hospital } from "lucide-react";
+import { SquareUser, Globe, Hospital, BadgeCheck } from "lucide-react";
 import Link from "next/link";
 import { useThemeState } from "@/store/useTheme";
 import { getDemoAvailability } from "@/app/actions/availability";
@@ -56,9 +56,9 @@ export default function page() {
             />
           </Link>
         </div>
-        <div className="flex gap-4 pt-4">
+        <div className="flex flex-col sm:flex-row gap-4 pt-4">
           {/* doctor container */}
-          <div className="flex-2 bg-[var(--bg)] rounded-lg px-2 pb-5.5 flex flex-col">
+          <div className="flex flex-col md:w-100 w-full bg-[var(--bg)] rounded-lg px-2 pb-5.5">
             <div className="relative w-[200px] h-[200px] rounded-full border mx-auto mt-12 overflow-hidden mb-2">
               <Image
                 src={"/default-profile.png"}
@@ -67,7 +67,13 @@ export default function page() {
               />
             </div>
             <div className="mb-2 text-center">
-              <h2 className="text-2xl font-bold">Dr. Michael Berger</h2>
+              <div className="flex justify-center">
+                <BadgeCheck
+                  size={29}
+                  className="inline-block mt-0.5 mr-0.5 fill-[var(--btn-primary)] text-[var(--card)]"
+                />
+                <h2 className="text-2xl font-bold">Dr. Michael Berger</h2>
+              </div>
               <h2 className="text-xl font-bold  text-[var(--btn-primary)] ">
                 General Medicine
               </h2>
@@ -90,7 +96,7 @@ export default function page() {
           </div>
           {/* schedule container */}
           <div className="scheduleMainWrapper bg-[var(--bg)] w-full">
-            <div className="flex gap-4">
+            <div className="scheduleMain">
               <div className="flex-1 ">
                 <ScheduleDatePicker
                   selectedDate={selectedDate}

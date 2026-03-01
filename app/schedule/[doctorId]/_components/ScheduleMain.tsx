@@ -77,7 +77,7 @@ export default function ScheduleMain({
               />
             </Link>
           </div>
-          <div className="flex gap-4 pt-4">
+          <div className="flex flex-col sm:flex-row gap-4 pt-4">
             {/* doctor container */}
             <div className="flex-2 bg-[var(--bg)] rounded-lg px-2 pb-5.5 flex flex-col">
               <div className="relative w-[200px] h-[200px] rounded-full border mx-auto mt-12 overflow-hidden mb-2">
@@ -134,7 +134,7 @@ export default function ScheduleMain({
             </div>
             {/* schedule container */}
             <div className="scheduleMainWrapper bg-[var(--bg)] flex-5">
-              <div className="scheduleMain max-h-[420px]">
+              <div className="scheduleMain">
                 <div className="flex-1">
                   <ScheduleDatePicker
                     selectedDate={selectedDate}

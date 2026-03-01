@@ -23,7 +23,7 @@ export default async function page({
   return (
     <div className="container h-max">
       <div className="h-[100vh] flex flex-col items-center justify-center">
-        <div className="relative bg-[var(--bg)] p-4 py-6 w-[600px] rounded-lg text-center -mt-20">
+        <div className="relative bg-[var(--bg)] p-4 py-6 w-[95%] sm:w-[600px] rounded-lg text-center -mt-20">
           <div className="absolute -left-5 -top-8 w-[200px]">
             <Link href="/" className="w-[200px]">
               <img src="/logo.png" alt="logo" />

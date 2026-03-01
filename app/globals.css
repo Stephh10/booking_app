@@ -230,11 +230,11 @@ html {
   }
 
   .scheduleMainWrapper {
-    @apply rounded-lg border-2 px-1 py-2;
+    @apply rounded-lg border-2 px-1 py-2 h-max;
   }
 
   .scheduleMain {
-    @apply flex;
+    @apply flex flex-col gap-2 md:flex-row md:gap-0 h-[900px] sm:h-[700px] md:max-h-[420px];
   }
 
   .scheduleInputSection input {
