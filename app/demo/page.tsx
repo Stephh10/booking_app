@@ -45,7 +45,7 @@ export default function page() {
   }, [selectedDate]);
 
   return (
-    <div className="h-max flex items-center ">
+    <div className="container">
       <div className="relative max-w-[900px] mx-auto">
         <div className="absolute w-[200px] h-[50px] flex items-center top-5 left-2 -ml-9">
           <Link href={"/"} className="cursor-pointer">
@@ -58,7 +58,7 @@ export default function page() {
         </div>
         <div className="flex gap-4 pt-4">
           {/* doctor container */}
-          <div className="w-65 bg-[var(--bg)] rounded-lg px-2">
+          <div className="flex-2 bg-[var(--bg)] rounded-lg px-2 pb-5.5 flex flex-col">
             <div className="relative w-[200px] h-[200px] rounded-full border mx-auto mt-12 overflow-hidden mb-2">
               <Image
                 src={"/default-profile.png"}
@@ -97,7 +97,7 @@ export default function page() {
                   setSelectedDate={setSelectedDate}
                 />
               </div>
-              <div className="flex-1 h-[331px] overflow-y-scroll ">
+              <div className="flex-1 h-[400px] overflow-y-scroll ">
                 {availableDates?.length ? (
                   availableDates?.map((data, index) => (
                     <AvailableDateCard
@@ -117,34 +117,6 @@ export default function page() {
                 )}
               </div>
             </div>
-
-            {/* <div className="scheduleMain max-h-[450px]">
-              <div className="flex-1">
-                <ScheduleDatePicker
-                  selectedDate={selectedDate}
-                  setSelectedDate={setSelectedDate}
-                />
-              </div>
-              <div className="flex-1 px-3 overflow-y-scroll h-[400px]">
-                {availableDates?.length ? (
-                  availableDates?.map((data, index) => (
-                    <AvailableDateCard
-                      key={index}
-                      dateData={data}
-                      isActive={activeIndex === index}
-                      onClick={(dateData: any) => (
-                        setActiveIndex(index),
-                        setTimeCard(dateData)
-                      )}
-                    />
-                  ))
-                ) : (
-                  <div className="text-center py-4 text-xl">
-                    No available slots
-                  </div>
-                )}
-              </div>
-            </div> */}
             <ScheduleForm doctorId={"test"} selectedTime={timeCard} />
           </div>
         </div>
