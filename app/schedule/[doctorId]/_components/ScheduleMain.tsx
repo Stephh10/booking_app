@@ -14,7 +14,8 @@ import { getUser } from "@/app/actions/user";
 import Link from "next/link";
 import { useThemeState } from "@/store/useTheme";
 import Image from "next/image";
-import { Globe, Hospital, BadgeCheck } from "lucide-react";
+import { Globe, Hospital, BadgeCheck, GraduationCap } from "lucide-react";
+import ScheduleMainDescCard from "./ScheduleMainDescCard";
 
 interface FreeSlot {
   dayOfWeek: number;
@@ -108,18 +109,26 @@ export default function ScheduleMain({
               </div>
               <div className="line"></div>
               <ul className="text-lg mt-2">
-                <li className="flex gap-2 items-center my-1">
-                  <SquareUser size={20} />
-                  <p>+5 years of experience</p>
-                </li>
-                <li className="flex gap-2 items-center my-1">
-                  <Hospital size={20} />
-                  <p>St Hospital</p>
-                </li>
-                <li className="flex gap-2 items-center my-1">
-                  <Globe size={20} />
-                  <p>English, German</p>
-                </li>
+                <ScheduleMainDescCard
+                  title="Experience"
+                  desc="+5 years of experience"
+                  icon={SquareUser}
+                />
+                <ScheduleMainDescCard
+                  title="Education"
+                  desc="FortisDoc Medical"
+                  icon={GraduationCap}
+                />
+                <ScheduleMainDescCard
+                  title="Workplace"
+                  desc="St Hospital"
+                  icon={Hospital}
+                />
+                <ScheduleMainDescCard
+                  title="Languages"
+                  desc="English, German"
+                  icon={Globe}
+                />
               </ul>
               {activeUser === doctorId && (
                 <div className="mt-auto">

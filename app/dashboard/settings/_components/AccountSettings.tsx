@@ -57,7 +57,7 @@ export default function AccountSettings({ userData }: { userData: User }) {
             <Label>Account Role</Label>
             {isEditing ? (
               <Select onValueChange={(value) => setAccountRole(value)}>
-                <SelectTrigger className="w-full bg-[var(--background)] border h-[35px] pl-1 text-md rounded-lg  shadow-none">
+                <SelectTrigger className="w-full bg-[var(--background)] border border-neutral-400 h-[30px] pl-1 text-md rounded  shadow-none">
                   <SelectValue placeholder="Doctor" />
                 </SelectTrigger>
                 <SelectContent>
@@ -85,6 +85,43 @@ export default function AccountSettings({ userData }: { userData: User }) {
           <EditableField
             label="Speciality"
             name="speciality"
+            inputData={userData.speciality}
+            isEditing={isEditing}
+            register={register}
+            errors={errors}
+          />
+        </div>
+        {/* SCHEDULE ADITIONAL INFORMATIONS */}
+        <div className="inputSection">
+          <EditableField
+            label="Education"
+            name="eduction"
+            inputData={userData.speciality}
+            isEditing={isEditing}
+            register={register}
+            errors={errors}
+          />
+          <EditableField
+            label="Experience"
+            name="experience"
+            inputData={userData.speciality}
+            isEditing={isEditing}
+            register={register}
+            errors={errors}
+          />
+        </div>
+        <div className="inputSection">
+          <EditableField
+            label="Workplace"
+            name="workplace"
+            inputData={userData.speciality}
+            isEditing={isEditing}
+            register={register}
+            errors={errors}
+          />
+          <EditableField
+            label="Languages"
+            name="languages"
             inputData={userData.speciality}
             isEditing={isEditing}
             register={register}
