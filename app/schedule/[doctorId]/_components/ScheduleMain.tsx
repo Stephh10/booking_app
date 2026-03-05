@@ -109,26 +109,37 @@ export default function ScheduleMain({
               </div>
               <div className="line"></div>
               <ul className="text-lg mt-2">
-                <ScheduleMainDescCard
-                  title="Experience"
-                  desc="+5 years of experience"
-                  icon={SquareUser}
-                />
-                <ScheduleMainDescCard
-                  title="Education"
-                  desc="FortisDoc Medical"
-                  icon={GraduationCap}
-                />
-                <ScheduleMainDescCard
-                  title="Workplace"
-                  desc="St Hospital"
-                  icon={Hospital}
-                />
-                <ScheduleMainDescCard
-                  title="Languages"
-                  desc="English, German"
-                  icon={Globe}
-                />
+                {doctorData?.experience && (
+                  <ScheduleMainDescCard
+                    title="Experience"
+                    desc={`${doctorData.experience} years of experience`}
+                    icon={SquareUser}
+                  />
+                )}
+
+                {doctorData?.education && (
+                  <ScheduleMainDescCard
+                    title="Education"
+                    desc="FortisDoc Medical"
+                    icon={GraduationCap}
+                  />
+                )}
+
+                {doctorData?.workplace && (
+                  <ScheduleMainDescCard
+                    title="Workplace"
+                    desc="St Hospital"
+                    icon={Hospital}
+                  />
+                )}
+
+                {doctorData?.languageProficiency && (
+                  <ScheduleMainDescCard
+                    title="Languages"
+                    desc="English, German"
+                    icon={Globe}
+                  />
+                )}
               </ul>
               {activeUser === doctorId && (
                 <div className="mt-auto">
@@ -150,7 +161,7 @@ export default function ScheduleMain({
                     setSelectedDate={setSelectedDate}
                   />
                 </div>
-                <div className="mainRight flex-1 px-3 overflow-y-scroll h-[330px]">
+                <div className="mainRight flex-1 px-3 overflow-y-scroll h-[390px]">
                   {availableDates?.length ? (
                     availableDates?.map((data, index) => (
                       <AvailableDateCard

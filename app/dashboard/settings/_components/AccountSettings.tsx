@@ -27,6 +27,8 @@ export default function AccountSettings({ userData }: { userData: User }) {
   const [accountRole, setAccountRole] = React.useState(userData.role);
   const { isEditing, setIsEditing, submit } = useEditSettings();
 
+  console.log(userData);
+
   const {
     register,
     handleSubmit,
@@ -35,8 +37,13 @@ export default function AccountSettings({ userData }: { userData: User }) {
   } = useForm();
 
   function onSubmit(data: any) {
-    const formatedData = { ...data, role: accountRole };
+    const formatedData = {
+      ...data,
+      role: accountRole,
+      experience: parseInt(data.experience),
+    };
     startTransition(async () => {
+      console.log(formatedData);
       await updateUser(formatedData);
       setIsEditing(false);
     });
@@ -95,8 +102,8 @@ export default function AccountSettings({ userData }: { userData: User }) {
         <div className="inputSection">
           <EditableField
             label="Education"
-            name="eduction"
-            inputData={userData.speciality}
+            name="education"
+            inputData={userData.education}
             isEditing={isEditing}
             register={register}
             errors={errors}
@@ -104,7 +111,8 @@ export default function AccountSettings({ userData }: { userData: User }) {
           <EditableField
             label="Experience"
             name="experience"
-            inputData={userData.speciality}
+            inputData={userData.experience}
+            inputType={"number"}
             isEditing={isEditing}
             register={register}
             errors={errors}
@@ -114,20 +122,21 @@ export default function AccountSettings({ userData }: { userData: User }) {
           <EditableField
             label="Workplace"
             name="workplace"
-            inputData={userData.speciality}
+            inputData={userData.workplace}
             isEditing={isEditing}
             register={register}
             errors={errors}
           />
           <EditableField
             label="Languages"
-            name="languages"
-            inputData={userData.speciality}
+            name="languageProficiency"
+            inputData={userData.languageProficiency}
             isEditing={isEditing}
             register={register}
             errors={errors}
           />
         </div>
+        {/* Private user information */}
         <div className="inputSection">
           <div className="flex-1">
             <Label>Account Status</Label>

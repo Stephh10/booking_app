@@ -47,8 +47,14 @@ model User {
   address    String?
   postalCode Int?
 
-  //user config
+  //aditional info for SheduleMain component
 
+  experience          Int?
+  workplace           String?
+  education           String?
+  languageProficiency String?
+
+  //user config
   language     String @default("english")
   sidebarWidth String @default("240")
   timeZone     String @default("est")
