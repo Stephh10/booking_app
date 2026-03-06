@@ -11,6 +11,7 @@ import { useTransition } from "react";
 import { User } from "@prisma/client";
 import clsx from "clsx";
 import { Spinner } from "@/components/ui/spinner";
+import { SelectInput } from "@/components/SelectInput";
 
 export default function page() {
   const [isPending, startTransition] = useTransition();
@@ -19,6 +20,7 @@ export default function page() {
   const {
     register,
     handleSubmit,
+    control,
     formState: { errors },
     setError,
   } = useForm<User>();
@@ -86,6 +88,7 @@ export default function page() {
               errors={errors}
               validation={{ required: "Last name is required" }}
             />
+
             <EditableField
               label="Email"
               name="email"
@@ -101,6 +104,19 @@ export default function page() {
                 },
               }}
             />
+            <SelectInput
+              name="region"
+              control={control}
+              componentProps={{
+                options: [
+                  { value: "first_visit", label: "First Visit" },
+                  { value: "follow_up", label: "Second Visit" },
+                  { value: "online", label: "Online" },
+                  { value: "emergency", label: "Emergency" },
+                ],
+              }}
+            />
+
             <EditableField
               label="Password"
               name="password"
@@ -122,7 +138,7 @@ export default function page() {
               disabled={isPending}
               className={clsx(
                 "formBtn bg-[var(--lp-primary)] mt-5 justify-self-end w-full",
-                isPending && "cursor-not-allowed"
+                isPending && "cursor-not-allowed",
               )}
             >
               {isPending ? (

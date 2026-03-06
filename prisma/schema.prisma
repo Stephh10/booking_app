@@ -39,6 +39,7 @@ model User {
   phone      Int?
   password   String
   role       String   @default("doctor")
+  region     String   @default("us")
   speciality String?
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt

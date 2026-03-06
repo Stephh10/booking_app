@@ -12,6 +12,7 @@ import {
 interface SelectInputProps {
   name: string;
   control: any;
+  customClassName?: string;
   componentProps?: {
     options?: { value: string | boolean; label: string }[];
     placeholder?: string;
@@ -22,6 +23,7 @@ interface SelectInputProps {
 export const SelectInput: React.FC<SelectInputProps> = ({
   name,
   control,
+  customClassName,
   componentProps = {},
 }) => {
   const { options = [], placeholder, disabled } = componentProps;
@@ -35,7 +37,7 @@ export const SelectInput: React.FC<SelectInputProps> = ({
       control={control}
       render={({ field }) => (
         <Select
-          value={isBooleanOptions ? String(field.value) : field.value ?? ""}
+          value={isBooleanOptions ? String(field.value) : (field.value ?? "")}
           onValueChange={(val) => {
             if (isBooleanOptions) {
               field.onChange(val === "true");
@@ -52,7 +54,7 @@ export const SelectInput: React.FC<SelectInputProps> = ({
                   ? "Yes"
                   : "No"
                 : options.find(
-                    (opt) => String(opt.value) === String(field.value)
+                    (opt) => String(opt.value) === String(field.value),
                   )?.label || placeholder}
             </SelectValue>
           </SelectTrigger>

@@ -176,8 +176,8 @@ export default function AppDetails({
                         appointmentData?.time
                           ? formatWorkCardDate(appointmentData?.time)
                           : field.value
-                          ? formatWorkCardDate(field.value)
-                          : null
+                            ? formatWorkCardDate(field.value)
+                            : null
                       }
                       onValueChange={field.onChange}
                       availableDates={availableDates}
@@ -204,7 +204,7 @@ export default function AppDetails({
                 type="submit"
                 className={clsx(
                   "primaryBtn px-7",
-                  isPending && "pointer-events-none"
+                  isPending && "pointer-events-none",
                 )}
               >
                 {isPending ? <Spinner className="size-6" /> : "Save"}
@@ -222,7 +222,7 @@ export default function AppDetails({
                   control={control}
                   componentProps={{
                     placeholder: formatAppointmentType(
-                      appointmentData?.appointmentType
+                      appointmentData?.appointmentType,
                     ),
 
                     options: [
