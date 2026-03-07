@@ -43,11 +43,11 @@ export default function page() {
   }
 
   return (
-    <div className="h-[90vh] w-full flex items-center  justify-center ">
-      <div className="text-center p-7 flex gap-5 w-[1200px] h-[520px]">
+    <div className="h-full  flex items-center justify-center">
+      <div className="text-center flex gap-5 w-[1200px] px-2 h-[490px]">
         <div className="hidden sm:block relative flex-4 h-full rounded-lg overflow-hidden">
           <Image src="/login-image.jpg" alt="register-image" fill />
-          <div className="absolute top-10 left-10 right-10 flex justify-between items-center text-[var(--lp-card)] z-10">
+          <div className="absolute top-5 left-10 right-10 flex justify-between items-center text-[var(--lp-card)] z-10">
             <h1 className="text-2xl">AppointDoc</h1>
             <div className="flex items-center">
               <h1 className="text-2xl gap-1">We Care</h1>
@@ -64,7 +64,7 @@ export default function page() {
             </h1>
           </div>
         </div>
-        <div className="flex-2 bg-[var(--bg)] h-full px-5 py-10 rounded-lg ">
+        <div className="flex-2 bg-[var(--bg)] h-full px-5 py-5 rounded-lg mx-4 md:mx-0">
           <h1 className="text-3xl font-bold mb-1 text-[var(--lp-primary)]">
             Hey! Let’s pick up where you left off
           </h1>
@@ -104,7 +104,7 @@ export default function page() {
                   disabled={isPending}
                   className={clsx(
                     "formBtn bg-[var(--lp-primary)] mt-5 justify-self-end w-full",
-                    isPending && "cursor-not-allowed"
+                    isPending && "cursor-not-allowed",
                   )}
                 >
                   {isPending ? (

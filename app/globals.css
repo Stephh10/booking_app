@@ -213,6 +213,14 @@ html {
     @apply flex gap-1 md:gap-3 w-full;
   }
 
+  .scheduleInputSection input {
+    @apply border-2 h-[40px] mb-2;
+  }
+
+  .scheduleInputSection textarea {
+    @apply border-2;
+  }
+
   .inputControl {
     @apply flex-col flex-1  overflow-x-hidden;
   }
@@ -235,14 +243,6 @@ html {
 
   .scheduleMain {
     @apply flex flex-col gap-2 md:flex-row md:gap-0 h-[900px] sm:h-[700px] md:max-h-[420px];
-  }
-
-  .scheduleInputSection input {
-    @apply border-2 h-[40px] mb-2;
-  }
-
-  .scheduleInputSection textarea {
-    @apply border-2;
   }
 
   .scheduleFooter {

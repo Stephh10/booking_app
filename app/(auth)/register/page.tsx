@@ -41,11 +41,11 @@ export default function page() {
   }
 
   return (
-    <div className="h-[90vh] w-full flex items-center justify-center">
-      <div className="text-center p-7 flex items-center gap-5 w-[1200px] h-[540px] md:h-[670px] lg:h-[540px]">
+    <div className="h-full w-full flex items-center justify-center">
+      <div className="text-center flex items-center gap-5 w-[1200px] h-[540px] md:h-[670px] lg:h-[495px]">
         <div className="hidden md:block relative flex-4 h-full rounded-lg overflow-hidden">
           <Image src="/register-image.jpg" alt="register-image" fill />
-          <div className="absolute top-10 left-10 right-10 flex justify-between items-center text-[var(--lp-card)] z-10">
+          <div className="absolute top-5 left-10 right-10 flex justify-between items-center text-[var(--lp-card)] z-10">
             <h1 className="text-2xl">AppointDoc</h1>
             <div className="flex items-center">
               <h1 className="text-2xl gap-1">We Care</h1>
@@ -62,7 +62,7 @@ export default function page() {
             </h1>
           </div>
         </div>
-        <div className="flex-2 bg-[var(--bg)] h-full px-5 py-10 rounded-lg">
+        <div className="flex-2 bg-[var(--bg)] h-full px-5 py-5 rounded-lg">
           <h1 className="text-3xl font-bold  text-left text-[var(--lp-primary)] mb-1">
             Start using your dashboard in minutes.
           </h1>
@@ -70,24 +70,26 @@ export default function page() {
             className="authForm flex flex-col text-left"
             onSubmit={handleSubmit(handleFormSubmit)}
           >
-            <EditableField
-              label="First Name"
-              name="firstName"
-              inputData={""}
-              isEditing={isEditing}
-              register={register}
-              errors={errors}
-              validation={{ required: "First name is required" }}
-            />
-            <EditableField
-              label="Last Name"
-              name="lastName"
-              inputData={null}
-              isEditing={isEditing}
-              register={register}
-              errors={errors}
-              validation={{ required: "Last name is required" }}
-            />
+            <div className="inputSection">
+              <EditableField
+                label="First Name"
+                name="firstName"
+                inputData={""}
+                isEditing={isEditing}
+                register={register}
+                errors={errors}
+                validation={{ required: "First name is required" }}
+              />
+              <EditableField
+                label="Last Name"
+                name="lastName"
+                inputData={null}
+                isEditing={isEditing}
+                register={register}
+                errors={errors}
+                validation={{ required: "Last name is required" }}
+              />
+            </div>
 
             <EditableField
               label="Email"
@@ -107,12 +109,14 @@ export default function page() {
             <SelectInput
               name="region"
               control={control}
+              customLabel="Region"
               componentProps={{
                 options: [
-                  { value: "first_visit", label: "First Visit" },
-                  { value: "follow_up", label: "Second Visit" },
-                  { value: "online", label: "Online" },
-                  { value: "emergency", label: "Emergency" },
+                  { value: "na", label: "North America" },
+                  { value: "sa", label: "South America" },
+                  { value: "eu", label: "Europe" },
+                  { value: "as", label: "Asia" },
+                  { value: "af", label: "Africa" },
                 ],
               }}
             />
