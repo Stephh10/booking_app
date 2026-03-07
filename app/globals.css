@@ -290,7 +290,7 @@ html {
   }
 
   .lp-navBtn {
-    @apply bg-[var(--lp-primary)] text-[var(--text)] p-2 rounded-lg cursor-pointer;
+    @apply bg-[var(--lp-primary)] text-[var(--text)] p-2 rounded-lg min-w-17 flex items-center justify-center cursor-pointer;
   }
 
   .lp-text {

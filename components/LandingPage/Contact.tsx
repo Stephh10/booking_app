@@ -95,7 +95,7 @@ export default function Contact() {
             isEditing={isEditing}
             register={register}
             errors={errors}
-            validation={{ required: "First name is required" }}
+            validation={{ required: "Last name is required" }}
           />
         </div>
         <EditableField

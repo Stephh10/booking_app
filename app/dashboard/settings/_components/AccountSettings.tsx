@@ -1,6 +1,6 @@
 "use client";
 
-import React, { use } from "react";
+import React from "react";
 
 import EditableField from "../../patient/_components/EditableField";
 import { useEditSettings } from "@/store/useEditSettings";
@@ -21,13 +21,11 @@ import { useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { useEffect } from "react";
 import { updateUser } from "@/app/actions/user";
+import { SelectInput } from "@/components/SelectInput";
 
 export default function AccountSettings({ userData }: { userData: User }) {
   const [isPending, startTransition] = useTransition();
-  const [accountRole, setAccountRole] = React.useState(userData.role);
   const { isEditing, setIsEditing, submit } = useEditSettings();
-
-  console.log(userData);
 
   const {
     register,
@@ -39,11 +37,12 @@ export default function AccountSettings({ userData }: { userData: User }) {
   function onSubmit(data: any) {
     const formatedData = {
       ...data,
-      role: accountRole,
       experience: parseInt(data.experience),
     };
+
+    console.log(formatedData);
+
     startTransition(async () => {
-      console.log(formatedData);
       await updateUser(formatedData);
       setIsEditing(false);
     });
@@ -60,35 +59,23 @@ export default function AccountSettings({ userData }: { userData: User }) {
       <h1 className="settingsHeader">Account Settings</h1>
       <form className="w-full" onSubmit={handleSubmit(onSubmit)}>
         <div className="inputSection">
-          <div className="flex flex-col flex-1">
-            <Label>Account Role</Label>
-            {isEditing ? (
-              <Select onValueChange={(value) => setAccountRole(value)}>
-                <SelectTrigger className="w-full bg-[var(--background)] border border-neutral-400 h-[30px] pl-1 text-md rounded  shadow-none">
-                  <SelectValue placeholder="Doctor" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectGroup>
-                    <SelectItem value="doctor">Doctor</SelectItem>
-                    <SelectItem value="nurse">Nurse</SelectItem>
-                    <SelectItem value="physician-assistant">
-                      Physician Assistant
-                    </SelectItem>
-                    <SelectItem value="medical-assistant">
-                      Medical Assistant
-                    </SelectItem>
-                    <SelectItem value="technician">Technician</SelectItem>
-                    <SelectItem value="therapist">Therapist</SelectItem>
-                    <SelectItem value="pharmacist">Pharmacist</SelectItem>
-                    <SelectItem value="paramedic">Paramedic / EMT</SelectItem>
-                    <SelectItem value="admin">Administrative Staff</SelectItem>
-                  </SelectGroup>
-                </SelectContent>
-              </Select>
-            ) : (
-              <h2 className="formText">{accountRole}</h2>
-            )}
-          </div>
+          <SelectInput
+            name="role"
+            control={control}
+            isEditing={isEditing}
+            customLabel="Account Role"
+            inputData={
+              userData.role
+                ? userData.role.charAt(0).toUpperCase() + userData.role.slice(1)
+                : ""
+            }
+            componentProps={{
+              options: [
+                { value: "doctor", label: "Doctor" },
+                { value: "nurse", label: "Nurse" },
+              ],
+            }}
+          />
           <EditableField
             label="Speciality"
             name="speciality"
