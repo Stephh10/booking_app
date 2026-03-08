@@ -44,7 +44,7 @@ export default function PreferencesSettings({ userData }: { userData: User }) {
   }
 
   return (
-    <div className="w-full m lg:w-[40%]">
+    <div className="w-full m lg:w-[520px]">
       <h1 className="settingsHeader mt-2">Select Theme</h1>
       <div className="flex flex-col md:flex-row justify-between gap-4 lg:gap-0">
         <ThemeCard
