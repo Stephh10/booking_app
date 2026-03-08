@@ -106,18 +106,26 @@ export default function AccountSettings({ userData }: { userData: User }) {
           />
         </div>
         <div className="inputSection">
+          <SelectInput
+            name="region"
+            control={control}
+            isEditing={isEditing}
+            customLabel="Region"
+            inputData={userData.region.toUpperCase()}
+            componentProps={{
+              options: [
+                { value: "na", label: "North America" },
+                { value: "sa", label: "South America" },
+                { value: "eu", label: "Europe" },
+                { value: "as", label: "Asia" },
+                { value: "af", label: "Africa" },
+              ],
+            }}
+          />
           <EditableField
             label="Workplace"
             name="workplace"
             inputData={userData.workplace}
-            isEditing={isEditing}
-            register={register}
-            errors={errors}
-          />
-          <EditableField
-            label="Languages"
-            name="languageProficiency"
-            inputData={userData.languageProficiency}
             isEditing={isEditing}
             register={register}
             errors={errors}

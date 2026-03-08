@@ -132,14 +132,6 @@ export default function ScheduleMain({
                     icon={Hospital}
                   />
                 )}
-
-                {doctorData?.languageProficiency && (
-                  <ScheduleMainDescCard
-                    title="Languages"
-                    desc="English, German"
-                    icon={Globe}
-                  />
-                )}
               </ul>
               {activeUser === doctorId && (
                 <div className="mt-auto">
