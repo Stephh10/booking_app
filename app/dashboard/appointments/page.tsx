@@ -10,12 +10,16 @@ import CompleteAppointmentsTable from "./_components/tables/CompleteAppointments
 import TodayAppointmentsTable from "./_components/tables/TodayAppointmentsTable/TodayAppointmentsTable";
 import AppointmentsTable from "./_components/tables/AppointmentsTable/AppointmentsTable";
 import TabListApp from "./_components/TabListApp";
+import { auth } from "@/auth";
 
 export default async function page({
   searchParams,
 }: {
   searchParams: Promise<{ view?: string }>;
 }) {
+  const activeUser = await auth();
+  const { region: userRegion } = activeUser?.user || {};
+  console.log(activeUser);
   const paramsData = await searchParams;
   const currentView = paramsData?.view || "all";
 
@@ -44,7 +48,10 @@ export default async function page({
             <CompleteAppointmentsTable data={safePastAppData} />
           </TabsContent>
           <TabsContent value="all">
-            <AppointmentsTable data={safeAllAppointments} />
+            <AppointmentsTable
+              data={safeAllAppointments}
+              userRegion={userRegion || null}
+            />
           </TabsContent>
         </Tabs>
       </div>

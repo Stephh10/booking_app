@@ -13,6 +13,7 @@ import { MoreHorizontal } from "lucide-react";
 import { redirect } from "next/navigation";
 import { deleteAppointment } from "@/app/actions/appointments";
 import { cancelAppointment } from "@/app/actions/appointments";
+import { formatDate } from "@/lib/formatDate";
 
 type AppointmentWithPatient = Appointment & {
   patient: {
@@ -21,7 +22,9 @@ type AppointmentWithPatient = Appointment & {
   } | null;
 };
 
-export const appointmentsColumns: ColumnDef<AppointmentWithPatient>[] = [
+export const appointmentsColumns = (
+  region: string = "na",
+): ColumnDef<AppointmentWithPatient>[] => [
   {
     id: "select",
     header: ({ table }) => (
@@ -63,33 +66,10 @@ export const appointmentsColumns: ColumnDef<AppointmentWithPatient>[] = [
   },
   {
     accessorKey: "date",
-    header: "Time",
+    header: "Date&Time",
     cell: ({ row }) => {
       const date: Date = row.getValue("date");
-      return new Date(date).toLocaleTimeString("en-US", {
-        hour: "numeric",
-        minute: "2-digit",
-        hour12: true,
-      });
-    },
-  },
-  {
-    id: "time",
-    accessorKey: "date",
-    header: "Date",
-    enableSorting: true,
-    sortingFn: (a, b) => {
-      const dateA = new Date(a.getValue("date")).getTime();
-      const dateB = new Date(b.getValue("date")).getTime();
-      return dateA - dateB;
-    },
-    cell: ({ row }) => {
-      const date: Date = row.getValue("date");
-      return new Date(date).toLocaleDateString("en-GB", {
-        year: "numeric",
-        month: "2-digit",
-        day: "2-digit",
-      });
+      return <span>{formatDate(date, region)}</span>;
     },
   },
   {
