@@ -25,7 +25,9 @@ export default async function DashboardStats() {
       <DashboardCard
         title="Next Appointment"
         value={
-          "error" in nextAppData ? "" : formatDate(nextAppData.appointment.date)
+          "error" in nextAppData
+            ? ""
+            : formatDate(nextAppData.appointment.date, nextAppData.region)
         }
         className="dashboardStats"
         desc={

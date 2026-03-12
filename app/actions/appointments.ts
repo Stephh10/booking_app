@@ -179,7 +179,11 @@ export const getPastAppointments = async (): Promise<
 //GET NEXT APPOINTMENT
 
 export const getNextAppointment = async (): Promise<
-  | { patient: Patient; appointment: { id: string; date: Date } }
+  | {
+      patient: Patient;
+      appointment: { id: string; date: Date };
+      region: string;
+    }
   | { error: string }
 > => {
   const authResult = await auth();
@@ -196,6 +200,13 @@ export const getNextAppointment = async (): Promise<
       doctorId: activeUser.id,
       date: {
         gt: now,
+      },
+    },
+    include: {
+      doctor: {
+        select: {
+          region: true,
+        },
       },
     },
     orderBy: {
@@ -224,6 +235,7 @@ export const getNextAppointment = async (): Promise<
   return {
     patient,
     appointment: { id: nextAppointment.id, date: nextAppointment.date },
+    region: nextAppointment.doctor.region,
   };
 };
 

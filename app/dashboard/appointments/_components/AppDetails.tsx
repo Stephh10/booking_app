@@ -49,8 +49,6 @@ export default function AppDetails({
   const { diagnose, duration, date, reason, status, price, paid, insuranceId } =
     appointmentData;
 
-  console.log(appointmentData);
-
   function handleDataSubmit(data: Appointment) {
     if (!appointmentData?.date && !appointmentData.time) {
       return toast.error("Please select a date and time");
