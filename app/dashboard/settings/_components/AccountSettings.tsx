@@ -22,10 +22,11 @@ import { useForm } from "react-hook-form";
 import { useEffect } from "react";
 import { updateUser } from "@/app/actions/user";
 import { SelectInput } from "@/components/SelectInput";
-
+import { useSession } from "next-auth/react";
 export default function AccountSettings({ userData }: { userData: User }) {
   const [isPending, startTransition] = useTransition();
   const { isEditing, setIsEditing, submit } = useEditSettings();
+  const { update } = useSession();
 
   const {
     register,
@@ -40,10 +41,12 @@ export default function AccountSettings({ userData }: { userData: User }) {
       experience: parseInt(data.experience),
     };
 
-    console.log(formatedData);
-
+    console.log(formatedData.region);
     startTransition(async () => {
       await updateUser(formatedData);
+      await update({
+        region: formatedData.region,
+      });
       setIsEditing(false);
     });
   }

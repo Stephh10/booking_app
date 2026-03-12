@@ -22,7 +22,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
         const isValidPassword = await bcrypt.compare(
           credentials.password,
-          user.password
+          user.password,
         );
 
         if (!isValidPassword) return null;
@@ -32,23 +32,29 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           email: user.email,
           firstName: user.firstName,
           lastName: user.lastName,
+          region: user.region,
         };
       },
     }),
   ],
   callbacks: {
-    async jwt({ token, user }) {
+    async jwt({ token, user, session, trigger }) {
+      //after login
       if (user) {
-        token.id = user.id;
-        token.firstName = user.firstName;
-        token.lastName = user.lastName;
+        token.user = user;
       }
+
+      //update logic
+      if (trigger === "update" && session?.region) {
+        if (token.user) {
+          (token.user as { region?: string }).region = session.region;
+        }
+      }
+
       return token;
     },
     async session({ session, token }) {
-      session.user.id = token.id as string;
-      session.user.firstName = token.firstName as string;
-      session.user.lastName = token.lastName as string;
+      session.user = token.user as any;
       return session;
     },
   },
