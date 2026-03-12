@@ -25,7 +25,7 @@ import { formatAppointmentType } from "@/lib/formatAppointmentType";
 export default function AppDetails({
   appointmentData,
 }: {
-  appointmentData: Appointment;
+  appointmentData: Appointment & { doctor: { region: string } };
 }) {
   const {
     register,
@@ -37,9 +37,7 @@ export default function AppDetails({
   } = useForm<Appointment>();
 
   const router = useRouter();
-
   const [isPending, startTransition] = useTransition();
-
   //date state
   const [availableDates, setAvailableDates] = useState<string[] | null>(null);
 
@@ -50,6 +48,8 @@ export default function AppDetails({
 
   const { diagnose, duration, date, reason, status, price, paid, insuranceId } =
     appointmentData;
+
+  console.log(appointmentData);
 
   function handleDataSubmit(data: Appointment) {
     if (!appointmentData?.date && !appointmentData.time) {
@@ -88,15 +88,6 @@ export default function AppDetails({
         onSubmit={handleSubmit(handleDataSubmit)}
       >
         <div className="flex-1">
-          {/* <div
-            className={`absolute top-0 right-0 text-[var(--text)] rounded-lg px-4 py-2 text-center capitalize ${
-              status !== "scheduled"
-                ? "border-2 text-[var(--text-soft)]"
-                : "bg-[var(--btn-primary)]"
-            }`}
-          >
-            {status}
-          </div> */}
           <EditableField
             label="Reason"
             name="reason"
@@ -151,7 +142,10 @@ export default function AppDetails({
                     <div>
                       <h2>Date</h2>
                       <p className="formText">
-                        {formatDate(appointmentData?.date || "")}
+                        {formatDate(
+                          appointmentData?.date || "",
+                          appointmentData?.doctor?.region,
+                        )}
                       </p>
                     </div>
                   )}

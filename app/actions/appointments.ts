@@ -348,20 +348,29 @@ export const updateSelectedAppointment = async (
 
 export const getSelectedAppointment = async (
   appId: string,
-): Promise<Appointment | { error: string }> => {
+): Promise<
+  (Appointment & { doctor: { region: string } }) | { error: string }
+> => {
   if (!appId) {
     return { error: "Appointment id is required" };
   }
 
   const appointment = await Prisma.appointment.findFirst({
     where: { id: appId },
+    include: {
+      doctor: {
+        select: {
+          region: true,
+        },
+      },
+    },
   });
 
   if (!appointment) {
     return { error: "Appointment data not found" };
   }
 
-  return appointment as unknown as Appointment;
+  return appointment;
 };
 
 //GET PATIENT FROM APPOINTMENT ID

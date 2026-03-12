@@ -1,16 +1,11 @@
-import { auth } from "@/auth";
-
-export async function formatDate(dateInput: string | Date) {
-  const session = await auth();
-  const user = session?.user;
-
+export function formatDate(dateInput: string | Date, region: string = "na") {
   const date = typeof dateInput === "string" ? new Date(dateInput) : dateInput;
 
   if (isNaN(date.getTime())) {
     return "";
   }
 
-  if (user && user?.region === "na") {
+  if (region === "na") {
     const day = date.getDate();
     const month = date.toLocaleString("en-US", { month: "short" });
     const time = date.toLocaleString("en-US", {
