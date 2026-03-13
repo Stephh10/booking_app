@@ -42,10 +42,16 @@ export default async function page({
         <Tabs className="w-full" defaultValue={currentView}>
           <TabListApp />
           <TabsContent value="today">
-            <TodayAppointmentsTable data={safeTodaysAppData} />
+            <TodayAppointmentsTable
+              userRegion={userRegion || null}
+              data={safeTodaysAppData}
+            />
           </TabsContent>
           <TabsContent value="completed">
-            <CompleteAppointmentsTable data={safePastAppData} />
+            <CompleteAppointmentsTable
+              userRegion={userRegion || null}
+              data={safePastAppData}
+            />
           </TabsContent>
           <TabsContent value="all">
             <AppointmentsTable

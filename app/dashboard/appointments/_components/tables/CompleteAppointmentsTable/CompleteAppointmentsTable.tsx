@@ -13,7 +13,6 @@ import {
 } from "@tanstack/react-table";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import { historyColumns } from "../../../../_components/HistoryColumns";
-import { Input } from "@/components/ui/input";
 
 import { completeAppointmentsColumns } from "./CompleteAppointmentsColumns";
 
@@ -44,12 +43,14 @@ type AppointmentWithPatient = Appointment & {
 
 export default function CompleteAppointmentsTable({
   data,
+  userRegion,
 }: {
   data: AppointmentWithPatient[];
+  userRegion: string | null;
 }) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
-    []
+    [],
   );
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({
@@ -59,7 +60,7 @@ export default function CompleteAppointmentsTable({
 
   const table = useReactTable({
     data,
-    columns: completeAppointmentsColumns,
+    columns: completeAppointmentsColumns(userRegion || "na"),
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
     getCoreRowModel: getCoreRowModel(),
@@ -139,7 +140,7 @@ export default function CompleteAppointmentsTable({
                       <div className="flex items-center gap-1">
                         {flexRender(
                           header.column.columnDef.header,
-                          header.getContext()
+                          header.getContext(),
                         )}
                         {sorted === "asc" && (
                           <span>
@@ -173,7 +174,7 @@ export default function CompleteAppointmentsTable({
                     >
                       {flexRender(
                         cell.column.columnDef.cell,
-                        cell.getContext()
+                        cell.getContext(),
                       )}
                     </TableCell>
                   ))}

@@ -13,6 +13,7 @@ import { MoreHorizontal } from "lucide-react";
 import { redirect } from "next/navigation";
 import { deleteAppointment } from "@/app/actions/appointments";
 import { cancelAppointment } from "@/app/actions/appointments";
+import { formatDate } from "@/lib/formatDate";
 
 type AppointmentWithPatient = Appointment & {
   patient: {
@@ -21,7 +22,9 @@ type AppointmentWithPatient = Appointment & {
   } | null;
 };
 
-export const todayAppointmentsColumns: ColumnDef<AppointmentWithPatient>[] = [
+export const todayAppointmentsColumns = (
+  region: string,
+): ColumnDef<AppointmentWithPatient>[] => [
   {
     id: "select",
     header: ({ table }) => (
@@ -66,11 +69,7 @@ export const todayAppointmentsColumns: ColumnDef<AppointmentWithPatient>[] = [
     header: "Time",
     cell: ({ row }) => {
       const date: Date = row.getValue("date");
-      return new Date(date).toLocaleTimeString("en-US", {
-        hour: "numeric",
-        minute: "2-digit",
-        hour12: true,
-      });
+      return <span>{formatDate(date, region)}</span>;
     },
   },
   {

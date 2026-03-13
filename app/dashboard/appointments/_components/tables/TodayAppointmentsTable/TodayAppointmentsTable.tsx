@@ -42,12 +42,14 @@ type AppointmentWithPatient = Appointment & {
 
 export default function TodayAppointmentsTable({
   data,
+  userRegion,
 }: {
   data: AppointmentWithPatient[];
+  userRegion: string | null;
 }) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
-    []
+    [],
   );
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({
@@ -57,7 +59,7 @@ export default function TodayAppointmentsTable({
 
   const table = useReactTable({
     data,
-    columns: todayAppointmentsColumns,
+    columns: todayAppointmentsColumns(userRegion || "na"),
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
     getCoreRowModel: getCoreRowModel(),
@@ -137,7 +139,7 @@ export default function TodayAppointmentsTable({
                       <div className="flex items-center gap-1">
                         {flexRender(
                           header.column.columnDef.header,
-                          header.getContext()
+                          header.getContext(),
                         )}
                         {sorted === "asc" && (
                           <span>
@@ -171,7 +173,7 @@ export default function TodayAppointmentsTable({
                     >
                       {flexRender(
                         cell.column.columnDef.cell,
-                        cell.getContext()
+                        cell.getContext(),
                       )}
                     </TableCell>
                   ))}
