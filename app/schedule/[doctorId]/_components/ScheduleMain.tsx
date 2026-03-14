@@ -16,6 +16,7 @@ import Image from "next/image";
 import { Hospital, BadgeCheck, GraduationCap } from "lucide-react";
 import ScheduleMainDescCard from "./ScheduleMainDescCard";
 import ScheduleTimePicker from "./ScheduleTimePicker";
+import { useRegion } from "@/store/useRegion";
 
 interface FreeSlot {
   dayOfWeek: number;
@@ -26,9 +27,11 @@ interface FreeSlot {
 type UserPlanType = Awaited<ReturnType<typeof getUser>>;
 
 export default function ScheduleMain({
+  doctorData,
   doctorId,
   activeUser,
 }: {
+  doctorData: UserPlanType;
   doctorId: string;
   activeUser?: string;
 }) {
@@ -37,17 +40,16 @@ export default function ScheduleMain({
   const [timeCard, setTimeCard] = useState<Date | null>(null);
 
   //availableDates from db
-  const [availableDates, setAvailableDates] = useState<FreeSlot[] | undefined>(
-    undefined,
-  );
+  const [availableDates, setAvailableDates] = useState<
+    FreeSlot[] | undefined
+  >();
 
   //selected date functionality
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const [isPending, startTransition] = useTransition();
 
-  const [doctorData, setDoctorData] = useState<UserPlanType | null>();
-
   const { theme } = useThemeState();
+  const { setRegion } = useRegion();
 
   useEffect(() => {
     if (selectedDate) {
@@ -57,15 +59,15 @@ export default function ScheduleMain({
       });
     }
 
-    const userResponse = getUser(doctorId);
-    userResponse.then((data) => {
-      setDoctorData(data);
-    });
-
     setActiveIndex(null);
   }, [selectedDate]);
 
-  console.log(availableDates);
+  useEffect(() => {
+    if (doctorData && "region" in doctorData) {
+      setRegion(doctorData.region);
+    }
+    return () => {};
+  }, []);
 
   return (
     <div className="container">
