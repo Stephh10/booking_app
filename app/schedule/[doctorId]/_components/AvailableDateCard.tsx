@@ -4,14 +4,14 @@ import { formatScheduleTime } from "@/lib/formatScheduleTime";
 export default function AvailableDateCard({
   dateData,
   isActive,
+  formatedDate,
   onClick,
 }: {
   dateData: any;
   isActive: boolean;
+  formatedDate: any;
   onClick: (dateData: any) => void;
 }) {
-  const formatedDate = formatScheduleTime(dateData);
-
   return (
     <div
       onClick={() => onClick(dateData.startTime)}

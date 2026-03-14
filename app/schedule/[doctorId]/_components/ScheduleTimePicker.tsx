@@ -1,5 +1,7 @@
 import React, { Dispatch } from "react";
 import AvailableDateCard from "./AvailableDateCard";
+import { useRegion } from "@/store/useRegion";
+import { formatScheduleTime } from "@/lib/formatScheduleTime";
 
 type DateType = {
   dayOfWeek: number;
@@ -18,6 +20,8 @@ export default function ScheduleTimePicker({
   setActiveIndex: Dispatch<React.SetStateAction<number | null>>;
   setTimeCard: React.Dispatch<React.SetStateAction<Date | null>>;
 }) {
+  const { region } = useRegion();
+
   return (
     <div className="mainRight flex-1 px-3 overflow-y-scroll h-[390px]">
       {availableDates?.length ? (
@@ -26,7 +30,8 @@ export default function ScheduleTimePicker({
             key={index}
             dateData={data}
             isActive={activeIndex === index}
-            onClick={(dateData: any) => (
+            formatedDate={formatScheduleTime(data, region ?? "na")}
+            onClick={(dateData: Date) => (
               setActiveIndex(index),
               setTimeCard(dateData)
             )}
