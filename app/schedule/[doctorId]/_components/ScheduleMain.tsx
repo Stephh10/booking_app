@@ -6,7 +6,6 @@ import { useTransition } from "react";
 import { getDoctorAvailability } from "@/app/actions/availability";
 
 import ScheduleDatePicker from "./ScheduleDatePicker";
-import AvailableDateCard from "./AvailableDateCard";
 import ScheduleForm from "./ScheduleForm";
 import ScheduleFooter from "./ScheduleFooter";
 import { SquareUser } from "lucide-react";
@@ -14,8 +13,9 @@ import { getUser } from "@/app/actions/user";
 import Link from "next/link";
 import { useThemeState } from "@/store/useTheme";
 import Image from "next/image";
-import { Globe, Hospital, BadgeCheck, GraduationCap } from "lucide-react";
+import { Hospital, BadgeCheck, GraduationCap } from "lucide-react";
 import ScheduleMainDescCard from "./ScheduleMainDescCard";
+import ScheduleTimePicker from "./ScheduleTimePicker";
 
 interface FreeSlot {
   dayOfWeek: number;
@@ -64,6 +64,8 @@ export default function ScheduleMain({
 
     setActiveIndex(null);
   }, [selectedDate]);
+
+  console.log(availableDates);
 
   return (
     <div className="container">
@@ -153,29 +155,14 @@ export default function ScheduleMain({
                     setSelectedDate={setSelectedDate}
                   />
                 </div>
-                <div className="mainRight flex-1 px-3 overflow-y-scroll h-[390px]">
-                  {availableDates?.length ? (
-                    availableDates?.map((data, index) => (
-                      <AvailableDateCard
-                        key={index}
-                        dateData={data}
-                        isActive={activeIndex === index}
-                        onClick={(dateData: any) => (
-                          setActiveIndex(index),
-                          setTimeCard(dateData)
-                        )}
-                      />
-                    ))
-                  ) : (
-                    <div className="h-full flex items-center justify-center">
-                      <h2 className="text-xl text-center text-[var(--text-soft)]">
-                        {" "}
-                        No available time slots for the selected date. Please
-                        choose another day.
-                      </h2>
-                    </div>
-                  )}
-                </div>
+                <ScheduleTimePicker
+                  availableDates={
+                    Array.isArray(availableDates) ? availableDates : []
+                  }
+                  activeIndex={activeIndex}
+                  setActiveIndex={setActiveIndex}
+                  setTimeCard={setTimeCard}
+                />
               </div>
               <ScheduleForm doctorId={doctorId} selectedTime={timeCard} />
             </div>
