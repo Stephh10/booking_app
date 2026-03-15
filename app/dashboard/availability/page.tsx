@@ -6,7 +6,8 @@ import { getAvailableDays } from "@/app/actions/availability";
 import { DoctorAvailability } from "@prisma/client";
 import WorkTimeCard from "./_components/WorkTimeCard";
 import BreakSection from "./_components/BreakSection";
-import { revalidatePath } from "next/cache";
+import { auth } from "@/auth";
+import { redirect } from "next/navigation";
 
 const daysInWeek = [
   { dayName: "Sunday", dayOfWeek: 0 },
@@ -21,6 +22,12 @@ const daysInWeek = [
 export default async function page() {
   const availabilityData: DoctorAvailability[] | { error: string } =
     await getAvailableDays();
+
+  const activeUser = await auth();
+
+  if (!activeUser || !activeUser.user) {
+    return redirect("/login");
+  }
 
   if ("error" in availabilityData) return <h1>{availabilityData.error}</h1>;
 
@@ -37,11 +44,12 @@ export default async function page() {
         <div className="workSettingsDetails grid  grid-cols-2 lg:grid-cols-3 gap-2 lg:gap-4 mt-4">
           {daysInWeek.map((day, index) => {
             const dayData = availabilityData.find(
-              (item) => item.dayOfWeek === index
+              (item) => item.dayOfWeek === index,
             );
             return (
               <WorkTimeCard
                 key={index}
+                region={activeUser.user.region!}
                 selectedCardDay={day}
                 selectedDay={dayData}
               />

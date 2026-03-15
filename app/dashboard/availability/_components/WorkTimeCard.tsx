@@ -23,9 +23,11 @@ import {
 export default function WorkTimeCard({
   selectedDay,
   selectedCardDay,
+  region,
 }: {
   selectedDay: DoctorAvailability | undefined;
   selectedCardDay: any;
+  region: string;
 }) {
   //TIME CHANGE
   const [selectedTime, setSelectedTime] = useState({
@@ -37,7 +39,7 @@ export default function WorkTimeCard({
   const [isPending, startTransition] = useTransition();
   const [activeDay, setActiveDay] = useState(selectedDay ? true : false);
 
-  const timeSlots = generateTimeSlots();
+  const timeSlots = generateTimeSlots(region);
 
   function handleUpdateActiveDays() {
     setActiveDay((prev) => !prev);
@@ -58,8 +60,8 @@ export default function WorkTimeCard({
 
     if (newTimes.from && newTimes.to) {
       const isValid = validateTime(
-        formatWorkCardDate(newTimes.from),
-        formatWorkCardDate(newTimes.to)
+        formatWorkCardDate(newTimes.from, region),
+        formatWorkCardDate(newTimes.to, region),
       );
 
       if (!isValid) {
@@ -75,11 +77,12 @@ export default function WorkTimeCard({
         });
         return;
       }
+
       startTransition(async () => {
         await updateDayTime(
           selectedCardDay.dayOfWeek,
           newTimes.from!,
-          newTimes.to!
+          newTimes.to!,
         );
       });
     }
@@ -116,7 +119,7 @@ export default function WorkTimeCard({
           <h1 className="flex-1">From</h1>
           <Select
             onValueChange={(v: string) => handleTimeUpdate("from", v)}
-            value={formatWorkCardDate(selectedTime.from)}
+            value={formatWorkCardDate(selectedTime.from, region)}
           >
             <SelectTrigger disabled={!activeDay} className="flex-6">
               <SelectValue />
@@ -136,7 +139,7 @@ export default function WorkTimeCard({
           <h1 className="flex-1">To</h1>
           <Select
             onValueChange={(v: string) => handleTimeUpdate("to", v)}
-            value={formatWorkCardDate(selectedTime.to!)}
+            value={formatWorkCardDate(selectedTime.to!, region)}
           >
             <SelectTrigger disabled={!activeDay} className="flex-6">
               <SelectValue />
